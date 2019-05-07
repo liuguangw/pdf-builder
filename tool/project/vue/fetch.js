@@ -10,6 +10,7 @@
             /*初始化要抓取的网页结构*/
             window.pageData = [];
         }
+        var urlNodes = [];
         for (var i = 0; i < itemList.length; i++) {
 
             (function (itemElement) {
@@ -25,10 +26,12 @@
                         url: itemElement.href.substr(baseUrl.length)
                     };
                     menuGroups[menuGroups.length - 1].list.push(menuItemInfo);
+                    urlNodes.push(menuItemInfo);
                     if (!pageStructLoaded) {
                         window.pageData.push({
                             url: menuItemInfo.url,
-                            loaded: false,
+                            title: menuItemInfo.title,
+                            fetched: false,
                             content: ""
                         });
                     }
@@ -40,16 +43,20 @@
         console.log(menuGroups);
         pageStructLoaded = true;
         socket.emit("app save_menu_info", menuGroups);
+        /*传递URL链接给后端*/
+        socket.emit("app save_urls", urlNodes);
         /*开始抓取网页*/
-        fetchPage(0);
+        setTimeout(function () {
+            fetchPage(0);
+        }, 200);
     }
 
     function fetchPage(pageIndex) {
         if (pageIndex < window.pageData.length) {
             /*已经抓取过了的,不再重复抓取*/
-            if (window.pageData[pageIndex].loaded) {
+            if (window.pageData[pageIndex].fetched) {
                 console.log("[" + (pageIndex + 1) + "/" + window.pageData.length + "]use cache - " + window.pageData[pageIndex].url);
-                savePage(window.pageData[pageIndex].url, window.pageData[pageIndex].content);
+                savePage(window.pageData[pageIndex].url, window.pageData[pageIndex].title, window.pageData[pageIndex].content);
                 fetchPage(pageIndex + 1);
             } else {
                 console.log("[" + (pageIndex + 1) + "/" + window.pageData.length + "]fetch - " + window.pageData[pageIndex].url);
@@ -59,9 +66,9 @@
                     // handle success
                     var doc = response.data;
                     window.pageData[pageIndex].content = doc.querySelector("#main>.content").outerHTML;
-                    window.pageData[pageIndex].loaded = true;
+                    window.pageData[pageIndex].fetched = true;
                     //save
-                    savePage(window.pageData[pageIndex].url, window.pageData[pageIndex].content);
+                    savePage(window.pageData[pageIndex].url, window.pageData[pageIndex].title, window.pageData[pageIndex].content);
                     fetchPage(pageIndex + 1);
                 }).catch(function (error) {
                     console.error(error);
@@ -70,9 +77,10 @@
         }
     }
 
-    function savePage(pageUrl, pageContent) {
+    function savePage(pageUrl, pageTitle, pageContent) {
         window.socket.emit("app save_page_info", {
             url: pageUrl,
+            title: pageTitle,
             content: pageContent
         });
     }
@@ -107,7 +115,7 @@
             // 第二次执行时无需再次连接websocket
             clientInit(window.socket);
         } else {
-            window.socket = io("http://localhost:5006/");
+            window.socket = io("http://localhost:5006/fetch-api");
             window.socket.on('connect', function () {
                 clientInit(window.socket);
             });

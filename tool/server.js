@@ -4,23 +4,9 @@ const fse = require('fs-extra');
 const staticHandler = require('serve-handler');
 const projectBaseDir = path.resolve(__dirname, "project");
 const projectList = [];
-let currentProject = null;
-
-function successResponse(data) {
-    return {
-        code: 0,
-        data: data,
-        message: null
-    };
-}
-
-function errorResponse(errorMessage) {
-    return {
-        code: 500,
-        data: null,
-        message: errorMessage
-    };
-}
+const currentProject = {
+    info: null
+};
 
 function runServer() {
     const srv = http.createServer();
@@ -30,27 +16,16 @@ function runServer() {
         });
     });
     const io = require('socket.io')(srv);
-    io.on('connection', client => {
-        client.on('app list_project', _ => {
-            let resultList = [];
-            for (let itemIndex in projectList) {
-                let projectInfo = projectList[itemIndex];
-                resultList.push({
-                    dir: projectInfo.pathInfo.dirShort,
-                    name: projectInfo.moduleInfo.bookMetaInfo().title
-                });
-            }
-            client.emit('app list_project', resultList);
-        });
-        client.on("app save_menu_info", data => {
-            console.log(data);
-        });
-        client.on("app save_page_info", data => {
-            console.log(data);
-        });
-        client.on('disconnect', () => {
-            console.log("user disconnected");
-        });
+    // 分别定义namespace
+    const fetchApiIo = io.of('/fetch-api');
+    const vueApiIo = io.of('/vue-api');
+    const vueApiCallback = require('./lib/vue_api');
+    const fetchApiCallback = require('./lib/fetch_api');
+    vueApiIo.on('connect', socket => {
+        vueApiCallback(vueApiIo, socket, projectList,currentProject);
+    });
+    fetchApiIo.on('connect', socket => {
+        fetchApiCallback(vueApiIo, fetchApiIo, socket, projectList,currentProject);
     });
     let srvOptions = {
         host: 'localhost',
