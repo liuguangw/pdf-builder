@@ -40,7 +40,7 @@
             })(itemList.item(i));
         }
         /*保存菜单信息*/
-        console.log(menuGroups);
+        //console.log(menuGroups);
         pageStructLoaded = true;
         socket.emit("app save_menu_info", menuGroups);
         /*传递URL链接给后端*/

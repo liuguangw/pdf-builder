@@ -72,6 +72,6 @@ scanProjectDir((err, projectItems) => {
             moduleInfo: require(projectItems[itemIndex].script)
         });
     }
-    console.log(projectList);
+    //console.log(projectList);
     runServer();
 });

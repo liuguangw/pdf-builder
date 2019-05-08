@@ -1,6 +1,6 @@
 function fetchApi(vueIo, fetchIo, socket, projectList, currentProject) {
     console.log("fetch api connected");
-    console.log(currentProject);
+    //console.log(currentProject);
     socket.on("app save_menu_info", data => {
         if (currentProject.info !== null) {
             let saveSuccessCallback = ()=>{

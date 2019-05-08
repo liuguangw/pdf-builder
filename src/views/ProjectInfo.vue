@@ -23,6 +23,20 @@
                 {{ errStr }}
             </div>
         </el-card>
+        <el-row v-if="canBuild">
+            <el-button type="primary" @click="startBuild">{{ buildText }}</el-button>
+        </el-row>
+        <el-card class="app-message-card" v-if="appMessages.length>0">
+            <div slot="header" class="clearfix">
+                <span>构建日志</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="clearAppMessages">清除</el-button>
+            </div>
+            <div ref="msgLogEl" class="msg-logs">
+                <div v-for="(errStr,eIndex) in appMessages" :key="eIndex" class="text item">
+                    {{ errStr }}
+                </div>
+            </div>
+        </el-card>
         <el-table
                 v-if="pageUrls.length>0"
                 :data="pageUrls"
@@ -65,6 +79,25 @@
         methods: {
             clearErrorMessages() {
                 this.$store.commit("clearError");
+            },
+            clearAppMessages() {
+                this.$store.commit("clearMessage");
+            },
+            startBuild() {
+                if (this.building) {
+                    this.$message.error("正在构建中...");
+                } else {
+                    this.$store.commit("setBuilding", true);
+                    this.$store.state.socket.emit("app build");
+                }
+            }
+        },
+        watch: {
+            '$store.state.buildMessages': function () {
+                let cEl = this.$refs.msgLogEl;
+                if (cEl !== undefined) {
+                    cEl.scrollTop = cEl.scrollHeight - cEl.offsetHeight
+                }
             }
         },
         computed: {
@@ -77,8 +110,37 @@
             pageUrls() {
                 return this.$store.state.urls;
             },
+            building() {
+                return this.$store.state.building;
+            },
+            buildText() {
+                if (this.$store.state.building) {
+                    return "构建中...";
+                } else {
+                    return "构建";
+                }
+            },
             errorMessages() {
                 return this.$store.state.errorMessages;
+            },
+            appMessages() {
+                return this.$store.state.buildMessages;
+            },
+            canBuild() {
+                if (this.$store.state.menuInfo === null) {
+                    return false;
+                }
+                if (this.$store.state.urls.length > 0) {
+                    let result = true;
+                    for (let i = 0; i < this.$store.state.urls.length; i++) {
+                        if (!this.$store.state.urls[i].saved) {
+                            result = false;
+                            break;
+                        }
+                    }
+                    return result;
+                }
+                return false;
             }
         },
         created() {
@@ -90,6 +152,7 @@
                 });
                 return;
             }
+            this.$store.commit("resetProject");
             this.projectName = currentProject.dir;
             this.projectTitle = currentProject.name;
         }
@@ -116,9 +179,11 @@
     .item {
         margin-bottom: 18px;
     }
-    .error-card{
+
+    .error-card {
         margin-top: 10px;
     }
+
     .error-card .text {
         color: red;
     }
@@ -131,5 +196,10 @@
 
     .clearfix:after {
         clear: both
+    }
+
+    .msg-logs {
+        max-height: 600px;
+        overflow: auto;
     }
 </style>

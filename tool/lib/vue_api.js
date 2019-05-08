@@ -1,3 +1,5 @@
+const buildFn = require("./build");
+
 function vueApi(vueIo, socket, projectList, currentProject) {
     console.log("vue api connected");
     let successResponse = (eventName, data) => {
@@ -42,6 +44,21 @@ function vueApi(vueIo, socket, projectList, currentProject) {
             errorResponse(evtName, "不存在project: " + projectDir);
         }
 
+    });
+    socket.on("app build", () => {
+        if (currentProject.info !== null) {
+            let addMessageFn = (appMessage) => {
+                socket.emit("app message", appMessage);
+            };
+            let addErrorFn = (errMessage) => {
+                socket.emit("app error", errMessage);
+            };
+            let buildCompleteFn = () => {
+                socket.emit("app build_complete");
+            };
+            let buildInfo = currentProject.info.moduleInfo.bookMetaInfo();
+            buildFn(buildInfo, addMessageFn, addErrorFn, buildCompleteFn);
+        }
     });
     socket.on('disconnect', () => {
         console.log("vue api disconnected");

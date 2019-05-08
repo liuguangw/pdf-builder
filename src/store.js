@@ -10,9 +10,21 @@ export default new Vuex.Store({
         projectDir: null,
         menuInfo: null,
         urls: [],
-        errorMessages: []
+        errorMessages: [],
+        buildMessages: [],
+        building: false
     },
     mutations: {
+        resetProject(state) {
+            state.menuInfo = null;
+            state.urls = [];
+            state.errorMessages = [];
+            state.buildMessages = [];
+            state.building = false;
+        },
+        setBuilding(state,s){
+            state.building = s;
+        },
         setSocket(state, so) {
             state.socket = so;
         },
@@ -41,6 +53,12 @@ export default new Vuex.Store({
         },
         clearError(state) {
             state.errorMessages = [];
+        },
+        addMessage(state, msgStr) {
+            state.buildMessages.push(msgStr);
+        },
+        clearMessage(state) {
+            state.buildMessages = [];
         }
     },
     getters: {

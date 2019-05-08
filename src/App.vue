@@ -57,6 +57,12 @@
                 so.on("app error",message=>{
                     this.$store.commit("addError",message);
                 });
+                so.on("app message",message=>{
+                    this.$store.commit("addMessage",message);
+                });
+                so.on("app build_complete",()=>{
+                    this.$store.commit("setBuilding",false);
+                });
                 so.emit("app list_project");
             });
         },
