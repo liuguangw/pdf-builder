@@ -24,7 +24,7 @@ let bookConfig = {
         '<div style="float:right;">第 _PAGENUM_ 页</div>' +
         '<div>_SECTION_</div>' +
         '</div>',
-    entryFile: path.resolve(__dirname, '../dist/html/index.html'),
+    entryFile: path.resolve(__dirname, '../dist/html/__entry.html'),
 };
 module.exports = ()=> {
     return bookConfig;

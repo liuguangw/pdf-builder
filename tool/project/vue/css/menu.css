@@ -1,0 +1,44 @@
+body{
+    margin: 0;
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: #34495e;
+    background-color: #fff;
+}
+h1{
+    margin: 0;
+}
+.menu-group{
+    margin: 20px 0 0 0;
+    padding-top: 10px;
+    border-top: 1px solid #b7aaaa;
+}
+
+.menu-group .menu-group-title{
+    height: 25px;
+    line-height: 25px;
+    font-size: 20px;
+    font-weight: bold;
+    padding-bottom: 10px;
+    border-bottom: 1px dashed #ddd;
+}
+.menu-group ul,.menu-group li{
+    list-style: none;
+    display: block;
+}
+.menu-group ul{
+    padding: 16px 0 0 40px;
+    margin: 0;
+}
+.menu-group li{
+    list-style: none;
+}
+.menu-group li a{
+    text-decoration: none;
+    padding: 5px 0;
+    height: 24px;
+    line-height: 34px;
+    font-size: 20px;
+    color: #42b983;
+    font-weight: 500;
+}

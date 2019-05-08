@@ -1,0 +1,15 @@
+pre code .hljs-keyword, pre code .hljs-attribute {
+    color: #e96900;
+}
+pre code .hljs-tag pre code .hljs-value, pre code .hljs-comment, pre code .hljs-java pre code .hljs-annotation, pre code .hljs-python pre code .hljs-decorator, pre code .hljs-template_comment, pre code .hljs-pi, pre code .hljs-doctype, pre code .hljs-deletion, pre code .hljs-shebang, pre code .hljs-apache pre code .hljs-sqbracket, pre code .hljs-tex pre code .hljs-formula {
+    color: #b3b3b3;
+}
+pre code .hljs-number, pre code .hljs-literal {
+    color: #ae81ff;
+}
+pre code .hljs-symbol, pre code .hljs-symbol pre code .hljs-string, pre code .hljs-value, pre code .hljs-regexp, pre code .hljs-string, pre code .hljs-subst, pre code .hljs-haskell pre code .hljs-type, pre code .hljs-preprocessor, pre code .hljs-ruby pre code .hljs-class pre code .hljs-parent, pre code .hljs-built_in, pre code .hljs-sql pre code .hljs-aggregate, pre code .hljs-django pre code .hljs-template_tag, pre code .hljs-django pre code .hljs-variable, pre code .hljs-smalltalk pre code .hljs-class, pre code .hljs-javadoc, pre code .hljs-django pre code .hljs-filter pre code .hljs-argument, pre code .hljs-smalltalk pre code .hljs-localvars, pre code .hljs-smalltalk pre code .hljs-array, pre code .hljs-attr_selector, pre code .hljs-pseudo, pre code .hljs-addition, pre code .hljs-stream, pre code .hljs-envvar, pre code .hljs-apache pre code .hljs-tag, pre code .hljs-apache pre code .hljs-cbracket, pre code .hljs-tex pre code .hljs-command, pre code .hljs-prompt {
+    color: #42b983;
+}
+pre code .hljs-tag, pre code .hljs-tag pre code .hljs-title, pre code .hljs-change, pre code .hljs-winutils, pre code .hljs-flow, pre code .hljs-tex pre code .hljs-special {
+    color: #2973b7;
+}

@@ -1,0 +1,195 @@
+body{
+    margin: 0;
+    padding: 0;
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-size: 16px;
+    color: #34495e;
+    background-color: #fff;
+}
+h1, h2, h3, h4, strong {
+    font-weight: 600;
+    color: #2c3e50;
+    position: relative;
+}
+p {
+    word-spacing: 0.05em;
+}
+a {
+    text-decoration: none;
+    color: #34495e;
+}
+.content {
+    position: relative;
+    padding: 0 1.2em;
+}
+.content h1 {
+    margin: 0 0 1em 0;
+}
+.content h2 {
+    margin: 45px 0 0.8em;
+    padding-bottom: 0.7em;
+    border-bottom: 1px solid #ddd;
+}
+.content p, .content ul, .content ol {
+    line-height: 1.6em;
+    margin: 1.2em 0 -1.2em;
+    padding-bottom: 1.2em;
+    position: relative;
+    z-index: 1;
+}
+.content span.light {
+    color: #7f8c8d;
+}
+.content span.info {
+    font-size: 0.85em;
+    display: inline-block;
+    vertical-align: middle;
+    width: 280px;
+    margin-left: 20px;
+}
+code, pre {
+    font-family: "Roboto Mono", Monaco, courier, monospace;
+    font-size: 0.8em;
+    background-color: #f8f8f8;
+}
+code {
+    color: #e96900;
+    padding: 3px 5px;
+    margin: 0 2px;
+    border-radius: 2px;
+    white-space: nowrap;
+}
+pre code {
+    overflow-x: auto;
+    color: #525252;
+    white-space: pre;
+    padding: 1.2em 1.4em;
+    line-height: 1.5em;
+    font-size: 1em;
+    display: block;
+}
+a.button, input.button {
+    padding: 0.75em 2em;
+    border-radius: 2em;
+    display: inline-block;
+    color: #fff;
+    background-color: #4fc08d;
+    transition: all 0.15s ease;
+    box-sizing: border-box;
+    border: 1px solid #4fc08d;
+}
+.content a {
+    color: #42b983;
+    font-weight: 600;
+}
+.content a.button {
+    font-size: 0.9em;
+    color: #fff;
+    margin: 0.2em 0;
+    width: 200px;
+    text-align: center;
+    padding: 12px 24px;
+    display: inline-block;
+    vertical-align: middle;
+}
+.content img {
+    max-width: 100%;
+}
+.content h3 > a:before {
+    content: "#";
+    color: #42b983;
+    position: absolute;
+    left: -0.7em;
+    margin-top: -0.05em;
+    padding-right: 0.5em;
+    font-size: 1.2em;
+    line-height: 1;
+    font-weight: bold;
+}
+.guide-links {
+    margin-top: 2em;
+    height: 1em;
+}
+.footer {
+    color: #7f8c8d;
+    margin-top: 2em;
+    padding-top: 2em;
+    border-top: 1px solid #e5e5e5;
+    font-size: 0.9em;
+}
+.content p.tip, .content p.success {
+    padding: 12px 24px 12px 30px;
+    margin: 2em 0;
+    border-left-width: 4px;
+    border-left-style: solid;
+    background-color: #f8f8f8;
+    position: relative;
+    border-bottom-right-radius: 2px;
+    border-top-right-radius: 2px;
+}
+.content p.tip {
+    border-left-color: #f66;
+}
+.content p.tip:before, .content p.success:before {
+    position: absolute;
+    top: 14px;
+    left: -12px;
+    color: #fff;
+    width: 20px;
+    height: 20px;
+    border-radius: 100%;
+    text-align: center;
+    line-height: 20px;
+    font-weight: bold;
+    font-family: "Dosis", "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    font-size: 14px;
+}
+.content p.tip:before {
+    content: "!";
+    background-color: #f66;
+}
+.content > table {
+    border-spacing: 0;
+    border-collapse: collapse;
+    margin: 1.2em auto;
+    padding: 0;
+    display: block;
+    overflow-x: auto;
+}
+.content > table td, .content > table th {
+    line-height: 1.5em;
+    padding: 0.4em 0.8em;
+    border: 1px solid #ddd;
+}
+.content > table th {
+    font-weight: bold;
+    text-align: left;
+}
+.content > table th, .content > table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+#demo, .demo, .content .demo {
+    border: 1px solid #eee;
+    border-radius: 2px;
+    padding: 25px 35px;
+    margin-top: 1em;
+    margin-bottom: 40px;
+    font-size: 1.2em;
+    line-height: 1.5em;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    overflow-x: auto;
+}
+.content blockquote {
+    margin: 2em 0;
+    padding-left: 20px;
+    border-left: 4px solid #42b983;
+}
+.content blockquote p {
+    font-weight: 600;
+    margin-left: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}

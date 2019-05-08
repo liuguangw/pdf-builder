@@ -64,7 +64,45 @@
                     responseType: "document"
                 }).then(function (response) {
                     // handle success
-                    var doc = response.data;
+                    let doc = response.data;
+                    let aList = doc.querySelectorAll("a");
+                    for (let aIndex = 0; aIndex < aList.length; aIndex++) {
+                        let aElement = aList.item(aIndex);
+                        if (aElement.href.indexOf(baseUrl)) {
+                            //绝对路径转相对路径
+                            aElement.href = aElement.href.substr(baseUrl.length);
+                        }
+                    }
+                    //删除广告
+                    let adElement = doc.getElementById("ad");
+                    if (adElement !== null) {
+                        adElement.parentNode.removeChild(adElement);
+                    }
+                    let adElements = doc.getElementsByClassName("ad-pagetop");
+                    for (let adIndex = 0; adIndex < adElements.length; adIndex++) {
+                        let tmpAdElement = adElements.item(adIndex);
+                        tmpAdElement.parentNode.removeChild(tmpAdElement);
+                    }
+                    //删除底部script标签
+                    let scriptList = doc.querySelectorAll(".footer script");
+                    for (let scriptIndex = 0; scriptIndex < scriptList.length; scriptIndex++) {
+                        let tmpScript = scriptList.item(scriptIndex);
+                        tmpScript.parentNode.removeChild(tmpScript);
+                    }
+                    //图片链接
+                    let docImgs = doc.getElementsByTagName("img");
+                    for (let imgIndex = 0; imgIndex < docImgs.length; imgIndex++) {
+                        let docImg = docImgs.item(imgIndex);
+                        let docImgSrc = docImg.getAttribute("src");
+                        if (docImgSrc.indexOf("/") === 0) {
+                            docImg.setAttribute("src", location.origin + docImgSrc);
+                        }
+                    }
+                    //代码高亮
+                    doc.querySelectorAll('pre code').forEach((block) => {
+                        window.hljs.highlightBlock(block);
+                    });
+                    //
                     window.pageData[pageIndex].content = doc.querySelector("#main>.content").outerHTML;
                     window.pageData[pageIndex].fetched = true;
                     //save
@@ -109,7 +147,8 @@
 
     loadItemList([
         {name: "io", url: "//lib.baomitu.com/socket.io/2.2.0/socket.io.js"},
-        {name: "axios", url: "//lib.baomitu.com/axios/0.18.0/axios.min.js"}
+        {name: "axios", url: "//lib.baomitu.com/axios/0.18.0/axios.min.js"},
+        {name: "highlight", url: "//lib.baomitu.com/highlight.js/9.15.6/highlight.min.js"}
     ], function () {
         if ("socket" in window) {
             // 第二次执行时无需再次连接websocket

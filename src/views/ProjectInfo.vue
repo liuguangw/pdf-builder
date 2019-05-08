@@ -46,15 +46,13 @@
         </el-table>
         <el-dialog title="菜单结构" :visible.sync="dialogVisible">
             <template v-if="menuInfo!==null">
-                <pre v-highlightjs="menuInfo"><code class="javascript"></code></pre>
+                <pre>{{ menuInfo }}</pre>
             </template>
         </el-dialog>
     </div>
 </template>
 
 <script>
-    import 'highlight.js/styles/github.css';
-
     export default {
         name: "ProjectInfo",
         data() {
@@ -106,6 +104,8 @@
 
     pre {
         text-align: left;
+        background: #ddd;
+        padding: 8px;
     }
 
     .text {
