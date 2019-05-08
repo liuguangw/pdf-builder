@@ -14,33 +14,10 @@
                 </el-tooltip>
             </el-col>
         </el-row>
-        <el-card class="error-card" v-if="errorMessages.length>0">
-            <div slot="header" class="clearfix">
-                <span>错误日志</span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="clearErrorMessages">清除</el-button>
-            </div>
-            <div v-for="(errStr,eIndex) in errorMessages" :key="eIndex" class="text item">
-                {{ errStr }}
-            </div>
-        </el-card>
-        <el-row v-if="canBuild">
-            <el-button type="primary" @click="startBuild">{{ buildText }}</el-button>
-        </el-row>
-        <el-card class="app-message-card" v-if="appMessages.length>0">
-            <div slot="header" class="clearfix">
-                <span>构建日志</span>
-                <el-button style="float: right; padding: 3px 0" type="text" @click="clearAppMessages">清除</el-button>
-            </div>
-            <div ref="msgLogEl" class="msg-logs">
-                <div v-for="(errStr,eIndex) in appMessages" :key="eIndex" class="text item">
-                    {{ errStr }}
-                </div>
-            </div>
-        </el-card>
-        <el-table
-                v-if="pageUrls.length>0"
-                :data="pageUrls"
-                style="width: 100%">
+        <el-table class="menu-table"
+                  v-if="pageUrls.length>0"
+                  :data="pageUrls"
+                  style="width: 100%">
             <el-table-column
                     prop="title"
                     label="标题"
@@ -53,11 +30,25 @@
             <el-table-column
                     label="状态">
                 <template slot-scope="scope">
-                    <span v-if="scope.row.saved" style="color:green;">已保存</span>
+                    <span class="saved-success" v-if="scope.row.saved" style="color:green;">已保存</span>
                     <span v-else>未保存</span>
                 </template>
             </el-table-column>
         </el-table>
+        <el-row v-if="canBuild" class="build-command-area">
+            <el-button type="primary" :loading="building" @click="startBuild">{{ buildText }}</el-button>
+        </el-row>
+        <el-card class="app-message-card" v-if="appMessages.length>0">
+            <div slot="header" class="clearfix">
+                <span>构建日志</span>
+                <el-button style="float: right; padding: 3px 0" type="text" @click="clearAppMessages">清除</el-button>
+            </div>
+            <div ref="msgLogEl" class="msg-logs">
+                <template v-for="(msgInfo,eIndex) in appMessages">
+                    <div :key="eIndex" :class="{'text':true,'item':true,'has-error':msgInfo.error}">{{msgInfo.message}}</div>
+                </template>
+            </div>
+        </el-card>
         <el-dialog title="菜单结构" :visible.sync="dialogVisible">
             <template v-if="menuInfo!==null">
                 <pre>{{ menuInfo }}</pre>
@@ -77,9 +68,6 @@
             };
         },
         methods: {
-            clearErrorMessages() {
-                this.$store.commit("clearError");
-            },
             clearAppMessages() {
                 this.$store.commit("clearMessage");
             },
@@ -89,6 +77,9 @@
                 } else {
                     this.$store.commit("setBuilding", true);
                     this.$store.state.socket.emit("app build");
+                    setTimeout(() => {
+                        window.scrollTo(0, window.document.body.scrollHeight - window.innerHeight);
+                    }, 1500);
                 }
             }
         },
@@ -96,7 +87,9 @@
             '$store.state.buildMessages': function () {
                 let cEl = this.$refs.msgLogEl;
                 if (cEl !== undefined) {
-                    cEl.scrollTop = cEl.scrollHeight - cEl.offsetHeight
+                    setTimeout(() => {
+                        cEl.scrollTop = cEl.scrollHeight - cEl.offsetHeight
+                    }, 120);
                 }
             }
         },
@@ -119,9 +112,6 @@
                 } else {
                     return "构建";
                 }
-            },
-            errorMessages() {
-                return this.$store.state.errorMessages;
             },
             appMessages() {
                 return this.$store.state.buildMessages;
@@ -163,6 +153,7 @@
     .project-main-warp {
         width: 900px;
         margin: 0 auto;
+        padding-bottom: 40px;
     }
 
     pre {
@@ -172,19 +163,16 @@
     }
 
     .text {
-        font-size: 14px;
+        font-size: 15px;
         text-align: left;
+        line-height: 20px;
+        color: green;
     }
 
     .item {
-        margin-bottom: 18px;
+        margin-bottom: 5px;
     }
-
-    .error-card {
-        margin-top: 10px;
-    }
-
-    .error-card .text {
+    .item.has-error {
         color: red;
     }
 
@@ -201,5 +189,22 @@
     .msg-logs {
         max-height: 600px;
         overflow: auto;
+        background: #2b2626;
+        padding: 5px 12px;
+    }
+
+    .msg-logs .item:last-child{
+        margin: 0;
+    }
+
+    .saved-success {
+        display: inline-block;
+        color: #fff;
+        background: #54fdb7;
+        padding: 2px 4px;
+    }
+
+    .error-card, .build-command-area, .app-message-card, .menu-table {
+        margin-top: 15px;
     }
 </style>

@@ -1,7 +1,9 @@
 <template>
     <div id="app">
         <el-container>
-            <el-header>Header</el-header>
+            <el-header class="nav-header">
+                <p>PDF文档生成器</p>
+            </el-header>
             <el-main>
                 <router-view/>
             </el-main>
@@ -79,6 +81,16 @@
         -moz-osx-font-smoothing: grayscale;
         text-align: center;
         color: #2c3e50;
-        margin-top: 60px;
+    }
+    body{
+        margin: 0;
+    }
+    .nav-header{
+        padding-top: 8px;
+    }
+    .nav-header{
+        margin: 0;
+        padding: 1em;
+        font-weight: bold;
     }
 </style>

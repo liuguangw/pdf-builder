@@ -68,9 +68,12 @@
                     let aList = doc.querySelectorAll("a");
                     for (let aIndex = 0; aIndex < aList.length; aIndex++) {
                         let aElement = aList.item(aIndex);
-                        if (aElement.href.indexOf(baseUrl)) {
-                            //绝对路径转相对路径
+                        //绝对路径转相对路径
+                        let baseUrl1 = "https://cn.vuejs.org/guide/";
+                        if (aElement.href.indexOf(baseUrl) === 0) {
                             aElement.href = aElement.href.substr(baseUrl.length);
+                        }else if(aElement.href.indexOf(baseUrl1) === 0) {
+                            aElement.href = aElement.href.substr(baseUrl1.length);
                         }
                     }
                     //删除广告
@@ -83,8 +86,8 @@
                         let tmpAdElement = adElements.item(adIndex);
                         tmpAdElement.parentNode.removeChild(tmpAdElement);
                     }
-                    //删除底部script标签
-                    let scriptList = doc.querySelectorAll(".footer script");
+                    //删除script标签
+                    let scriptList = doc.querySelectorAll("script");
                     for (let scriptIndex = 0; scriptIndex < scriptList.length; scriptIndex++) {
                         let tmpScript = scriptList.item(scriptIndex);
                         tmpScript.parentNode.removeChild(tmpScript);
@@ -135,17 +138,17 @@
         }
     }
 
-    function loadItemList(itemList, fn) {
+    function loadScriptList(itemList, fn) {
         if (itemList.length > 0) {
             loadScript(itemList[0].name, itemList[0].url, function () {
-                loadItemList(itemList.slice(1), fn);
+                loadScriptList(itemList.slice(1), fn);
             });
         } else {
             fn();
         }
     }
 
-    loadItemList([
+    loadScriptList([
         {name: "io", url: "//lib.baomitu.com/socket.io/2.2.0/socket.io.js"},
         {name: "axios", url: "//lib.baomitu.com/axios/0.18.0/axios.min.js"},
         {name: "highlight", url: "//lib.baomitu.com/highlight.js/9.15.6/highlight.min.js"}

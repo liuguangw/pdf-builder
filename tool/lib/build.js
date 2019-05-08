@@ -35,7 +35,7 @@ function doBuildBook(bookInfo, successFn, errorFn,buildCompleteFn) {
     });
 
     convert.stderr.on('data', (data) => {
-        successFn(`${data}`);
+        errorFn(`${data}`);
     });
 
     convert.on('close', (code) => {
