@@ -27,6 +27,7 @@ let bookConfig = {
         '<div>_SECTION_</div>' +
         '</div>',
     entryFile: path.resolve(__dirname, '../dist/html/__entry.html'),
+    fetchPage: "https://cn.vuejs.org/v2/guide/",
     fetchScriptSource: ""
 };
 fs.readFile(path.resolve(__dirname, '../fetch.js'), 'utf8', (err, data) => {

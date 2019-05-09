@@ -66,12 +66,20 @@
                     type="info"
                     close-text="知道了">
             </el-alert>
-            <el-input style="margin-top: 15px;"
-                    type="textarea"
-                    :rows="15"
-                    :readonly="true"
-                    placeholder="请输入内容"
-                    v-model="fetchSource">
+            <el-row style="margin-top: 8px;">
+                <el-col :span="4">
+                    <el-button type="primary" round @click="copyCode">复制代码</el-button>
+                </el-col>
+                <el-col :span="20">
+                    <p class="fetch-page-url">目标文档地址: <a :href="fetchPageUrl" target="_blank">{{ fetchPageUrl }}</a></p>
+                </el-col>
+            </el-row>
+            <el-input ref="codeRef" style="margin-top: 15px;"
+                      type="textarea"
+                      :rows="15"
+                      :readonly="true"
+                      placeholder="请输入内容"
+                      v-model="fetchSource">
             </el-input>
         </el-dialog>
     </div>
@@ -85,6 +93,7 @@
                 projectName: "",
                 projectTitle: "",
                 fetchSource: "",
+                fetchPageUrl: "",
                 dialogVisible: false,
                 sourceDialogVisible: false
             };
@@ -103,6 +112,11 @@
                         window.scrollTo(0, window.document.body.scrollHeight - window.innerHeight);
                     }, 900);
                 }
+            },
+            copyCode(){
+                this.$refs.codeRef.focus();
+                window.document.execCommand("selectAll");
+                window.document.execCommand("copy");
             }
         },
         watch: {
@@ -168,6 +182,7 @@
             this.projectName = currentProject.dir;
             this.projectTitle = currentProject.name;
             this.fetchSource = currentProject.source;
+            this.fetchPageUrl = currentProject.page_url;
         }
     }
 </script>
@@ -230,5 +245,19 @@
 
     .error-card, .build-command-area, .app-message-card, .menu-table {
         margin-top: 15px;
+    }
+
+    .fetch-page-url {
+        text-align: left;
+    }
+
+    .fetch-page-url a {
+        text-decoration: none;
+        color: #2196F3;
+    }
+
+    .fetch-page-url a:hover {
+        color: red;
+        text-decoration: underline;
     }
 </style>

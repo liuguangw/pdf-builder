@@ -25,7 +25,8 @@ function vueApi(vueIo, socket, projectList, currentProject) {
                 dir: projectInfo.pathInfo.dirShort,
                 full_path: projectInfo.pathInfo.dirFull,
                 name: metaInfo.title,
-                source: metaInfo.fetchScriptSource
+                source: metaInfo.fetchScriptSource,
+                page_url: metaInfo.fetchPage
             });
         }
         socket.emit('app list_project', resultList);
