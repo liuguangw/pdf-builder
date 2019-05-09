@@ -13,3 +13,28 @@ pre code .hljs-symbol, pre code .hljs-symbol pre code .hljs-string, pre code .hl
 pre code .hljs-tag, pre code .hljs-tag pre code .hljs-title, pre code .hljs-change, pre code .hljs-winutils, pre code .hljs-flow, pre code .hljs-tex pre code .hljs-special {
     color: #2973b7;
 }
+pre code.hljs.html::before, pre code.hljs.js::before, pre code.hljs.bash::before, pre code.hljs.css::before {
+    font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: #ccc;
+    text-align: right;
+    font-size: 0.9em;
+    padding: 5px 10px 0;
+    line-height: 15px;
+    height: 15px;
+    font-weight: 600;
+}
+pre code.hljs.html::before {
+    content: "HTML";
+}
+pre code.hljs.js::before {
+    content: "JS";
+}
+pre code.hljs.bash::before {
+    content: "Shell";
+}
+pre code.hljs.css::before {
+    content: "CSS";
+}

@@ -228,10 +228,17 @@ a.button, input.button {
 pre code {
     white-space: pre-wrap;
     word-wrap: break-word;
+    position: relative;
 }
 
 .content table td,
 .content table th {
     word-wrap: break-word;
     word-break: break-all;
+}
+.content.guide[class*="migration"] .upgrade-path {
+    margin-top: 2em;
+    padding: 2em;
+    background: rgba(73,195,140,0.1);
+    border-radius: 2px;
 }
