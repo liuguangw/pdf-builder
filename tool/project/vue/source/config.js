@@ -1,4 +1,6 @@
 const path = require("path");
+const fs = require("fs");
+
 let bookConfig = {
     title: "Vue.js(2.x)文档",
     authors: "流光",
@@ -25,7 +27,16 @@ let bookConfig = {
         '<div>_SECTION_</div>' +
         '</div>',
     entryFile: path.resolve(__dirname, '../dist/html/__entry.html'),
+    fetchScriptSource: ""
 };
-module.exports = ()=> {
+fs.readFile(path.resolve(__dirname, '../fetch.js'), 'utf8', (err, data) => {
+    if (err) {
+        bookConfig.fetchScriptSource = "[read error]" + err.message;
+    } else {
+        bookConfig.fetchScriptSource = data;
+    }
+});
+
+module.exports = () => {
     return bookConfig;
 };

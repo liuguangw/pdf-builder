@@ -12,6 +12,10 @@
                     <el-button type="primary" icon="el-icon-collection" size="mini" circle
                                @click="dialogVisible = true"></el-button>
                 </el-tooltip>
+                <el-tooltip effect="dark" content="查看抓取脚本" placement="top">
+                    <el-button type="primary" icon="el-icon-document" size="mini" circle
+                               @click="sourceDialogVisible = true"></el-button>
+                </el-tooltip>
             </el-col>
         </el-row>
         <el-table class="menu-table"
@@ -45,7 +49,9 @@
             </div>
             <div ref="msgLogEl" class="msg-logs">
                 <template v-for="(msgInfo,eIndex) in appMessages">
-                    <div :key="eIndex" :class="{'text':true,'item':true,'has-error':msgInfo.error}">{{msgInfo.message}}</div>
+                    <div :key="eIndex" :class="{'text':true,'item':true,'has-error':msgInfo.error}">
+                        {{msgInfo.message}}
+                    </div>
                 </template>
             </div>
         </el-card>
@@ -53,6 +59,20 @@
             <template v-if="menuInfo!==null">
                 <pre>{{ menuInfo }}</pre>
             </template>
+        </el-dialog>
+        <el-dialog title="抓取脚本" :visible.sync="sourceDialogVisible">
+            <el-alert
+                    title="将以下代码复制到目标文档页的控制台,执行即可进行数据抓取."
+                    type="info"
+                    close-text="知道了">
+            </el-alert>
+            <el-input style="margin-top: 15px;"
+                    type="textarea"
+                    :rows="15"
+                    :readonly="true"
+                    placeholder="请输入内容"
+                    v-model="fetchSource">
+            </el-input>
         </el-dialog>
     </div>
 </template>
@@ -64,7 +84,9 @@
             return {
                 projectName: "",
                 projectTitle: "",
-                dialogVisible: false
+                fetchSource: "",
+                dialogVisible: false,
+                sourceDialogVisible: false
             };
         },
         methods: {
@@ -79,7 +101,7 @@
                     this.$store.state.socket.emit("app build");
                     setTimeout(() => {
                         window.scrollTo(0, window.document.body.scrollHeight - window.innerHeight);
-                    }, 1500);
+                    }, 900);
                 }
             }
         },
@@ -145,6 +167,7 @@
             this.$store.commit("resetProject");
             this.projectName = currentProject.dir;
             this.projectTitle = currentProject.name;
+            this.fetchSource = currentProject.source;
         }
     }
 </script>
@@ -172,6 +195,7 @@
     .item {
         margin-bottom: 5px;
     }
+
     .item.has-error {
         color: red;
     }
@@ -193,7 +217,7 @@
         padding: 5px 12px;
     }
 
-    .msg-logs .item:last-child{
+    .msg-logs .item:last-child {
         margin: 0;
     }
 

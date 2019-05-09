@@ -20,10 +20,12 @@ function vueApi(vueIo, socket, projectList, currentProject) {
         let resultList = [];
         for (let itemIndex in projectList) {
             let projectInfo = projectList[itemIndex];
+            let metaInfo = projectInfo.moduleInfo.bookMetaInfo();
             resultList.push({
                 dir: projectInfo.pathInfo.dirShort,
                 full_path: projectInfo.pathInfo.dirFull,
-                name: projectInfo.moduleInfo.bookMetaInfo().title
+                name: metaInfo.title,
+                source: metaInfo.fetchScriptSource
             });
         }
         socket.emit('app list_project', resultList);
