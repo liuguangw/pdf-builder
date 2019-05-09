@@ -1,12 +1,12 @@
 # pdf-builder
-用于将网页文档转换为 PDF文档的工具
+用于将网页文档转换为 PDF文档的工具,目前已经包含了`vue`、`laravel`中文PDF文档的构建demo。
 
 
 
 ## 使用方法
 
 ```bash
-# 编译项目(只需只需一次)
+# 编译项目(只需执行一次,除非修改了代码)
 npm run build
 # 启动server
 npm run serve
