@@ -2,7 +2,7 @@ const path = require("path");
 const fs = require("fs");
 
 let bookConfig = {
-    title: "Vue.js(2.x)文档",
+    title: "Laravel 5.8 中文文档",
     authors: "流光",
     comments: "此文档由流光整理制作 by https://github.com/liuguangw/pdf-builder",
     language: "zh-hans",

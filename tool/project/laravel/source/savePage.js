@@ -12,10 +12,14 @@ function formatPageHtml(title, content) {
         "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n" +
         "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\" />" +
         "    <title>" + title + "</title>\n" +
-        "    <link rel=\"stylesheet\" href=\"css/highlightjs.css\" />" +
-        "    <link rel=\"stylesheet\" href=\"css/main.css\" />" +
+        "    <link rel=\"stylesheet\" href=\"css/style.css\" />" +
         "  </head>\n" +
-        "  <body>\n" + content + "\n" +
+        "  <body>\n" +
+        "  <div class=\"ui segment article-content\">\n" +
+        "    <div class=\"extra-padding\">\n" +
+        content + "\n" +
+        "    </div>\n" +
+        "  </div>" +
         " </body>\n" +
         "</html>";
 }
@@ -27,7 +31,8 @@ function savePage(url, title, content, successFn, errorFn) {
             errorFn(err.message);
         } else {
             let htmlCode = formatPageHtml(title, content);
-            fse.writeFile(path.resolve(saveDir, url), htmlCode, 'utf8', (writeErr) => {
+            let fPath = url.substr(0, url.indexOf("/")) + ".html";
+            fse.writeFile(path.resolve(saveDir, fPath), htmlCode, 'utf8', (writeErr) => {
                 if (writeErr) {
                     errorFn(writeErr.message);
                 } else {
