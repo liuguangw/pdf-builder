@@ -117,6 +117,7 @@
                 this.$refs.codeRef.focus();
                 window.document.execCommand("selectAll");
                 window.document.execCommand("copy");
+                this.$message.info("已复制到系统剪切板");
             }
         },
         watch: {
