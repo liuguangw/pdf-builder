@@ -111,7 +111,7 @@ a:hover {
     font-family: Geomanist, sans-serif;
     font-weight: 600;
     line-height: 1.4;
-    margin: 1.5em 0 0.25em;
+    margin: 1.5em 0 0.25em 0;
     color: #465E69;
 }
 
@@ -159,7 +159,7 @@ blockquote, q {
 }
 
 .page__content ul, .page__content ol, .page__content dl {
-    margin: 0.5em 0 1em;
+    margin: 0.5em 0 1em 0;
 }
 
 .page__content ul, .page__content ol {
@@ -179,7 +179,7 @@ blockquote, q {
     font-family: Geomanist, sans-serif;
     font-weight: 600;
     line-height: 1.4;
-    margin: 1.5em 0 0.25em;
+    margin: 1.5em 0 0.25em 0;
     color: #465E69;
 }
 
@@ -313,7 +313,23 @@ code[class*="lang-"], pre[class*="lang-"] {
     -webkit-transition: color 0.1s;
     transition: color 0.1s;
 }
-
+.page__content blockquote.todo {
+    background-color: #fbddcd;
+    color: #907a6e;
+}
+.page__content blockquote > :first-child {
+    margin-top: 0;
+}
+.page__content blockquote > :last-child {
+    margin-bottom: 0;
+}
+.page__content blockquote.tip .tip-content, .page__content blockquote.warning .tip-content, .page__content blockquote.todo .tip-content {
+    font-style: italic;
+}
+.page__content blockquote.todo .tip-content::before {
+    content: '[TODO]: ';
+    font-style: normal;
+}
 /*代码自动换行*/
 pre[class*="lang-"], pre code[class*="lang-"] {
     white-space: pre-wrap;
