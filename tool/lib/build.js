@@ -1,14 +1,20 @@
 const {spawn} = require('child_process');
 const fse = require('fs-extra');
 const path = require('path');
+const iconv = require('iconv-lite');
+const isWindow = require('os').type().toLowerCase().indexOf('windows') === 0;
+let systemCharset = "utf-8";
+if (isWindow) {
+    systemCharset = "gbk";
+}
 
-function doBuildBook(bookInfo, successFn, errorFn,buildCompleteFn) {
+function doBuildBook(bookInfo, successFn, errorFn, buildCompleteFn) {
     let inputFile = bookInfo.entryFile;
     let outputFile = path.resolve(path.dirname(inputFile), "../output.pdf");
     let params = [
         inputFile,
         outputFile,
-        "-v",
+        "--verbose",
         "--title=" + bookInfo.title,
         "--authors=" + bookInfo.authors,
         "--comments=" + bookInfo.comments,
@@ -31,11 +37,13 @@ function doBuildBook(bookInfo, successFn, errorFn,buildCompleteFn) {
     ];
     let convert = spawn('ebook-convert', params);
     convert.stdout.on('data', (data) => {
-        successFn(`${data}`);
+        let str = iconv.decode(Buffer.from(data), systemCharset);
+        successFn(str);
     });
 
     convert.stderr.on('data', (data) => {
-        errorFn(`${data}`);
+        let str = iconv.decode(Buffer.from(data), systemCharset);
+        errorFn(str);
     });
 
     convert.on('close', (code) => {
@@ -50,14 +58,14 @@ function doBuildBook(bookInfo, successFn, errorFn,buildCompleteFn) {
     });
 }
 
-function buildBook(bookInfo, successFn, errorFn,buildCompleteFn) {
+function buildBook(bookInfo, successFn, errorFn, buildCompleteFn) {
 
     //判断入口文件的存在性
     fse.pathExists(bookInfo.entryFile, (err, exists) => {
         if (err) {
             errorFn(err.message);
         } else if (exists) {
-            doBuildBook(bookInfo, successFn, errorFn,buildCompleteFn);
+            doBuildBook(bookInfo, successFn, errorFn, buildCompleteFn);
         } else {
             errorFn("入口文件: " + bookInfo.entryFile + "不存在");
         }
