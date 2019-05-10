@@ -10,7 +10,7 @@ if (isWindow) {
 
 function doBuildBook(bookInfo, successFn, errorFn, buildCompleteFn) {
     let inputFile = bookInfo.entryFile;
-    let outputFile = path.resolve(path.dirname(inputFile), "../output.pdf");
+    let outputFile = path.resolve(__dirname, "../../pdfs/", bookInfo.outputName);
     let params = [
         inputFile,
         outputFile,

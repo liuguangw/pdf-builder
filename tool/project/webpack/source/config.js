@@ -28,7 +28,8 @@ let bookConfig = {
         '</div>',
     entryFile: path.resolve(__dirname, '../dist/html/__entry.html'),
     fetchPage: "https://webpack.docschina.org/concepts/",
-    fetchScriptSource: ""
+    fetchScriptSource: "",
+    outputName: "webpack-doc.pdf"
 };
 fs.readFile(path.resolve(__dirname, '../fetch.js'), 'utf8', (err, data) => {
     if (err) {

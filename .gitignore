@@ -20,3 +20,5 @@ yarn-error.log*
 *.sln
 *.sw?
 /tool/project/*/dist
+/pdfs
+!/pdfs/.gitkeep

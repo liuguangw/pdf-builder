@@ -28,7 +28,8 @@ let bookConfig = {
         '</div>',
     entryFile: path.resolve(__dirname, '../dist/html/__entry.html'),
     fetchPage: "https://cn.vuejs.org/v2/guide/",
-    fetchScriptSource: ""
+    fetchScriptSource: "",
+    outputName: "vue-doc.pdf"
 };
 fs.readFile(path.resolve(__dirname, '../fetch.js'), 'utf8', (err, data) => {
     if (err) {
