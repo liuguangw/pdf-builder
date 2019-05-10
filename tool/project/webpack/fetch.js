@@ -61,18 +61,13 @@
                 }).then(function (response) {
                     // handle success
                     let doc = response.data;
-                    let aList = doc.querySelectorAll("a");
-                    for (let aIndex = 0; aIndex < aList.length; aIndex++) {
-                        let aElement = aList.item(aIndex);
+                    doc.querySelectorAll("a").forEach((aElement) => {
                         //绝对路径转相对路径
                         let needConvertUrl = false;
                         let tmpUrl = aElement.href;
                         if (aElement.href.startsWith(baseUrl)) {
                             needConvertUrl = true;
                             tmpUrl = tmpUrl.substr(baseUrl.length);
-                            if (tmpUrl.startsWith("#")) {
-                                tmpUrl = "/" + tmpUrl;
-                            }
                         }
                         if (needConvertUrl) {
                             let sPos = tmpUrl.indexOf("/");
@@ -82,23 +77,16 @@
                             if (sPos >= 0) {
                                 tmpUrl = tmpUrl.substr(0, sPos);
                             }
-                            if (tmpUrl.length === 0) {
+                            if (tmpUrl === "") {
                                 tmpUrl = "index";
                             }
                             aElement.href = tmpUrl + ".html" + aElement.hash;
                         }
-                    }
+                    });
                     //删除script标签
-                    let scriptList = doc.querySelectorAll("script");
-                    for (let scriptIndex = 0; scriptIndex < scriptList.length; scriptIndex++) {
-                        let tmpScript = scriptList.item(scriptIndex);
+                    doc.querySelectorAll("script").forEach((tmpScript)=>{
                         tmpScript.parentNode.removeChild(tmpScript);
-                    }
-                    //代码高亮
-                    //doc.querySelectorAll("pre code").forEach((codeElement) => {
-                    //    window.Prism.highlightElement(codeElement);
-                    //});
-                    //
+                    });
                     window.pageData[pageIndex].content = doc.querySelector(".page__content").outerHTML;
                     window.pageData[pageIndex].fetched = true;
                     //save

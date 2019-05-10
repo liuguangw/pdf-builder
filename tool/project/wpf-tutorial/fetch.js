@@ -69,7 +69,7 @@
                     for (let aIndex = 0; aIndex < aList.length; aIndex++) {
                         let aElement = aList.item(aIndex);
                         //绝对路径转相对路径
-                        if (aElement.href.indexOf(baseUrl) === 0) {
+                        if (aElement.href.startsWith(baseUrl)) {
                             let tmpUrl = aElement.href.substr(baseUrl.length);
                             if (tmpUrl.endsWith("/")) {
                                 tmpUrl = tmpUrl.substr(0, tmpUrl.length - 1);
@@ -78,7 +78,7 @@
                         }
                     }
                     //要删除的元素
-                    let delElements = doc.querySelectorAll(".adsbygoogle,#divArticleAvailableLanguages,#chapter-title,script,#bottom-navigation,#bottom-ad");
+                    let delElements = doc.querySelectorAll(".adsbygoogle,#divArticleAvailableLanguages,#divDoYouSpeakLanguageX,#chapter-title,script,#bottom-navigation,#bottom-ad");
                     delElements.forEach((tmpEl) => {
                         tmpEl.parentNode.removeChild(tmpEl);
                     });
@@ -87,7 +87,7 @@
                         preEl.className = "prettyprint";
                     });
                     window.PR.prettyPrint(function () {
-                        console.log("do prettyPrint");
+                        //console.log("do prettyPrint");
                     }, doc.body);
                     //图片链接
                     let docImgs = doc.getElementsByTagName("img");
