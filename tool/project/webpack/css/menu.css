@@ -1,0 +1,30 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+h1, h2, h3, h4, h5 {
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    line-height: 1.2857em;
+    font-weight: normal;
+    padding: 0;
+}
+.toc-h1 {
+    text-align: center;
+}
+.toc-item {
+    list-style: none;
+    display: block;
+    margin: 5px;
+    padding: 5px;
+    border: 1px solid #eaf1f5;
+    color: #0088cc;
+    line-height: 24px;
+}
+.toc-group {
+    padding: 5px 5px 10px 5px;
+    margin-bottom: 20px;
+}
+a {
+    color: #4183C4;
+    text-decoration: none;
+}

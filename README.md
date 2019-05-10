@@ -1,5 +1,5 @@
 # pdf-builder
-用于将网页文档转换为 PDF文档的工具,目前已经包含了`vue`、`laravel`中文PDF文档的构建demo。
+用于将网页文档转换为 PDF文档的工具,目前已经包含了`vue`、`laravel`、`webpack`中文PDF文档的构建demo。
 
 ## 环境要求
 
