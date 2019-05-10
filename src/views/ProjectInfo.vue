@@ -4,7 +4,7 @@
             <el-col :span="21">
                 <el-breadcrumb separator-class="el-icon-arrow-right" style="height: 28px;line-height: 28px;">
                     <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-                    <el-breadcrumb-item>{{ projectName}} - {{ projectTitle }}</el-breadcrumb-item>
+                    <el-breadcrumb-item>[{{ projectName}}] - {{ projectTitle }}</el-breadcrumb-item>
                 </el-breadcrumb>
             </el-col>
             <el-col :span="3">

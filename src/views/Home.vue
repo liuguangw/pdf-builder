@@ -24,6 +24,11 @@
                             <el-col :span="6">完整路径</el-col>
                             <el-col :span="18">{{ projectInfo.full_path }}</el-col>
                         </el-row>
+                        <el-row>
+                            <el-col :span="6">文档URL</el-col>
+                            <el-col :span="18"><a :href="projectInfo.page_url" target="_blank">{{ projectInfo.page_url
+                                }}</a></el-col>
+                        </el-row>
                     </div>
                 </el-card>
             </el-col>
@@ -85,5 +90,15 @@
 
     .box-node {
         padding-bottom: 15px;
+    }
+
+    a {
+        color: #3a8ee6;
+        text-decoration: none;
+    }
+
+    a:hover {
+        color: red;
+        text-decoration: underline;
     }
 </style>
