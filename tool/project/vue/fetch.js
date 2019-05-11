@@ -68,6 +68,10 @@
                     let aList = doc.querySelectorAll("a");
                     for (let aIndex = 0; aIndex < aList.length; aIndex++) {
                         let aElement = aList.item(aIndex);
+                        //链接href属性 => 完整URL
+                        if (aElement.getAttribute("href") !== aElement.href) {
+                            aElement.setAttribute("href", aElement.href);
+                        }
                         //绝对路径转相对路径
                         let baseUrl1 = "https://cn.vuejs.org/guide/";
                         if (aElement.href.indexOf(baseUrl) === 0) {

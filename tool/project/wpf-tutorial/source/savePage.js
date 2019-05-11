@@ -12,8 +12,8 @@ function formatPageHtml(title, content) {
         "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n" +
         "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\" />" +
         "    <title>" + title + "</title>\n" +
-        "    <link rel=\"stylesheet\" href=\"css/prettyprint.css\" />" +
-        "    <link rel=\"stylesheet\" href=\"css/main.css\" />" +
+        "    <link rel=\"stylesheet\" href=\"../css/prettyprint.css\" />" +
+        "    <link rel=\"stylesheet\" href=\"../css/main.css\" />" +
         "  </head>\n" +
         "  <body>\n" + content + "\n" +
         " </body>\n" +

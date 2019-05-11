@@ -26,7 +26,7 @@ let bookConfig = {
         '<div style="float:right;">第 _PAGENUM_ 页</div>' +
         '<div>_SECTION_</div>' +
         '</div>',
-    entryFile: path.resolve(__dirname, '../dist/html/__entry.html'),
+    entryFile: path.resolve(__dirname, '../dist/__entry.html'),
     fetchPage: "https://learnku.com/docs/laravel/5.8/",
     fetchScriptSource: "",
     outputName: "laravel-doc.pdf"

@@ -62,6 +62,10 @@
                     // handle success
                     let doc = response.data;
                     doc.querySelectorAll("a").forEach((aElement) => {
+                        //链接href属性 => 完整URL
+                        if (aElement.getAttribute("href") !== aElement.href) {
+                            aElement.setAttribute("href", aElement.href);
+                        }
                         //绝对路径转相对路径
                         let needConvertUrl = false;
                         let tmpUrl = aElement.href;

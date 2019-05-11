@@ -23,6 +23,10 @@
                   :data="pageUrls"
                   style="width: 100%">
             <el-table-column
+                    type="index"
+                    width="50">
+            </el-table-column>
+            <el-table-column
                     prop="title"
                     label="标题"
                     width="180">
@@ -32,10 +36,11 @@
                     label="URL">
             </el-table-column>
             <el-table-column
-                    label="状态">
+                    label="状态"
+                    width="80">
                 <template slot-scope="scope">
                     <span class="saved-success" v-if="scope.row.saved" style="color:green;">已保存</span>
-                    <span v-else>未保存</span>
+                    <span class="not-saved" v-else>未保存</span>
                 </template>
             </el-table-column>
         </el-table>
@@ -49,9 +54,8 @@
             </div>
             <div ref="msgLogEl" class="msg-logs">
                 <template v-for="(msgInfo,eIndex) in appMessages">
-                    <div :key="eIndex" :class="{'text':true,'item':true,'has-error':msgInfo.error}">
-                        {{msgInfo.message}}
-                    </div>
+                    <span :key="eIndex"
+                          :class="['text','item',{'has-error':msgInfo.error}]">{{ msgInfo.message }}</span>
                 </template>
             </div>
         </el-card>
@@ -113,7 +117,7 @@
                     }, 900);
                 }
             },
-            copyCode(){
+            copyCode() {
                 this.$refs.codeRef.focus();
                 window.document.execCommand("selectAll");
                 window.document.execCommand("copy");
@@ -231,20 +235,28 @@
         overflow: auto;
         background: #2b2626;
         padding: 5px 12px;
+        font-size: 0;
+        white-space: pre-wrap;
+        word-wrap: break-word;
+        text-align: left;
     }
 
     .msg-logs .item:last-child {
         margin: 0;
     }
 
+    .not-saved,
     .saved-success {
         display: inline-block;
-        color: #fff;
-        background: #54fdb7;
         padding: 2px 4px;
     }
 
-    .error-card, .build-command-area, .app-message-card, .menu-table {
+    .saved-success {
+        color: #fff;
+        background: #54fdb7;
+    }
+
+    .build-command-area, .app-message-card, .menu-table {
         margin-top: 15px;
     }
 

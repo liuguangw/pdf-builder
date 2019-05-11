@@ -39,12 +39,16 @@ export default new Vuex.Store({
             state.urls = s;
         },
         pageSaved(state, pageUrl) {
-            let lists = state.urls;
-            for (let i = 0; i < lists.length; i++) {
-                if (lists[i].url === pageUrl) {
-                    lists[i].saved = true;
+            state.urls.every(tmpUrlNode => {
+                if(tmpUrlNode.saved){
+                    return true;
                 }
-            }
+                else if (tmpUrlNode.url === pageUrl) {
+                    tmpUrlNode.saved = true;
+                    return false;
+                }
+                return true;
+            });
         },
         addError(state, errorStr) {
             state.buildMessages.push({
