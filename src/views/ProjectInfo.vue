@@ -74,8 +74,13 @@
                 <el-col :span="4">
                     <el-button type="primary" round @click="copyCode">复制代码</el-button>
                 </el-col>
-                <el-col :span="20">
+                <el-col :span="16">
                     <p class="fetch-page-url">目标文档地址: <a :href="fetchPageUrl" target="_blank">{{ fetchPageUrl }}</a></p>
+                </el-col>
+                <el-col :span="4">
+                    <el-tooltip effect="dark" content="不抓取数据，直接使用之前已经抓取过的数据进行构建。" placement="top">
+                        <el-button type="danger" round @click="forceBuild">强制构建</el-button>
+                    </el-tooltip>
                 </el-col>
             </el-row>
             <el-input ref="codeRef" style="margin-top: 15px;"
@@ -105,6 +110,10 @@
         methods: {
             clearAppMessages() {
                 this.$store.commit("clearMessage");
+            },
+            forceBuild() {
+                this.sourceDialogVisible = false;
+                this.startBuild();
             },
             startBuild() {
                 if (this.building) {
