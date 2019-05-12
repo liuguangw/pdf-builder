@@ -232,7 +232,7 @@ code, kbd {
     background-color: #f6f8fa;
 }
 .markdown-body td, .markdown-body th {
-    min-width: 100px;
+    /*min-width: 100px;*/
     font-size: 14px;
 }
 .markdown-body td {
@@ -244,4 +244,9 @@ code, kbd {
 }
 .markdown-body table th {
     font-weight: 600;
+}
+.markdown-body table td,
+.markdown-body table th {
+    word-wrap: break-word;
+    word-break: break-all;
 }

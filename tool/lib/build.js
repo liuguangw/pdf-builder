@@ -3,7 +3,7 @@ const fse = require('fs-extra');
 const path = require('path');
 const iconv = require('iconv-lite');
 const isWindow = require('os').type().toLowerCase().indexOf('windows') === 0;
-let systemCharset = "utf-8";
+let systemCharset = "utf8";
 if (isWindow) {
     systemCharset = "gbk";
 }
