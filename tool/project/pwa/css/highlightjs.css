@@ -1,0 +1,23 @@
+.markdown-body pre code .hljs-comment,.markdown-body pre code .hljs-deletion,.markdown-body pre code .hljs-meta {
+    color: #777
+}
+
+.markdown-body pre code .hljs-built_in {
+    color: #66d9ef!important
+}
+
+.markdown-body pre code .hljs-attr {
+    color: #a7e22e!important
+}
+.hljs, .hljs-subst, .hljs-tag {
+    color: #f8f8f2;
+}
+.markdown-body pre code span {
+    font-weight: 600!important;
+}
+.hljs-attr, .hljs-keyword, .hljs-name, .hljs-selector-tag {
+    color: #f92672;
+}
+.hljs-addition, .hljs-built_in, .hljs-builtin-name, .hljs-selector-attr, .hljs-selector-id, .hljs-selector-pseudo, .hljs-string, .hljs-template-variable, .hljs-type, .hljs-variable {
+    color: #e6db74;
+}
