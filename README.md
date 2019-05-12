@@ -1,4 +1,7 @@
+
+
 # pdf-builder
+
 用于将网页文档转换为 PDF文档的工具,目前已经包含了`vue`、`laravel`、`webpack`、`WPF Tutorial`、`PWA` PDF文档的构建demo。
 
 ## 环境要求
@@ -23,6 +26,13 @@ npm run serve
 # 然后用浏览器打开 http://localhost:5006/
 # 根据提示进行即可
 ```
+
+## 展示
+
+![npm](images/npm.gif)
+![web](images/web.png)
+![build](images/build.png)
+![pdf](images/pdf_preview.png)
 
 ## 扩展方式
 
