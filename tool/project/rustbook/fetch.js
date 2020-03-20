@@ -90,6 +90,8 @@
                                 tmpUrl = tmpUrl.substr(0, tmpUrl.length - 1);
                             }
                             aElement.href = tmpUrl.replace("/", "-");
+                        } else {
+                            aElement.setAttribute("target", "_blank");
                         }
                     }
                     //删除script标签
@@ -315,7 +317,7 @@
     }
 
     function savePage(pageUrl, pageTitle, pageContent) {
-        window.socket.emit("app save_page_info", {
+        window.fsocket.emit("app save_page_info", {
             url: pageUrl,
             title: pageTitle,
             content: pageContent
@@ -347,15 +349,15 @@
     loadScriptList([
         {name: "io", url: "//lib.baomitu.com/socket.io/2.2.0/socket.io.js"},
         {name: "axios", url: "//lib.baomitu.com/axios/0.18.0/axios.min.js"},
-        {name: "highlight", url: "/rustbook/highlight.js"}
+        {name: "highlight", url: baseUrl + "highlight.js"}
     ], function () {
-        if ("socket" in window) {
+        if ("fsocket" in window) {
             // 第二次执行时无需再次连接websocket
-            clientInit(window.socket);
+            clientInit(window.fsocket);
         } else {
-            window.socket = io("http://localhost:5006/fetch-api");
-            window.socket.on('connect', function () {
-                clientInit(window.socket);
+            window.fsocket = io("http://localhost:5006/fetch-api");
+            window.fsocket.on('connect', function () {
+                clientInit(window.fsocket);
             });
         }
     });

@@ -18,13 +18,13 @@ let bookConfig = {
         top: 38,
         bottom: 38
     },
-    headerTpl: '<div style="margin:12px 0;padding-bottom: 10px;width:100%;overflow:hidden;border-bottom: 1px solid #eee;color: #5c6163;font-size:14px;">' +
-        '<div style="float:right;">第 _PAGENUM_ 页</div>' +
-        '<div>_SECTION_</div>' +
+    headerTpl: '<div style="padding-bottom: 10px;width:100%;position:relative;border-bottom: 1px solid #eee;color: #5c6163;font-size:14px;">' +
+        '<span style="display: inline-block;">_SECTION_</span>' +
+        '<span style="display: inline-block;position:absolute;right:0;">第 _PAGENUM_ 页</span>' +
         '</div>',
-    footerTpl: '<div style="margin:12px 0;padding-top: 10px;width:100%;overflow:hidden;border-top: 1px solid #eee;color: #5c6163;font-size:14px;">' +
-        '<div style="float:right;">第 _PAGENUM_ 页</div>' +
-        '<div>_SECTION_</div>' +
+    footerTpl: '<div style="padding-top: 10px;width:100%;position:relative;border-top: 1px solid #eee;color: #5c6163;font-size:14px;">' +
+        '<span style="display: inline-block;">_SECTION_</span>' +
+        '<span style="display: inline-block;position:absolute;right:0;">第 _PAGENUM_ 页</span>' +
         '</div>',
     entryFile: path.resolve(__dirname, '../dist/__entry.html'),
     fetchPage: "https://www.wpf-tutorial.com/",
