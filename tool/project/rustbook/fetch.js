@@ -149,76 +149,21 @@
 
         Array.from(doc.querySelectorAll("code.language-rust")).forEach(function (block) {
 
-            let code_block = block;
-            let pre_block = block.parentNode;
-            // hide lines
-            let lines = code_block.innerHTML.split("\n");
-            let first_non_hidden_line = false;
-            let lines_hidden = false;
-            let trimmed_line = "";
-
-            for (let n = 0; n < lines.length; n++) {
-                trimmed_line = lines[n].trim();
-                if (trimmed_line[0] == hiding_character && trimmed_line[1] != hiding_character) {
-                    if (first_non_hidden_line) {
-                        lines[n] = "<span class=\"hidden\">" + "\n" + lines[n].replace(/(\s*)# ?/, "$1") + "</span>";
-                    } else {
-                        lines[n] = "<span class=\"hidden\">" + lines[n].replace(/(\s*)# ?/, "$1") + "\n" + "</span>";
-                    }
-                    lines_hidden = true;
-                } else if (first_non_hidden_line) {
-                    lines[n] = "\n" + lines[n];
-                } else {
-                    first_non_hidden_line = true;
-                }
-                if (trimmed_line[0] == hiding_character && trimmed_line[1] == hiding_character) {
-                    lines[n] = lines[n].replace("##", "#")
-                }
-            }
-            code_block.innerHTML = lines.join("");
-
+            let lines = Array.from(block.querySelectorAll('.boring'));
             // If no lines were hidden, return
-            if (!lines_hidden) {
-                return;
-            }
+            if (!lines.length) { return; }
+            block.classList.add("hide-boring");
 
-            let buttons = document.createElement('div');
+            let buttons = doc.createElement('div');
             buttons.className = 'buttons';
             buttons.innerHTML = "<button class=\"fa fa-expand\" title=\"Show hidden lines\" aria-label=\"Show hidden lines\"></button>";
 
             // add expand button
+            let pre_block = block.parentNode;
             pre_block.insertBefore(buttons, pre_block.firstChild);
-
-            pre_block.querySelector('.buttons').addEventListener('click', function (e) {
-                if (e.target.classList.contains('fa-expand')) {
-                    let lines = pre_block.querySelectorAll('span.hidden');
-
-                    e.target.classList.remove('fa-expand');
-                    e.target.classList.add('fa-compress');
-                    e.target.title = 'Hide lines';
-                    e.target.setAttribute('aria-label', e.target.title);
-
-                    Array.from(lines).forEach(function (line) {
-                        line.classList.remove('hidden');
-                        line.classList.add('unhidden');
-                    });
-                } else if (e.target.classList.contains('fa-compress')) {
-                    let lines = pre_block.querySelectorAll('span.unhidden');
-
-                    e.target.classList.remove('fa-compress');
-                    e.target.classList.add('fa-expand');
-                    e.target.title = 'Show hidden lines';
-                    e.target.setAttribute('aria-label', e.target.title);
-
-                    Array.from(lines).forEach(function (line) {
-                        line.classList.remove('unhidden');
-                        line.classList.add('hidden');
-                    });
-                }
-            });
         });
 
-        Array.from(doc.querySelectorAll('pre code')).forEach(function (block) {
+         Array.from(doc.querySelectorAll('pre code')).forEach(function (block) {
             let pre_block = block.parentNode;
             if (!pre_block.classList.contains('playpen')) {
                 let buttons = pre_block.querySelector(".buttons");

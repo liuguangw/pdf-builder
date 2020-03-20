@@ -1,13 +1,13 @@
 function formatMenuList(menuGroupList) {
     let resultHtml = "<ul>\n";
     menuGroupList.forEach(menuGroup => {
-        let tmpHtml =  "<li><a href=\"" + menuGroup.url + "\">" + menuGroup.title + "</a></li>";
+        let tmpHtml = "<li><a href=\"" + menuGroup.url + "\">" + menuGroup.title + "</a></li>";
         if (menuGroup.list.length > 0) {
-            tmpHtml+="<ul>\n";
-            menuGroup.list.forEach(menuItem =>{
+            tmpHtml += "<ul>\n";
+            menuGroup.list.forEach(menuItem => {
                 tmpHtml += "<li><a href=\"" + menuItem.url + "\">" + menuItem.title + "</a></li>";
             });
-            tmpHtml+="</ul>\n";
+            tmpHtml += "</ul>\n";
         }
         resultHtml += tmpHtml;
     });
@@ -16,7 +16,7 @@ function formatMenuList(menuGroupList) {
 }
 
 function formatMenuHtml(bookTitle, menuInfo) {
-    let allGroupHtml = "<div class=\"book-main-title\"><h1>" + bookTitle + "</h1></div>";
+    let allGroupHtml = "<div class=\"book-main-title\"><h1>目录</h1></div>";
     allGroupHtml += "<div class='menu-list'>";
     allGroupHtml += formatMenuList(menuInfo);
     allGroupHtml += "</div>";

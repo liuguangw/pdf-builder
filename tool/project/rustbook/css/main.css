@@ -96,6 +96,10 @@ a > .hljs {
     display: none;
 }
 
+.hide-boring .boring {
+    display: none;
+}
+
 main .does_not_compile, main .panics, main .not_desired_behavior, body.rust .does_not_compile, body.rust .panics, body.rust .not_desired_behavior {
     background: #fff1f1;
 }
