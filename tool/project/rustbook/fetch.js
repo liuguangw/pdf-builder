@@ -1,5 +1,5 @@
 (function () {
-    let baseUrl = "http://120.78.128.153/rustbook/";
+    let baseUrl = "https://kaisery.github.io/trpl-zh-cn/";
 
     function clientInit(socket) {
         let itemList = document.querySelectorAll("#sidebar ol.chapter>li>a,#sidebar ol.chapter>li>ol.section>li>a");

@@ -27,7 +27,7 @@ let bookConfig = {
         '<span style="display: inline-block;position:absolute;right:0;top:12px;">第 _PAGENUM_ 页</span>' +
         '</div>',
     entryFile: path.resolve(__dirname, '../dist/__entry.html'),
-    fetchPage: "http://120.78.128.153/rustbook/",
+    fetchPage: "https://kaisery.github.io/trpl-zh-cn/",
     fetchScriptSource: "",
     outputName: "rustbook.pdf"
 };
