@@ -1,0 +1,59 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.book-main-title h1 {
+    font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+    line-height: 1.2857em;
+    font-weight: normal;
+    padding: 1em 0;
+    margin: 0;
+    text-align: center;
+}
+.menu-list{
+    border-bottom: 1px solid #eaf1f5;
+}
+.menu-list ul {
+    padding: 0 0 0 40px;
+    margin: 0;
+    list-style: none;
+}
+
+.menu-list ul > ul:last-child {
+    border: none;
+}
+
+.menu-list ul > li {
+    display: block;
+    list-style: none;
+    margin: 5px;
+    padding: 5px;
+    border-bottom: 1px dashed #bbb4d6;
+}
+
+.menu-list ul > li:last-child {
+    border: none;
+}
+
+.menu-list ul li a {
+    font-size: 16px;
+    height: 24px;
+    line-height: 24px;
+    text-decoration: none;
+    color: #4183C4;
+    display: block;
+}
+.menu-list ul li span{
+    font-size: 18px;
+    height: 27px;
+    line-height: 27px;
+    display: block;
+    color: #505b63;
+    font-weight: 400;
+}
+
+.menu-list > ul {
+    border: none;
+    padding: 0 40px;
+}

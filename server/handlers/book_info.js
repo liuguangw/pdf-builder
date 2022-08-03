@@ -1,7 +1,7 @@
 import {bookList} from "./book_list.js";
 
 /**
- * 书籍列表
+ * 书籍详情
  *
  * @param {IncomingMessage} req
  * @param resp
