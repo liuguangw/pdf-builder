@@ -3,6 +3,7 @@ import http from "http";
 import {Server} from "socket.io";
 import bookListHandler from "./handlers/book_list.js"
 import error404Handler from "./handlers/error_404.js"
+import bookInfoHandler from "./handlers/book_info.js";
 
 const httpHost = "127.0.0.1";
 const httpPort = 3000;
@@ -20,6 +21,7 @@ io.on("connection", (socket) => {
 app.use(staticHandler);
 //routes
 app.get("/api/books", bookListHandler);
+app.get("/api/books/:bookName/info", bookInfoHandler);
 //http 404 handler
 app.use(error404Handler);
 console.log("listen http://" + httpHost + ":" + httpPort);

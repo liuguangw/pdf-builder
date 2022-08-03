@@ -10,13 +10,16 @@
     "server": "node server/main.js"
   },
   "dependencies": {
+    "axios": "^0.27.2",
     "express": "^4.18.1",
     "socket.io": "^4.5.1",
     "socket.io-client": "^4.5.1",
-    "vue": "^3.2.37"
+    "vue": "^3.2.37",
+    "vue-router": "4"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^3.0.0",
+    "sass": "^1.54.1",
     "vite": "^3.0.0"
   }
 }
