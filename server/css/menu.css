@@ -11,11 +11,18 @@ html, body {
     margin: 0;
     text-align: center;
 }
-.menu-list{
+
+.menu-list {
+    border-top: 1px solid #eaf1f5;
     border-bottom: 1px solid #eaf1f5;
+    padding: 0 25px;
 }
+
+.menu-list > ul {
+    padding: 0;
+}
+
 .menu-list ul {
-    padding: 0 0 0 40px;
     margin: 0;
     list-style: none;
 }
@@ -44,7 +51,8 @@ html, body {
     color: #4183C4;
     display: block;
 }
-.menu-list ul li span{
+
+.menu-list ul li span {
     font-size: 18px;
     height: 27px;
     line-height: 27px;
@@ -53,7 +61,24 @@ html, body {
     font-weight: 400;
 }
 
-.menu-list > ul {
-    border: none;
-    padding: 0 40px;
+.menu-tip {
+    margin: 0;
+    padding: 15px 0;
+    text-align: center;
+    color: #7291b1;
+}
+
+.menu-tip span,
+.menu-tip a {
+    height: 24px;
+    line-height: 24px;
+    display: inline-block;
+    font-size: 16px;
+    vertical-align: bottom;
+}
+
+.menu-tip a {
+    color: #0be881;
+    margin-left: 5px;
+    text-decoration: none;
 }
