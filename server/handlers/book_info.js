@@ -1,4 +1,4 @@
-import {bookList} from "./book_list.js";
+import loadBookInfo from "../lib/load_book_info.js";
 
 /**
  * 书籍详情
@@ -7,25 +7,19 @@ import {bookList} from "./book_list.js";
  * @param resp
  */
 export default async function (req, resp) {
-    let items =await bookList();
     let bookName = req.params.bookName;
-    let bookInfo = null;
-    items.forEach(itemInfo => {
-        if (itemInfo.projectName === bookName) {
-            bookInfo = itemInfo
-        }
-    });
-    if (bookInfo !== null) {
+    let bookInfo = await loadBookInfo(bookName)
+    if (bookInfo === null) {
         resp.json({
-            code: 0,
-            data: bookInfo,
-            message: ""
+            code: 4000,
+            data: null,
+            message: "book " + bookName + " not found"
         });
         return;
     }
     resp.json({
-        code: 4000,
-        data: null,
-        message: "book " + bookName + " not found"
+        code: 0,
+        data: bookInfo,
+        message: ""
     });
 }

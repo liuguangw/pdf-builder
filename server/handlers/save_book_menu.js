@@ -1,21 +1,13 @@
-import {bookList} from "./book_list.js";
 import {writeFile, stat, mkdir} from 'fs/promises';
 import formatMenuList from "../lib/format_menu_list.js";
+import loadBookInfo from "../lib/load_book_info.js";
+import {projectDistDir} from "../lib/path_helper.js";
 
-async function saveBookMenu(projectName, menuList) {
-    let items = await bookList();
-    let bookInfo = null;
-    items.forEach(itemInfo => {
-        if (itemInfo.projectName === projectName) {
-            bookInfo = itemInfo
-        }
-    });
-    if (bookInfo === null) {
-        throw new Error("project " + projectName + " not found")
-    }
-    let menuHtml = formatMenuHtml(projectName, bookInfo.title, bookInfo.contextURL, menuList)
+async function saveBookMenu(bookInfo, menuList) {
+    let projectName = bookInfo.projectName;
+    let menuHtml = formatMenuHtml(projectName, bookInfo.title, menuList)
     //如果dist目录不存在,自动创建
-    let saveDir = "./server/projects/" + projectName + "/dist"
+    let saveDir = projectDistDir(projectName)
     try {
         await stat(saveDir)
     } catch (e) {
@@ -25,10 +17,10 @@ async function saveBookMenu(projectName, menuList) {
     await writeFile(savePath, menuHtml)
 }
 
-function formatMenuHtml(projectName, bookTitle, contextURL, menuList) {
+function formatMenuHtml(projectName, bookTitle, menuList) {
     let allGroupHtml = "\t<div class=\"book-main-title\"><h1>" + bookTitle + "</h1></div>\n" +
         "\t<div class=\"menu-list\">\n";
-    allGroupHtml += formatMenuList(contextURL, menuList, 1)
+    allGroupHtml += formatMenuList(menuList, 1)
     allGroupHtml += "\n\t</div>\n"
     return "<!DOCTYPE html>\n" +
         "<html lang=\"zh-CN\">\n" +
@@ -51,15 +43,9 @@ function formatMenuHtml(projectName, bookTitle, contextURL, menuList) {
  * @param {IncomingMessage} req
  * @param resp
  */
-export default async function (req, resp) {
-    let items = await bookList();
+export default async function saveBookMenuHandler(req, resp) {
     let bookName = req.params.bookName;
-    let bookInfo = null;
-    items.forEach(itemInfo => {
-        if (itemInfo.projectName === bookName) {
-            bookInfo = itemInfo
-        }
-    });
+    let bookInfo = await loadBookInfo(bookName)
     if (bookInfo === null) {
         resp.json({
             code: 4000,
@@ -69,7 +55,7 @@ export default async function (req, resp) {
         return;
     }
     try {
-        await saveBookMenu(bookName, req.body);
+        await saveBookMenu(bookInfo, req.body);
     } catch (e) {
         resp.json({
             code: 4000,

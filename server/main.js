@@ -6,6 +6,8 @@ import bookListHandler from "./handlers/book_list.js"
 import error404Handler from "./handlers/error_404.js"
 import bookInfoHandler from "./handlers/book_info.js";
 import saveBookMenuHandler from "./handlers/save_book_menu.js"
+import saveBookContentHandler from "./handlers/save_book_content.js";
+import buildBookHandler from "./handlers/build_book.js";
 
 const httpHost = "127.0.0.1";
 const httpPort = 3000;
@@ -22,11 +24,15 @@ io.on("connection", (socket) => {
 //static files
 app.use(staticHandler);
 app.use(cors());
-app.use(express.json());
+app.use(express.json({
+    limit:"2MB"
+}));
 //routes
 app.get("/api/books", bookListHandler);
 app.get("/api/books/:bookName/info", bookInfoHandler);
 app.post("/api/books/:bookName/menu-info",saveBookMenuHandler)
+app.post("/api/books/:bookName/content",saveBookContentHandler)
+app.post("/api/books/:bookName/build",buildBookHandler)
 //http 404 handler
 app.use(error404Handler);
 console.log("listen http://" + httpHost + ":" + httpPort);
