@@ -18,7 +18,7 @@ async function saveBookMenu(bookInfo, menuList) {
 }
 
 function formatMenuHtml(projectName, bookTitle, menuList) {
-    let allGroupHtml = "\t<div class=\"book-main-title\"><h1>" + bookTitle + "</h1></div>\n" +
+    let allGroupHtml = "\t<div class=\"book-main-title\"><h1>目录</h1></div>\n" +
         "\t<div class=\"menu-list\">\n";
     allGroupHtml += formatMenuList(menuList, 1)
     allGroupHtml += "\n\t</div>\n"
@@ -28,7 +28,7 @@ function formatMenuHtml(projectName, bookTitle, menuList) {
         "    <meta charset=\"utf-8\" />\n" +
         "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n" +
         "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\" />\n" +
-        "    <title>" + bookTitle + "</title>\n" +
+        "    <title>目录 - " + bookTitle + "</title>\n" +
         "    <link rel=\"stylesheet\" href=\"../../../css/menu.css\" />\n" +
         "  </head>\n" +
         "  <body>\n" + allGroupHtml +
