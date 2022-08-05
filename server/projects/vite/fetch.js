@@ -1,7 +1,7 @@
 await (async function () {
     //项目定义
-    const projectName = "kratos"
-    const contextURL = "https://go-kratos.dev/docs/";
+    const projectName = "vite"
+    const contextURL = "https://cn.vitejs.dev/";
     //api定义
     const apiPrefix = " http://127.0.0.1:3000";
     const menuApiURL = apiPrefix + "/api/books/" + projectName + "/menu-info"
@@ -80,14 +80,7 @@ await (async function () {
          *
          * @type {HTMLDivElement}
          */
-        let divElement = doc.querySelector("div.markdown");
-        if (divElement === null) {
-            divElement = doc.querySelector(".container>div");
-            let navElement = divElement.querySelector("nav");
-            let footerElement = divElement.querySelector("footer");
-            divElement.removeChild(navElement);
-            divElement.removeChild(footerElement);
-        }
+        let divElement = doc.querySelector("main>div>div");
         //图片使用完整url
         {
             let imgList = divElement.querySelectorAll("img");
@@ -102,6 +95,18 @@ await (async function () {
             for (let i = 0; i < aList.length; i++) {
                 let aEl = aList.item(i);
                 aEl.href = replaceURL(aEl.href, contextURL)
+            }
+        }
+        //删除header-anchor
+        {
+            let aList = divElement.querySelectorAll("a.header-anchor");
+            for (let i = 0; i < aList.length; i++) {
+                /**
+                 *
+                 * @type {HTMLAnchorElement}
+                 */
+                let aEl = aList.item(i);
+                aEl.parentElement.removeChild(aEl);
             }
         }
         return divElement;
@@ -122,27 +127,37 @@ await (async function () {
     let menuList = [];
     let allPageList = [];
 
-    function parseMenuList(liElementList, targetList) {
-        for (let itemIndex = 0; itemIndex < liElementList.length; itemIndex++) {
-            let liElement = liElementList.item(itemIndex);
+    function parseMenuList(groupList, targetList) {
+        for (let itemIndex = 0; itemIndex < groupList.length; itemIndex++) {
+            let groupElement = groupList[itemIndex];
             /**
              *
-             * @type {HTMLAnchorElement}
+             * @type {HTMLElement}
              */
-            let menuLink = liElement.querySelector("a.menu__link");
-            let subMenuUlEl = liElement.querySelector("ul.menu__list");
+            let groupTitleElement = groupElement.querySelector(".title>h2.title-text");
+            let subMenuElementList = groupElement.querySelectorAll(".items>a");
             let menuItem = {
-                title: menuLink.innerText,
-                filename: replaceURL(menuLink.href, contextURL),
+                title: groupTitleElement.innerText,
+                filename: "",
                 children: []
             }
-            allPageList.push({
-                title: menuLink.innerText,
-                filename: replaceURL(menuLink.href, contextURL),
-                url: menuLink.href,
-            });
-            if (subMenuUlEl !== null) {
-                parseMenuList(subMenuUlEl.children, menuItem.children);
+            for (let i = 0; i <subMenuElementList.length ; i++) {
+                /**
+                 *
+                 * @type {HTMLAnchorElement}
+                 */
+                let subMenuEl=subMenuElementList.item(i);
+                let subMenuItem = {
+                    title: subMenuEl.innerText,
+                    filename: replaceURL(subMenuEl.href, contextURL),
+                    children: []
+                }
+                allPageList.push({
+                    title: subMenuEl.innerText,
+                    filename: replaceURL(subMenuEl.href, contextURL),
+                    url: subMenuEl.href
+                });
+                menuItem.children.push(subMenuItem);
             }
             targetList.push(menuItem);
         }
@@ -199,8 +214,18 @@ await (async function () {
         }
     }
 
-    let menuRootEl = document.querySelector(".theme-doc-sidebar-menu.menu__list");
-    parseMenuList(menuRootEl.children, menuList);
+    let groupList = [];
+    let groupNodeList = document.querySelectorAll("nav>div.group");
+    for (let i = 0; i < groupNodeList.length; i++) {
+        groupList.push(groupNodeList.item(i));
+    }
+    //配置文档
+    let fetchPageResponse = await window.axios.get(contextURL+"config/", {
+        responseType: "document"
+    });
+    let configDoc = fetchPageResponse.data;
+    groupList.push(configDoc.querySelector("nav>div.group"));
+    parseMenuList(groupList, menuList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
     //console.log(allPageList)

@@ -150,7 +150,7 @@ await (async function () {
             allPageList.push({
                 title: menuLink.innerText,
                 filename: replaceURL(menuLink.href, contextURL),
-                url: menuLink.href, contextURL,
+                url: menuLink.href,
             });
             if (subMenuUlEl !== null) {
                 parseMenuList(subMenuUlEl.children, menuItem.children);
