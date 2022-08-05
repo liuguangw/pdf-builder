@@ -1,6 +1,6 @@
 <template>
   <div class="project-container">
-    <message-tip v-show="showMessage" :message-type="messageType" :message="message"
+    <message-tip v-if="showMessage" :message-type="messageType" :message="message"
                  @dialog-close="showMessage = false"/>
     <div class="header">
       <div class="nav">
@@ -12,17 +12,31 @@
         <button class="btn" type="button" @click="showSourceDialog = true">查看抓取脚本</button>
       </div>
     </div>
+    <div class="xterm-area">
+      <div class="xterm-container" ref="xterm"></div>
+    </div>
+    <div class="build-btn-area">
+      <button type="button" :disabled="!canBuild" @click="buildBook">构建pdf</button>
+    </div>
     <source-dialog v-if="showSourceDialog" @dialog-close="showSourceDialog = false"
+                   @copy-success="showCopySuccessMessage"
                    :project-name="projectName" :doc-url="docURL" :source-content="fetchScript"/>
   </div>
 </template>
 
 <script>
 import {useRoute} from 'vue-router'
-import {onMounted, ref} from "vue";
+import {onMounted, onUnmounted, ref} from "vue";
+import {Terminal} from 'xterm';
+import {FitAddon} from 'xterm-addon-fit';
+import {io} from "socket.io-client";
+import "xterm/css/xterm.css";
+import 'animate.css';
 import useFetchBookInfo from "./fetch_book_info.js";
 import MessageTip from "../../components/MessageTip.vue";
 import SourceDialog from "../../components/SourceDialog.vue";
+import terminalMessageHandler from "./terminal_message_handler.js";
+import axios from "axios";
 
 export default {
   name: "BookProject",
@@ -33,20 +47,84 @@ export default {
     const showMessage = ref(false)
     const messageType = ref(0)
     const message = ref("")
-    const showSourceDialog = ref(true);
+    const showSourceDialog = ref(false);
+    const xterm = ref(null);
+    const socketClient = io();
+    const canBuild = ref(false);
+    //Terminal
+    const terminal = new Terminal({
+      disableStdin: true
+    });
+    const fitAddon = new FitAddon();
+    terminal.loadAddon(fitAddon);
     const {
       docURL, fetchScript, title,
       fetchBookInfo
     } = useFetchBookInfo(showMessage, messageType, message)
     onMounted(async () => {
-      projectName.value = route.params.projectName
-      await fetchBookInfo(projectName.value)
+      //获取project信息
+      projectName.value = route.params.projectName;
+      await fetchBookInfo(projectName.value);
+      //初始化 terminal
+      terminal.open(xterm.value);
+      fitAddon.fit();
+      //terminal.writeln("Hello world");
+      socketClient.emit("terminal-ready");
+      terminalMessageHandler(terminal, socketClient, projectName);
+      socketClient.on("can-build", (pName) => {
+        if (pName !== projectName.value) {
+          return;
+        }
+        canBuild.value = true
+      });
+      socketClient.on("build-success", (pName) => {
+        if (pName !== projectName.value) {
+          return;
+        }
+        terminal.writeln("\x1B[1;0;32mbuild book success\x1B[0m");
+        message.value = "文档构建成功";
+        messageType.value = 1;
+        showMessage.value = true;
+      });
+    });
+    onUnmounted(() => {
+      socketClient.close();
     })
     return {
       projectName,
       docURL, fetchScript, title,
       showMessage, messageType, message,
-      showSourceDialog
+      showSourceDialog, xterm,
+      canBuild
+    }
+  },
+  methods: {
+    showCopySuccessMessage() {
+      this.message = "复制代码成功";
+      this.messageType = 1;
+      this.showMessage = true;
+    },
+    async buildBook() {
+      if (!this.canBuild) {
+        return
+      }
+      try {
+        let buildResult = await axios.post("/api/books/" + this.projectName + "/build")
+        let buildResponse = buildResult.data
+        if (buildResponse.code !== 0) {
+          this.message = buildResponse.message;
+          this.messageType = 2;
+          this.showMessage = true;
+          console.error(buildResponse.message)
+        } else {
+          this.canBuild = false
+        }
+      } catch (e) {
+        this.message = e.message;
+        this.messageType = 2;
+        this.showMessage = true;
+        console.error(e)
+      }
     }
   }
 }
@@ -133,6 +211,50 @@ export default {
 
     button {
       display: block;
+    }
+  }
+
+  .xterm-area {
+    padding: 15px 8px;
+
+    .xterm-container {
+      min-height: 480px;
+      position: relative;
+    }
+  }
+
+  .build-btn-area {
+    margin-top: 15px;
+    padding: 0 8px;
+    text-align: center;
+
+    button {
+      padding: 14px 40px;
+      display: inline-block;
+      cursor: pointer;
+      font-size: 20px;
+      border-radius: 8px;
+      outline: none;
+      border: 1px solid #0d6efd;
+      color: #ffffff;
+      background: #0d6efd;
+
+      &:hover {
+        background-color: #0b5ed7;
+        border-color: #0a58ca;
+      }
+
+      &:active {
+        background-color: #0a58ca;
+        border-color: #0a53be;
+      }
+
+      &:disabled {
+        border-color: #0d6efd;
+        background-color: #0d6efd;
+        opacity: 0.65;
+        cursor: not-allowed;
+      }
     }
   }
 }

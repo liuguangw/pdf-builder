@@ -25,7 +25,7 @@ async function saveBookContent(htmlPath, title, content, styles) {
 function formatContentHtml(title, content, styles) {
     let styleHtml = "";
     for (let i = 0; i < styles.length; i++) {
-        styleHtml += ("    <link rel=\"stylesheet\" href=\"../"+styles[i]+"\" />\n");
+        styleHtml += ("    <link rel=\"stylesheet\" href=\"../" + styles[i] + "\" />\n");
     }
     return "<!DOCTYPE html>\n" +
         "<html lang=\"zh-CN\">\n" +
@@ -43,36 +43,32 @@ function formatContentHtml(title, content, styles) {
 
 /**
  * 保存网页内容
- *
- * @param {IncomingMessage} req
- * @param resp
  */
-export default async function saveBookContentHandler(req, resp) {
-    let bookName = req.params.bookName;
-    let bookInfo = await loadBookInfo(bookName)
-    if (bookInfo === null) {
-        resp.json({
-            code: 4000,
-            data: null,
-            message: "book " + bookName + " not found"
-        });
-        return;
+export default function saveBookContentHandler(io) {
+    return async function (req, resp) {
+        let bookName = req.params.bookName;
+        let bookInfo = await loadBookInfo(bookName)
+        if (bookInfo === null) {
+            resp.json({
+                code: 4000,
+                data: null,
+                message: "book " + bookName + " not found"
+            });
+            return;
+        }
+        resp.send("ok");
+        let filename = req.body.filename;
+        //抓取网页失败
+        if (req.body.status !== 0) {
+            io.emit("fetch-content-error", bookName, req.body.progress, filename, req.body.title, req.body.message);
+            return;
+        }
+        let htmlPath = projectDistDir(bookName) + "/" + filename;
+        try {
+            await saveBookContent(htmlPath, req.body.title, req.body.content, bookInfo.styles);
+            io.emit("save-content-success", bookName, req.body.progress, filename, req.body.title);
+        } catch (e) {
+            io.emit("save-content-error", bookName, req.body.progress, filename, req.body.title, e.message);
+        }
     }
-    let filename = req.body.filename;
-    let htmlPath = projectDistDir(bookName) + "/" + filename;
-    try {
-        await saveBookContent(htmlPath, req.body.title, req.body.content, bookInfo.styles);
-    } catch (e) {
-        resp.json({
-            code: 4000,
-            data: null,
-            message: e.message
-        });
-        return;
-    }
-    resp.json({
-        code: 0,
-        data: null,
-        message: ""
-    });
 }

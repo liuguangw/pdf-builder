@@ -6,6 +6,9 @@ await (async function () {
     const apiPrefix = " http://127.0.0.1:3000";
     const menuApiURL = apiPrefix + "/api/books/" + projectName + "/menu-info"
     const contentApiURL = apiPrefix + "/api/books/" + projectName + "/content"
+    const notifyApiURL = apiPrefix + "/api/books/" + projectName + "/can-build"
+    //抓取页面的间隔时间(ms)
+    const sleepDuration = 2300
 
     /**
      *
@@ -145,49 +148,61 @@ await (async function () {
         }
     }
 
+    async function fetchAndSave(menuList, allPageList) {
+        try {
+            let saveMenuResponse = await window.axios.post(menuApiURL, menuList)
+            if (saveMenuResponse.data.code !== 0) {
+                console.error(saveMenuResponse.data.message);
+                return;
+            } else {
+                console.log("save menu success");
+            }
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+        let hasFetchError = false;
+        for (let pageIndex = 0; pageIndex < allPageList.length; pageIndex++) {
+            let pageInfo = allPageList[pageIndex];
+            if (pageIndex > 0) {
+                await sleepAsync(sleepDuration);
+            }
+            let postData = {
+                title: pageInfo.title,
+                filename: pageInfo.filename,
+                content: "",
+                progress: (pageIndex + 1) + "/" + allPageList.length,
+                status: 0,
+                message: ""
+            }
+            try {
+                let contentEl = await fetchPage(pageInfo.url);
+                postData.content = contentEl.outerHTML;
+                console.log("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] success");
+            } catch (e) {
+                hasFetchError = true;
+                postData.status = 500;
+                postData.message = "fetch " + pageInfo.url + " failed: " + e.message;
+                console.error("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] failed: " + postData.message);
+            }
+            //提交抓取结果给服务端
+            try {
+                await window.axios.post(contentApiURL, postData)
+            } catch (e) {
+                hasFetchError = true;
+                console.error(e)
+            }
+        }
+        //通知服务端可以构建了
+        if (!hasFetchError) {
+            await window.axios.post(notifyApiURL)
+        }
+    }
+
     let menuRootEl = document.querySelector(".theme-doc-sidebar-menu.menu__list");
     parseMenuList(menuRootEl.children, menuList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
-    try {
-        let saveMenuResponse = await window.axios.post(menuApiURL, menuList)
-        if (saveMenuResponse.data.code !== 0) {
-            console.error(saveMenuResponse.data.message)
-        } else {
-            console.log("save menu success")
-        }
-    } catch (e) {
-        console.error(e)
-    }
     //console.log(allPageList)
-    for (let pageIndex = 0; pageIndex < allPageList.length; pageIndex++) {
-        let pageInfo = allPageList[pageIndex];
-        let pageHtml = "";
-        if (pageIndex > 0) {
-            await sleepAsync(2500);
-        }
-        try {
-            let contentEl = await fetchPage(pageInfo.url);
-            pageHtml = contentEl.outerHTML;
-        } catch (e) {
-            console.error("fetch " + pageInfo.url + " failed: " + e.message);
-            continue;
-        }
-        let postData = {
-            title: pageInfo.title,
-            filename: pageInfo.filename,
-            content: pageHtml
-        }
-        let tagText = "[" + (pageIndex + 1) + "/" + allPageList.length + "]save [" + postData.title + " - " + postData.filename + "]";
-        try {
-            let saveContentResponse = await window.axios.post(contentApiURL, postData)
-            if (saveContentResponse.data.code !== 0) {
-                console.error(tagText + " failed: " + saveContentResponse.data.message)
-            } else {
-                console.log(tagText + " success")
-            }
-        } catch (e) {
-            console.error(tagText + " failed: " + e.message)
-        }
-    }
+    await fetchAndSave(menuList, allPageList);
 })();

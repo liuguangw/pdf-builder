@@ -39,34 +39,34 @@ function formatMenuHtml(projectName, bookTitle, menuList) {
 
 /**
  * 保存menu信息
- *
- * @param {IncomingMessage} req
- * @param resp
  */
-export default async function saveBookMenuHandler(req, resp) {
-    let bookName = req.params.bookName;
-    let bookInfo = await loadBookInfo(bookName)
-    if (bookInfo === null) {
+export default function saveBookMenuHandler(io) {
+    return async function (req, resp) {
+        let bookName = req.params.bookName;
+        let bookInfo = await loadBookInfo(bookName)
+        if (bookInfo === null) {
+            resp.json({
+                code: 4000,
+                data: null,
+                message: "book " + bookName + " not found"
+            });
+            return;
+        }
+        try {
+            await saveBookMenu(bookInfo, req.body);
+            io.emit("save-menu-success", bookName)
+        } catch (e) {
+            resp.json({
+                code: 4000,
+                data: null,
+                message: e.message
+            });
+            return;
+        }
         resp.json({
-            code: 4000,
+            code: 0,
             data: null,
-            message: "book " + bookName + " not found"
+            message: ""
         });
-        return;
     }
-    try {
-        await saveBookMenu(bookInfo, req.body);
-    } catch (e) {
-        resp.json({
-            code: 4000,
-            data: null,
-            message: e.message
-        });
-        return;
-    }
-    resp.json({
-        code: 0,
-        data: null,
-        message: ""
-    });
 }

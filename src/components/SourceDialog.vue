@@ -1,6 +1,6 @@
 <template>
   <div class="source-dialog-wrapper">
-    <div class="dialog">
+    <div class="dialog animate__animated animate__backInUp">
       <div class="dialog-header">
         <span class="dialog-title">抓取脚本</span>
         <button type="button" title="关闭" @click="$emit('dialog-close')">x</button>
@@ -37,7 +37,7 @@ import axios from "axios";
 
 export default {
   name: "SourceDialog",
-  emits: ['dialog-close'],
+  emits: ["dialog-close","copy-success"],
   props: {
     projectName: {
       type: String,
@@ -55,6 +55,7 @@ export default {
   methods: {
     async copyCode() {
       await navigator.clipboard.writeText(this.sourceContent);
+      this.$emit("copy-success");
     },
     async buildBook() {
       try {
@@ -63,7 +64,8 @@ export default {
         if (buildResponse.code !== 0) {
           console.error(buildResponse.message)
         } else {
-          console.log("build ok")
+          console.log("send build command ok")
+          this.$emit("dialog-close")
         }
       } catch (e) {
         console.error(e)
@@ -103,6 +105,7 @@ export default {
     box-shadow: 0 1px 3px rgb(0 0 0 / 30%);
     box-sizing: border-box;
     width: 50%;
+    --animate-duration: 300ms;
 
     .dialog-header {
       padding: 20px 20px 10px;

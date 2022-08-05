@@ -1,11 +1,9 @@
 <template>
-  <div :class="['message-card',{
-    'error':messageType === 1
+  <div :class="['message-card','animate__animated' ,'animate__zoomIn',{
+    'with-success':messageType === 1,
+    'with-error':messageType === 2
   }]">
-    <div class="card-title"><h4>{{ messageTitle }}</h4></div>
-    <div class="card-body">
-      <div class="card-content">{{ message }}</div>
-    </div>
+    <div class="card-content">{{ message }}</div>
   </div>
 </template>
 
@@ -16,16 +14,11 @@ export default {
   name: "MessageTip",
   emits: ['dialog-close'],
   props: {
-    title: {
-      type: String,
-      default() {
-        return ""
-      }
-    },
     message: {
       type: String,
       required: true
     },
+    /*0普通消息 1成功消息 2失败消息*/
     messageType: {
       type: Number,
       default() {
@@ -33,56 +26,47 @@ export default {
       }
     }
   },
-  setup(props,context){
-    onMounted(()=>{
-      setTimeout(()=>{
+  setup(props, context) {
+    onMounted(() => {
+      setTimeout(() => {
         context.emit("dialog-close")
-      },2500)
+      }, 2200)
     });
-  },
-  computed: {
-    messageTitle() {
-      if (this.title !== "") {
-        return this.title
-      }
-      if (this.messageType === 0) {
-        return "消息提示"
-      } else if (this.messageType === 1) {
-        return "出错了"
-      }
-    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-.message-card{
-  background: #ffffff;
+.message-card {
   width: 600px;
   left: 50%;
-  top: 20px;
+  top: 30px;
   margin-left: -300px;
   position: absolute;
   display: block;
   border: 1px solid #ccc;
   border-radius: 5px;
-  z-index: 20;
-  .card-title{
-    text-align: center;
-    padding: 10px 0;
-    background: #ededed;
-    h4{
-      margin: 0;
-    }
+  z-index: 202;
+  --animate-duration: 300ms;
+
+  .card-content {
+    padding: 8px 16px;
+    color: #41464b;
+    background-color: #e2e3e5;
+    border: 1px solid #d3d6d8;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   }
-  .card-body{
-    padding: 26px 20px;
+
+  &.with-success .card-content {
+    color: #0f5132;
+    background-color: #d1e7dd;
+    border-color: #badbcc;
   }
-  &.error .card-title{
-    background: #f1d6d6;
+
+  &.with-error .card-content {
+    color: #842029;
+    background-color: #f8d7da;
+    border-color: #f5c2c7;
   }
-  &.error .card-body{
-    color: red;
-   }
 }
 </style>

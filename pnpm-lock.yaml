@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@vitejs/plugin-vue': ^3.0.0
+  animate.css: ^4.1.1
   axios: ^0.27.2
   cors: ^2.8.5
   express: ^4.18.1
@@ -12,8 +13,11 @@ specifiers:
   vite: ^3.0.0
   vue: ^3.2.37
   vue-router: '4'
+  xterm: ^4.19.0
+  xterm-addon-fit: ^0.5.0
 
 dependencies:
+  animate.css: 4.1.1
   axios: 0.27.2
   cors: 2.8.5
   express: 4.18.1
@@ -22,6 +26,8 @@ dependencies:
   socket.io-client: 4.5.1
   vue: 3.2.37
   vue-router: 4.1.3_vue@3.2.37
+  xterm: 4.19.0
+  xterm-addon-fit: 0.5.0_xterm@4.19.0
 
 devDependencies:
   '@vitejs/plugin-vue': 3.0.1_vite@3.0.4+vue@3.2.37
@@ -176,6 +182,10 @@ packages:
     dependencies:
       mime-types: 2.1.35
       negotiator: 0.6.3
+    dev: false
+
+  /animate.css/4.1.1:
+    resolution: {integrity: sha512-+mRmCTv6SbCmtYJCN4faJMNFVNN5EuCTTprDTAo7YzIGji2KADmakjVA3+8mVDkZ2Bf09vayB35lSQIex2+QaQ==}
     dev: false
 
   /anymatch/3.1.2:
@@ -1220,4 +1230,16 @@ packages:
   /xmlhttprequest-ssl/2.0.0:
     resolution: {integrity: sha512-QKxVRxiRACQcVuQEYFsI1hhkrMlrXHPegbbd1yn9UHOmRxY+si12nQYzri3vbzt8VdTTRviqcKxcyllFas5z2A==}
     engines: {node: '>=0.4.0'}
+    dev: false
+
+  /xterm-addon-fit/0.5.0_xterm@4.19.0:
+    resolution: {integrity: sha512-DsS9fqhXHacEmsPxBJZvfj2la30Iz9xk+UKjhQgnYNkrUIN5CYLbw7WEfz117c7+S86S/tpHPfvNxJsF5/G8wQ==}
+    peerDependencies:
+      xterm: ^4.0.0
+    dependencies:
+      xterm: 4.19.0
+    dev: false
+
+  /xterm/4.19.0:
+    resolution: {integrity: sha512-c3Cp4eOVsYY5Q839dR5IejghRPpxciGmLWWaP9g+ppfMeBChMeLa1DCA+pmX/jyDZ+zxFOmlJL/82qVdayVoGQ==}
     dev: false
