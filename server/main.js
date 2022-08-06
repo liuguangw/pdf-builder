@@ -9,6 +9,7 @@ import saveBookMenuHandler from "./handlers/save_book_menu.js"
 import saveBookContentHandler from "./handlers/save_book_content.js";
 import buildBookHandler from "./handlers/build_book.js";
 import notifyCanBuildHandler from "./handlers/notify_can_build.js";
+import saveBookImageHandler from "./handlers/save_book_image.js";
 
 const httpHost = "127.0.0.1";
 const httpPort = 3000;
@@ -34,6 +35,7 @@ app.get("/api/books", bookListHandler);
 app.get("/api/books/:bookName/info", bookInfoHandler);
 app.post("/api/books/:bookName/menu-info", saveBookMenuHandler(io))
 app.post("/api/books/:bookName/content", saveBookContentHandler(io))
+app.post("/api/books/:bookName/images", saveBookImageHandler(io))
 app.post("/api/books/:bookName/build", buildBookHandler(io))
 app.post("/api/books/:bookName/can-build", notifyCanBuildHandler(io))
 //http 404 handler

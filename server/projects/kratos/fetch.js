@@ -6,6 +6,7 @@ await (async function () {
     const apiPrefix = " http://127.0.0.1:3000";
     const menuApiURL = apiPrefix + "/api/books/" + projectName + "/menu-info"
     const contentApiURL = apiPrefix + "/api/books/" + projectName + "/content"
+    const imageApiURL = apiPrefix + "/api/books/" + projectName + "/images"
     const notifyApiURL = apiPrefix + "/api/books/" + projectName + "/can-build"
     //抓取页面的间隔时间(ms)
     const sleepDuration = 2300
@@ -88,14 +89,6 @@ await (async function () {
             divElement.removeChild(navElement);
             divElement.removeChild(footerElement);
         }
-        //图片使用完整url
-        {
-            let imgList = divElement.querySelectorAll("img");
-            for (let i = 0; i < imgList.length; i++) {
-                let imgEl = imgList.item(i);
-                imgEl.src = imgEl.src;
-            }
-        }
         //a标签链接替换
         {
             let aList = divElement.querySelectorAll("a");
@@ -105,6 +98,38 @@ await (async function () {
             }
         }
         return divElement;
+    }
+
+    /**
+     *
+     * @param {HTMLDivElement} contentEl
+     * @param {string} progress
+     * @return {Promise<void>}
+     */
+    async function replaceContentImage(contentEl, progress) {
+        let imageNodeList = contentEl.querySelectorAll("img")
+        for (let imgIndex = 0; imgIndex < imageNodeList.length; imgIndex++) {
+            let imgElement = imageNodeList.item(imgIndex)
+            let imgSrcURL = imgElement.src
+            let isDataURL = (imgSrcURL.substring(0, 5) === "data:")
+            let postData = {
+                "progress": progress + " img(" + (imgIndex + 1) + "/" + imageNodeList.length + ")",
+                "url": isDataURL ? "<data URL>" : imgSrcURL
+            }
+            try {
+                let saveMenuResponse = await window.axios.post(imageApiURL, postData)
+                if (saveMenuResponse.data.code !== 0) {
+                    console.error("[" + postData.progress + "]fetch " + postData.url + " failed: " + saveMenuResponse.data.message);
+                    return;
+                }
+                console.log("[" + postData.progress + "]fetch " + postData.url + " success")
+                if (!isDataURL) {
+                    imgElement.src = saveMenuResponse.data.data
+                }
+            } catch (e) {
+                console.error("[" + postData.progress + "]fetch " + postData.url + " failed: " + e.message)
+            }
+        }
     }
 
     //加载脚本
@@ -177,6 +202,7 @@ await (async function () {
             }
             try {
                 let contentEl = await fetchPage(pageInfo.url);
+                await replaceContentImage(contentEl, postData.progress);
                 postData.content = contentEl.outerHTML;
                 console.log("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] success");
             } catch (e) {

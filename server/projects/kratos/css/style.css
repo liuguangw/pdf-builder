@@ -108,6 +108,8 @@ html, body {
     margin: 0;
     padding: 0;
     font-size: 90%;
+    word-break: break-all;
+    white-space: break-spaces;
     overflow: hidden;
 }
 .main-book-content .markdown pre code{

@@ -65,8 +65,8 @@ export default {
           console.error(buildResponse.message)
         } else {
           console.log("send build command ok")
-          this.$emit("dialog-close")
         }
+        this.$emit("dialog-close")
       } catch (e) {
         console.error(e)
       }

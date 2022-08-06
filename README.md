@@ -10,7 +10,7 @@
 - ebook-convert工具
 
 > ebook-convert工具安装方法:
-> 安装[calibre 3.48.0](https://download.calibre-ebook.com/) (高版本不能保存远程图片资源), 其安装目录下, 有一个 `ebook-convert.exe`，把此文件所在的目录
+> 安装[calibre](https://www.calibre-ebook.com/download) 其安装目录下, 有一个 `ebook-convert.exe`，把此文件所在的目录
 > 加入系统 `path` 环境变量即可。
 
 ## 使用方法

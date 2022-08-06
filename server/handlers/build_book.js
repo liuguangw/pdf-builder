@@ -2,7 +2,6 @@ import loadBookInfo from "../lib/load_book_info.js";
 import {projectDistDir, projectPdfPath} from "../lib/path_helper.js";
 import {stat} from 'fs/promises';
 import {spawn} from "child_process";
-import iconv from "iconv-lite";
 import os from "os";
 
 const isWindow = os.type().toLowerCase().indexOf('windows') === 0;
@@ -42,13 +41,11 @@ async function buildBook(io, bookInfo, inputPath, outputPath) {
     //console.log(params);
     let convert = spawn('ebook-convert', params);
     convert.stdout.on('data', (data) => {
-        let str = iconv.decode(Buffer.from(data), systemCharset);
-        io.emit("build-stdout", bookInfo.projectName, str);
+        io.emit("build-stdout", bookInfo.projectName, `${data}`);
     });
 
     convert.stderr.on('data', (data) => {
-        let str = iconv.decode(Buffer.from(data), systemCharset);
-        io.emit("build-stderr", bookInfo.projectName, str);
+        io.emit("build-stderr", bookInfo.projectName, `${data}`);
     });
 
     convert.on('close', (code) => {

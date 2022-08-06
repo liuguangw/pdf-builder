@@ -128,13 +128,13 @@ html, body {
     line-height: 1.5;
     margin: 23px 0;
     padding: 23px 35px;
-    word-break: inherit;
+    word-break: break-all;
+    white-space: break-spaces;
     color: #f8f8f2;
     background: #384548;
     border: 1px solid #efefef;
     tab-size: 4;
     text-align: left;
-    white-space: pre;
     font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
 }
 

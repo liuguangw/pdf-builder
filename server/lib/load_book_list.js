@@ -47,15 +47,15 @@ function addMetaInfo(bookInfo) {
         };
     }
     if (!("headerTpl" in bookInfo)) {
-        bookInfo.headerTpl = '<div style="margin:12px 0;padding-bottom: 10px;width:100%;position:relative;border-bottom: 1px solid #eee;color: #5c6163;font-size:14px;">' +
-            '<div>_SECTION_</div>' +
-            '<span style="display: inline-block;position:absolute;right:0;bottom:12px;">第 _PAGENUM_ 页</span>' +
-            '</div>';
+        bookInfo.headerTpl = '<div style="border-bottom: 1px solid #eee;color: #5c6163;padding: 8px 0;position:relative;font-size:14px;height:20px;line-height:20px;">'+
+            '<span style="display:inline-block;position:absolute;height:20px;left:0;top:8px;">_SECTION_</span>'+
+        '<span style="display:inline-block;position:absolute;height:20px;right:0;top:8px;">第 _PAGENUM_ 页</span>'+
+    '</div>';
     }
     if (!("footerTpl" in bookInfo)) {
-        bookInfo.footerTpl = '<div style="margin:12px 0;padding-top: 10px;width:100%;position:relative;border-top: 1px solid #eee;color: #5c6163;font-size:14px;">' +
-            '<div>_SECTION_</div>' +
-            '<span style="display: inline-block;position:absolute;right:0;top:12px;">第 _PAGENUM_ 页</span>' +
+        bookInfo.footerTpl =  '<div style="border-top: 1px solid #eee;color: #5c6163;padding: 8px 0;position:relative;font-size:14px;height:20px;line-height:20px;">'+
+            '<span style="display:inline-block;position:absolute;height:20px;left:0;bottom:8px;">_SECTION_</span>'+
+            '<span style="display:inline-block;position:absolute;height:20px;right:0;bottom:8px;">第 _PAGENUM_ 页</span>'+
             '</div>';
     }
     return bookInfo;

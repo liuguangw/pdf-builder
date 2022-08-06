@@ -40,7 +40,7 @@ export default {
 .message-card {
   width: 600px;
   left: 50%;
-  top: 30px;
+  top: 50px;
   margin-left: -300px;
   position: absolute;
   display: block;

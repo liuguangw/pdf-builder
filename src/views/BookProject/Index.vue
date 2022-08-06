@@ -27,16 +27,14 @@
 <script>
 import {useRoute} from 'vue-router'
 import {onMounted, onUnmounted, ref} from "vue";
-import {Terminal} from 'xterm';
-import {FitAddon} from 'xterm-addon-fit';
 import {io} from "socket.io-client";
 import "xterm/css/xterm.css";
 import 'animate.css';
 import useFetchBookInfo from "./fetch_book_info.js";
 import MessageTip from "../../components/MessageTip.vue";
 import SourceDialog from "../../components/SourceDialog.vue";
-import terminalMessageHandler from "./terminal_message_handler.js";
 import axios from "axios";
+import useTerminalHandler from "./terminal_handler.js";
 
 export default {
   name: "BookProject",
@@ -50,42 +48,20 @@ export default {
     const showSourceDialog = ref(false);
     const xterm = ref(null);
     const socketClient = io();
-    const canBuild = ref(false);
-    //Terminal
-    const terminal = new Terminal({
-      disableStdin: true
-    });
-    const fitAddon = new FitAddon();
-    terminal.loadAddon(fitAddon);
     const {
       docURL, fetchScript, title,
       fetchBookInfo
     } = useFetchBookInfo(showMessage, messageType, message)
+    const {
+      canBuild,
+      initTerminal
+    } = useTerminalHandler()
     onMounted(async () => {
       //获取project信息
       projectName.value = route.params.projectName;
       await fetchBookInfo(projectName.value);
       //初始化 terminal
-      terminal.open(xterm.value);
-      fitAddon.fit();
-      //terminal.writeln("Hello world");
-      socketClient.emit("terminal-ready");
-      terminalMessageHandler(terminal, socketClient, projectName);
-      socketClient.on("can-build", (pName) => {
-        if (pName !== projectName.value) {
-          return;
-        }
-        canBuild.value = true
-      });
-      socketClient.on("build-success", (pName) => {
-        if (pName !== projectName.value) {
-          return;
-        }
-        terminal.writeln("\x1B[1;0;32mbuild book success\x1B[0m");
-        message.value = "文档构建成功";
-        messageType.value = 1;
-        showMessage.value = true;
-      });
+      initTerminal(xterm, projectName, socketClient, showMessage, messageType, message)
     });
     onUnmounted(() => {
       socketClient.close();
