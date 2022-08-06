@@ -4,13 +4,20 @@ import viteBook from "../projects/vite/main.js"
 import laravel from "../projects/laravel/main.js"
 import {readFile} from "fs/promises"
 import {projectDir} from "./path_helper.js";
+import esbuild from "esbuild"
 
 async function addFetchScript(bookInfo) {
     let fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
     try {
-        bookInfo.fetchScript = await readFile(fetchJsPath, {
-            encoding: "utf-8"
-        });
+        let buildResult = await esbuild.build({
+            entryPoints: [fetchJsPath],
+            bundle: true,
+            //minify: true,
+            write: false,
+            target: ["chrome58", "firefox57"]
+        })
+        let buildItemResult = buildResult.outputFiles.pop();
+        bookInfo.fetchScript = buildItemResult.text;
     } catch (e) {
         bookInfo.fetchScript = "";
         console.error(e);
@@ -47,15 +54,15 @@ function addMetaInfo(bookInfo) {
         };
     }
     if (!("headerTpl" in bookInfo)) {
-        bookInfo.headerTpl = '<div style="border-bottom: 1px solid #eee;color: #5c6163;padding: 8px 0;position:relative;font-size:14px;height:20px;line-height:20px;">'+
-            '<span style="display:inline-block;position:absolute;height:20px;left:0;top:8px;">_SECTION_</span>'+
-        '<span style="display:inline-block;position:absolute;height:20px;right:0;top:8px;">第 _PAGENUM_ 页</span>'+
-    '</div>';
+        bookInfo.headerTpl = '<div style="border-bottom: 1px solid #eee;color: #5c6163;padding: 8px 0;position:relative;font-size:14px;height:20px;line-height:20px;">' +
+            '<span style="display:inline-block;position:absolute;height:20px;left:0;top:8px;">_SECTION_</span>' +
+            '<span style="display:inline-block;position:absolute;height:20px;right:0;top:8px;">第 _PAGENUM_ 页</span>' +
+            '</div>';
     }
     if (!("footerTpl" in bookInfo)) {
-        bookInfo.footerTpl =  '<div style="border-top: 1px solid #eee;color: #5c6163;padding: 8px 0;position:relative;font-size:14px;height:20px;line-height:20px;">'+
-            '<span style="display:inline-block;position:absolute;height:20px;left:0;bottom:8px;">_SECTION_</span>'+
-            '<span style="display:inline-block;position:absolute;height:20px;right:0;bottom:8px;">第 _PAGENUM_ 页</span>'+
+        bookInfo.footerTpl = '<div style="border-top: 1px solid #eee;color: #5c6163;padding: 8px 0;position:relative;font-size:14px;height:20px;line-height:20px;">' +
+            '<span style="display:inline-block;position:absolute;height:20px;left:0;bottom:8px;">_SECTION_</span>' +
+            '<span style="display:inline-block;position:absolute;height:20px;right:0;bottom:8px;">第 _PAGENUM_ 页</span>' +
             '</div>';
     }
     return bookInfo;

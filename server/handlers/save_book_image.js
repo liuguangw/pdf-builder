@@ -23,7 +23,8 @@ async function saveBookImage(bookDistDir, imageURL, referer) {
         responseType: "stream",
         headers: {
             "Referer": referer
-        }
+        },
+        timeout: 60 * 1000
     })
     //console.log(fetchResult.status, fetchResult.headers["content-type"])
     let filename = imgDirName + "/" + formatImageURL(imageURL, fetchResult.headers["content-type"])
@@ -99,7 +100,7 @@ export default function saveBookImageHandler(io) {
                     break
                 } catch (err) {
                     //最后一次抛出err
-                    if (maxTryCount - 1===i) {
+                    if (maxTryCount - 1 === i) {
                         throw err
                     }
                 }
