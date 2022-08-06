@@ -1,0 +1,212 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-book-content {
+    color: #636b6f;
+    background: #ffffff;
+    font-family: Helvetica, Arial, PingFang SC, Noto Sans, Roboto, Microsoft Yahei, sans-serif;
+    font-size: 15px;
+    min-height: 100vh;
+    word-wrap: break-word;
+}
+
+.main-book-content > div {
+    margin: 0 auto;
+    max-width: 750px;
+    box-sizing: border-box;
+}
+
+.main-book-content p {
+    margin: 0 0 10px 0;
+    line-height: 30px;
+}
+
+.main-book-content img:not(.emoji) {
+    max-width: 100%;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 30px #ccc;
+    box-sizing: border-box;
+}
+
+.main-book-content h1, .main-book-content h2, .main-book-content h3 {
+    margin: 0 0 20px 0;
+    padding: 0 0 6px 0;
+    font-size: 20px;
+    line-height: 1.4;
+    font-weight: 700;
+    position: relative;
+}
+
+.main-book-content h1 {
+    padding-top: 23px;
+    line-height: 1.2;
+    border-bottom: 1px solid #eee;
+}
+
+.main-book-content h2 {
+    margin: 35px 0;
+    line-height: 1.225;
+    border-bottom: 1px solid #eee;
+}
+
+.main-book-content h3 {
+    margin: 22px 0 20px 0;
+    font-size: 18px;
+    line-height: 1.43;
+}
+
+.main-book-content ul {
+    color: #7d8688;
+    line-height: 30px;
+    margin-bottom: 10px;
+    margin-top: 0;
+    padding: 10px 20px 10px 30px;
+}
+
+.main-book-content a {
+    color: #1775cc;
+    text-decoration: none;
+    position: relative;
+}
+
+.main-book-content a:hover {
+    color: #0081f9;
+    transition: color .15s ease 0s;
+}
+
+.main-book-content strong {
+    color: #35383a;
+    font-weight: 700;
+}
+
+.main-book-content code {
+    font-family: monaco, Consolas, Liberation Mono, Menlo, Courier, monospace;
+    background-color: #f9fafa;
+    border: 1px solid #e4e4e4;
+    border-radius: 4px;
+    color: #858080;
+    font-size: 14px;
+    margin: 5px;
+    max-width: 740px;
+    overflow-x: auto;
+    padding: 1px 2px;
+}
+
+.main-book-content table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    line-height: 30px;
+    margin: 25px 0;
+    overflow: auto;
+    width: 100%;
+}
+
+.main-book-content table tr {
+    background-color: #fff;
+    border-top: 1px solid #ccc;
+}
+
+.main-book-content table tr:nth-child(2n) {
+    background-color: #f8f8f8;
+}
+
+.main-book-content table th,
+.main-book-content table td {
+    border: 1px solid #ddd;
+    padding: 6px 13px;
+}
+
+.main-book-content table th {
+    font-weight: 700;
+}
+
+.main-book-content pre {
+    border-radius: 0;
+    line-height: 1.5;
+    margin: 23px 0;
+    padding: 23px 35px;
+    word-break: inherit;
+    color: #f8f8f2;
+    background: #384548;
+    border: 1px solid #efefef;
+    tab-size: 4;
+    text-align: left;
+    white-space: pre;
+    font-family: Consolas, Monaco, Andale Mono, Ubuntu Mono, monospace;
+}
+
+.main-book-content pre>code {
+    word-wrap: break-word;
+    color: #d1d2d2;
+    max-width: inherit;
+    background: none;
+    border: 0;
+    display: block;
+    font-size: 14px;
+    line-height: 24px;
+    margin: 0;
+    overflow: initial;
+    padding: 0;
+    font-family: monaco, Consolas, Liberation Mono, Menlo, Courier, monospace;
+}
+
+.main-book-content pre code .token.keyword {
+    color: #00e0e0;
+}
+
+.main-book-content pre code .token.atrule,
+.main-book-content pre code .token.attr-value,
+.main-book-content pre code .token.function {
+    color: gold;
+}
+
+.main-book-content pre code .token.attr-name,
+.main-book-content pre code .token.builtin,
+.main-book-content pre code .token.char,
+.main-book-content pre code .token.inserted,
+.main-book-content pre code .token.selector,
+.main-book-content pre code .token.string {
+    color: #abe338;
+}
+
+.main-book-content pre code .language-css .token.string,
+.main-book-content pre code .style .token.string,
+.main-book-content pre code .token.entity,
+.main-book-content pre code .token.operator,
+.main-book-content pre code .token.url,
+.main-book-content pre code .token.variable {
+    color: #00e0e0;
+}
+
+.main-book-content pre code .token.constant,
+.main-book-content pre code .token.deleted,
+.main-book-content pre code .token.property,
+.main-book-content pre code .token.symbol,
+.main-book-content pre code .token.tag {
+    color: #ffa07a;
+}
+
+.main-book-content pre code .token.comment {
+    color: #2cb35d;
+}
+.main-book-content pre code .token.boolean,
+.main-book-content pre code .token.number {
+    color: #00e0e0;
+}
+
+.main-book-content blockquote {
+    font-size: 14px;
+    line-height: 30px;
+    background-color: #f5f8fc;
+    border-left: none;
+    color: #8796a8;
+    margin: 20px 0;
+    padding: 14px;
+    display: block;
+}
+.main-book-content blockquote p:last-child{
+    margin-bottom: 0;
+}

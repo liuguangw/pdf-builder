@@ -1,6 +1,7 @@
 import kratos from "../projects/kratos/main.js";
 import rustbook from "../projects/rustbook/main.js"
 import viteBook from "../projects/vite/main.js"
+import laravel from "../projects/laravel/main.js"
 import {readFile} from "fs/promises"
 import {projectDir} from "./path_helper.js";
 
@@ -67,7 +68,7 @@ function addMetaInfo(bookInfo) {
  */
 export default async function loadBookList() {
     let bookList = [];
-    bookList.push(kratos(), rustbook(), viteBook());
+    bookList.push(kratos(), rustbook(), viteBook(), laravel());
     for (let bookIndex in bookList) {
         let bookInfo = bookList[bookIndex];
         bookInfo = await addFetchScript(bookInfo);
