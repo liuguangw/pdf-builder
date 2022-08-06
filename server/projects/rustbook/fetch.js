@@ -112,6 +112,7 @@ await (async function () {
      * @return {Promise<void>}
      */
     async function replaceContentImage(contentEl, progress) {
+        //todo 不重复下载同一个url
         let imageNodeList = contentEl.querySelectorAll("img")
         for (let imgIndex = 0; imgIndex < imageNodeList.length; imgIndex++) {
             let imgElement = imageNodeList.item(imgIndex)

@@ -2,13 +2,6 @@ import loadBookInfo from "../lib/load_book_info.js";
 import {projectDistDir, projectPdfPath} from "../lib/path_helper.js";
 import {stat} from 'fs/promises';
 import {spawn} from "child_process";
-import os from "os";
-
-const isWindow = os.type().toLowerCase().indexOf('windows') === 0;
-let systemCharset = "utf8";
-if (isWindow) {
-    systemCharset = "gbk";
-}
 
 async function buildBook(io, bookInfo, inputPath, outputPath) {
     io.emit("build-stdout", bookInfo.projectName, "build project " + bookInfo.projectName);
