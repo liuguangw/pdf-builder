@@ -25,11 +25,7 @@ async function fetchPage(pageURL) {
 }
 
 function parseMenuList(groupNodeList, menuList, allPageList) {
-    for (let itemIndex = 0; itemIndex < groupNodeList.length; itemIndex++) {
-        /**
-         * @type {HTMLLIElement}
-         */
-        let groupElement = groupNodeList.item(itemIndex);
+    groupNodeList.forEach(groupElement => {
         let groupIconElement = groupElement.querySelector("i");
         let groupTitle = groupIconElement.nextSibling.textContent.trim();
         let subMenuNodeList = groupElement.querySelectorAll("ol>li.item>a");
@@ -38,12 +34,7 @@ function parseMenuList(groupNodeList, menuList, allPageList) {
             filename: "",
             children: []
         }
-        for (let i = 0; i < subMenuNodeList.length; i++) {
-            /**
-             *
-             * @type {HTMLAnchorElement}
-             */
-            let subMenuEl = subMenuNodeList.item(i);
+        subMenuNodeList.forEach(subMenuEl => {
             let subMenuChildNodes = subMenuEl.childNodes;
             let subMenuItem = {
                 title: subMenuChildNodes.item(0).textContent.trim(),
@@ -52,13 +43,13 @@ function parseMenuList(groupNodeList, menuList, allPageList) {
             }
             allPageList.push({
                 title: subMenuItem.title,
-                filename: replaceURL(subMenuEl.href, contextURL),
+                filename: subMenuItem.filename,
                 url: subMenuEl.href
             });
             menuItem.children.push(subMenuItem);
-        }
+        })
         menuList.push(menuItem);
-    }
+    })
 }
 
 (async () => {

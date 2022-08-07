@@ -13,8 +13,6 @@ import saveBookImageHandler from "./handlers/save_book_image.js";
 
 const httpHost = "127.0.0.1";
 const httpPort = 3000;
-//编译后的web前端目录
-const staticHandler = express.static("./dist");
 
 const app = express();
 const httpServer = http.createServer(app);
@@ -25,7 +23,9 @@ io.on("connection", (socket) => {
     });
 });
 //static files
+const staticHandler = express.static("./dist");
 app.use(staticHandler);
+//中间件
 app.use(cors());
 app.use(express.json({
     limit: "2MB"

@@ -82,7 +82,7 @@ html, body {
     font-weight: 700;
 }
 
-.main-book-content code {
+.main-book-content :not(pre) > code {
     font-family: monaco, Consolas, Liberation Mono, Menlo, Courier, monospace;
     background-color: #f9fafa;
     border: 1px solid #e4e4e4;

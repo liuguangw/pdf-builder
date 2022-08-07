@@ -27,54 +27,41 @@ async function fetchPage(pageURL) {
      */
     let divElement = doc.querySelector("main>div>div");
     //删除header-anchor
-    {
-        let aList = divElement.querySelectorAll("a.header-anchor");
-        for (let i = 0; i < aList.length; i++) {
-            /**
-             *
-             * @type {HTMLAnchorElement}
-             */
-            let aEl = aList.item(i);
-            aEl.parentElement.removeChild(aEl);
-        }
-    }
+    let aNodeList = divElement.querySelectorAll("a.header-anchor")
+    aNodeList.forEach(aEl => {
+        aEl.parentElement.removeChild(aEl);
+    })
     return divElement;
 }
 
 function parseMenuList(groupList, menuList, allPageList) {
-    for (let itemIndex = 0; itemIndex < groupList.length; itemIndex++) {
-        let groupElement = groupList[itemIndex];
+    groupList.forEach(groupElement => {
         /**
          *
          * @type {HTMLElement}
          */
         let groupTitleElement = groupElement.querySelector(".title>h2.title-text");
-        let subMenuElementList = groupElement.querySelectorAll(".items>a");
+        let subMenuNodeList = groupElement.querySelectorAll(".items>a");
         let menuItem = {
             title: groupTitleElement.innerText,
             filename: "",
             children: []
         }
-        for (let i = 0; i < subMenuElementList.length; i++) {
-            /**
-             *
-             * @type {HTMLAnchorElement}
-             */
-            let subMenuEl = subMenuElementList.item(i);
+        subMenuNodeList.forEach(subMenuEl => {
             let subMenuItem = {
                 title: subMenuEl.innerText,
                 filename: replaceURL(subMenuEl.href, contextURL),
                 children: []
             }
             allPageList.push({
-                title: subMenuEl.innerText,
-                filename: replaceURL(subMenuEl.href, contextURL),
+                title: subMenuItem.title,
+                filename: subMenuItem.filename,
                 url: subMenuEl.href
             });
             menuItem.children.push(subMenuItem);
-        }
+        })
         menuList.push(menuItem);
-    }
+    })
 }
 
 (async () => {

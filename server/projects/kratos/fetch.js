@@ -37,8 +37,7 @@ async function fetchPage(pageURL) {
 }
 
 function parseMenuList(liElementList, menuList, allPageList) {
-    for (let itemIndex = 0; itemIndex < liElementList.length; itemIndex++) {
-        let liElement = liElementList.item(itemIndex);
+    liElementList.forEach(liElement => {
         /**
          *
          * @type {HTMLAnchorElement}
@@ -51,15 +50,15 @@ function parseMenuList(liElementList, menuList, allPageList) {
             children: []
         }
         allPageList.push({
-            title: menuLink.innerText,
-            filename: replaceURL(menuLink.href, contextURL),
+            title: menuItem.title,
+            filename: menuItem.filename,
             url: menuLink.href,
         });
         if (subMenuUlEl !== null) {
             parseMenuList(subMenuUlEl.children, menuItem.children, allPageList);
         }
         menuList.push(menuItem);
-    }
+    })
 }
 
 (async () => {

@@ -12,13 +12,17 @@ import replaceContentImage from "./replace_content_image.js";
  */
 export default async function processPage(contentEl, contextURL, progress, apiEndpointInfo, imageFetchList) {
     //a标签链接替换
-    {
-        let aList = contentEl.querySelectorAll("a");
-        for (let i = 0; i < aList.length; i++) {
-            let aEl = aList.item(i);
-            aEl.href = replaceURL(aEl.href, contextURL)
+    contentEl.querySelectorAll("a").forEach(aElement => {
+        if (aElement.href === "") {
+            return
         }
-    }
+        aElement.href = replaceURL(aElement.href, contextURL)
+    })
     //通知服务端下载内容中的图片
-    await replaceContentImage(contentEl, progress, apiEndpointInfo, imageFetchList);
+
+    let imageNodeList = contentEl.querySelectorAll("img")
+    for (let imgIndex = 0; imgIndex < imageNodeList.length; imgIndex++) {
+        let imgElement = imageNodeList.item(imgIndex)
+        await replaceContentImage(imgElement, imgIndex, progress, apiEndpointInfo, imageFetchList);
+    }
 }
