@@ -11,6 +11,6 @@ export default function () {
             level2: "//h:h2",
             level3: "//h:h3"
         },
-        styles: ["css/style.css", "css/code.css"]
+        styles: ["css/code.css", "css/style.css"]
     };
 }
