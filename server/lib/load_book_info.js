@@ -1,4 +1,5 @@
-import loadBookList, {loadBaseBookList} from "./load_book_list.js";
+import loadBookList from "./load_book_list.js";
+import loadBaseBookList from "./load_base_book_list.js";
 
 /**
  *

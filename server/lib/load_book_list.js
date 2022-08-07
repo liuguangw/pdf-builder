@@ -1,9 +1,6 @@
-import kratos from "../projects/kratos/main.js";
-import rustbook from "../projects/rustbook/main.js"
-import viteBook from "../projects/vite/main.js"
-import laravel from "../projects/laravel/main.js"
 import {projectDir} from "./path_helper.js";
 import esbuild from "esbuild"
+import loadBaseBookList from "./load_base_book_list.js";
 
 export async function addFetchScript(bookInfo) {
     let fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
@@ -65,16 +62,6 @@ function addMetaInfo(bookInfo) {
     }
 }
 
-/**
- * 加载基本的book信息列表
- *
- * @return {Object[]}
- */
-export function loadBaseBookList() {
-    return [
-        kratos(), rustbook(), viteBook(), laravel()
-    ]
-}
 
 /**
  * 加载书籍信息列表

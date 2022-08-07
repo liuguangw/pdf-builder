@@ -1,4 +1,4 @@
-import {loadBaseBookList} from "../lib/load_book_list.js";
+import loadBaseBookList from "../lib/load_base_book_list.js";
 
 
 export default function (req, resp) {
