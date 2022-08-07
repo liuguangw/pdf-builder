@@ -1,4 +1,4 @@
- /**
+/**
  * 加载一个远程js
  * @param scriptURL
  * @return {Promise<void>}

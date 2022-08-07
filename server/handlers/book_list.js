@@ -1,7 +1,7 @@
-import loadBookList from "../lib/load_book_list.js";
+import {loadBaseBookList} from "../lib/load_book_list.js";
 
 
-export default async function (req, resp) {
-    let items =await loadBookList();
+export default function (req, resp) {
+    let items = loadBaseBookList()
     resp.json(items);
 }

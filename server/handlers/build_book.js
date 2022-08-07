@@ -1,11 +1,12 @@
-import loadBookInfo from "../lib/load_book_info.js";
 import {projectDistDir, projectPdfPath} from "../lib/path_helper.js";
 import {stat} from 'fs/promises';
 import {spawn} from "child_process";
+import loadBookInfo, {loadBaseBookInfo} from "../lib/load_book_info.js";
 
 async function buildBook(io, bookInfo, inputPath, outputPath) {
     io.emit("build-stdout", bookInfo.projectName, "build project " + bookInfo.projectName);
     await stat(inputPath);
+    //console.log(bookInfo)
     //
     let params = [
         inputPath,

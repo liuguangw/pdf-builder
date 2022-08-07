@@ -30,13 +30,19 @@ function handleEvents(socketClient, terminal, projectName, canBuild, showMessage
         }
         terminal.writeln("[\x1B[1;3;31m" + progress + "\x1B[0m]save [" + title + " - " + filename + "] error: \x1B[1;0;31m" + msgContent + "\x1B[0m");
     });
-    socketClient.on("save-img-success", (pName, progress, imageURL) => {
+    socketClient.on("fetch-img-success", (pName, progress, imageURL) => {
         if (pName !== projectName.value) {
             return;
         }
         terminal.writeln("[\x1B[1;3;36m" + progress + "\x1B[0m]fetch " + imageURL + " \x1B[1;0;32msuccess\x1B[0m");
     });
-    socketClient.on("save-img-error", (pName, progress, imageURL, msgContent) => {
+    socketClient.on("fetch-img-skip", (pName, progress, imageURL) => {
+        if (pName !== projectName.value) {
+            return;
+        }
+        terminal.writeln("[\x1B[1;3;36m" + progress + "\x1B[0m]fetch " + imageURL + " \x1B[1;0;93mskip\x1B[0m");
+    });
+    socketClient.on("fetch-img-error", (pName, progress, imageURL, msgContent) => {
         if (pName !== projectName.value) {
             return;
         }

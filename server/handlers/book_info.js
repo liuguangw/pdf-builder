@@ -1,4 +1,5 @@
-import loadBookInfo from "../lib/load_book_info.js";
+import {loadBaseBookInfo} from "../lib/load_book_info.js";
+import {addFetchScript} from "../lib/load_book_list.js";
 
 /**
  * 书籍详情
@@ -8,7 +9,8 @@ import loadBookInfo from "../lib/load_book_info.js";
  */
 export default async function (req, resp) {
     let bookName = req.params.bookName;
-    let bookInfo = await loadBookInfo(bookName)
+    let bookInfo = loadBaseBookInfo(bookName)
+    await addFetchScript(bookInfo)
     if (bookInfo === null) {
         resp.json({
             code: 4000,

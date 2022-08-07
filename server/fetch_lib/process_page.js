@@ -7,9 +7,10 @@ import replaceContentImage from "./replace_content_image.js";
  * @param {string} contextURL
  * @param {string} progress
  * @param {string} apiEndpointInfo
+ * @param {Object[]} imageFetchList
  * @return {Promise<void>}
  */
-export default async function processPage(contentEl,contextURL,progress,apiEndpointInfo) {
+export default async function processPage(contentEl, contextURL, progress, apiEndpointInfo, imageFetchList) {
     //a标签链接替换
     {
         let aList = contentEl.querySelectorAll("a");
@@ -19,5 +20,5 @@ export default async function processPage(contentEl,contextURL,progress,apiEndpo
         }
     }
     //通知服务端下载内容中的图片
-    await replaceContentImage(contentEl,progress,apiEndpointInfo);
+    await replaceContentImage(contentEl, progress, apiEndpointInfo, imageFetchList);
 }

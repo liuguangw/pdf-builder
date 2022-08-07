@@ -3,7 +3,7 @@
  * @param {IncomingMessage} req
  * @param resp
  */
-export default function (req,resp){
+export default function (req, resp) {
     resp.status(404).send(
         "<!DOCTYPE html>\n" +
         "<html lang=\"zh-CN\"><head>\n" +

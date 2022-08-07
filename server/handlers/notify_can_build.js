@@ -1,12 +1,12 @@
-import loadBookInfo from "../lib/load_book_info.js";
+import {loadBaseBookInfo} from "../lib/load_book_info.js";
 
 /**
  * 处理can build通知
  */
 export default function notifyCanBuildHandler(io) {
-    return async function (req, resp) {
+    return function (req, resp) {
         let bookName = req.params.bookName;
-        let bookInfo = await loadBookInfo(bookName)
+        let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
             resp.json({
                 code: 4000,

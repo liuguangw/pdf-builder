@@ -64,47 +64,58 @@ html, body {
     font-size: 13px;
     margin: 0;
 }
-.main-book-content .markdown{
+
+.main-book-content .markdown {
     color: #1c1e21;
 }
-.main-book-content .markdown p{
+
+.main-book-content .markdown p {
     margin: 0 0 20px 0;
 }
-.main-book-content .markdown blockquote{
-    border-left:2px solid #dadde1;
+
+.main-book-content .markdown blockquote {
+    border-left: 2px solid #dadde1;
     color: #444950;
     padding: 0 16px;
     margin: 0 0 16px 0;
 }
-.main-book-content .markdown h3{
+
+.main-book-content .markdown h3 {
     font-size: 24px;
     margin: 30px 0 20px 0;
 }
-.main-book-content .markdown h4{
+
+.main-book-content .markdown h4 {
     font-size: 16px;
     margin: 25px 0 20px 0;
 }
-.main-book-content .markdown ul{
+
+.main-book-content .markdown ul {
     margin: 0 0 20px 0;
     padding-left: 32px;
 }
-.main-book-content .markdown strong{
+
+.main-book-content .markdown strong {
     font-weight: 700;
 }
-.main-book-content .markdown a{
+
+.main-book-content .markdown a {
     color: #57c6fa;
     text-decoration: none;
 }
-.main-book-content .markdown code{
+
+.main-book-content .markdown code {
     background: #f6f7f8;
-    border: 1px solid rgba(0,0,0,.1);
+    border: 1px solid rgba(0, 0, 0, .1);
     font-size: 90%;
     padding: 2px;
 }
-.main-book-content .markdown img{
+
+.main-book-content .markdown img {
     max-width: 100%;
 }
-.main-book-content .markdown pre{
+
+.main-book-content .markdown pre {
     margin: 0;
     padding: 0;
     font-size: 90%;
@@ -112,17 +123,20 @@ html, body {
     white-space: break-spaces;
     overflow: hidden;
 }
-.main-book-content .markdown pre code{
+
+.main-book-content .markdown pre code {
     border: none;
     float: left;
     min-width: 100%;
-    padding:16px;
+    padding: 16px;
     box-sizing: border-box;
 }
-.main-book-content .markdown .buttonGroup__atx{
+
+.main-book-content .markdown .buttonGroup__atx {
     display: none;
 }
-.main-book-content .markdown hr{
+
+.main-book-content .markdown hr {
     background: #bec3c9;
     border: none;
     height: 1px;

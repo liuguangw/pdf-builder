@@ -2,11 +2,10 @@ import kratos from "../projects/kratos/main.js";
 import rustbook from "../projects/rustbook/main.js"
 import viteBook from "../projects/vite/main.js"
 import laravel from "../projects/laravel/main.js"
-import {readFile} from "fs/promises"
 import {projectDir} from "./path_helper.js";
 import esbuild from "esbuild"
 
-async function addFetchScript(bookInfo) {
+export async function addFetchScript(bookInfo) {
     let fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
     try {
         let buildResult = await esbuild.build({
@@ -14,7 +13,7 @@ async function addFetchScript(bookInfo) {
             bundle: true,
             //minify: true,
             write: false,
-            target: ["chrome58", "firefox57"]
+            target: ["chrome87", "firefox78"]
         })
         let buildItemResult = buildResult.outputFiles.pop();
         bookInfo.fetchScript = buildItemResult.text;
@@ -22,7 +21,6 @@ async function addFetchScript(bookInfo) {
         bookInfo.fetchScript = "";
         console.error(e);
     }
-    return bookInfo;
 }
 
 function addMetaInfo(bookInfo) {
@@ -65,7 +63,17 @@ function addMetaInfo(bookInfo) {
             '<span style="display:inline-block;position:absolute;height:20px;right:0;bottom:8px;">第 _PAGENUM_ 页</span>' +
             '</div>';
     }
-    return bookInfo;
+}
+
+/**
+ * 加载基本的book信息列表
+ *
+ * @return {Object[]}
+ */
+export function loadBaseBookList() {
+    return [
+        kratos(), rustbook(), viteBook(), laravel()
+    ]
 }
 
 /**
@@ -74,13 +82,10 @@ function addMetaInfo(bookInfo) {
  * @return {Promise<Object[]>}
  */
 export default async function loadBookList() {
-    let bookList = [];
-    bookList.push(kratos(), rustbook(), viteBook(), laravel());
-    for (let bookIndex in bookList) {
-        let bookInfo = bookList[bookIndex];
-        bookInfo = await addFetchScript(bookInfo);
-        bookInfo = addMetaInfo(bookInfo);
-        bookList[bookIndex] = bookInfo;
+    let bookList = loadBaseBookList()
+    for (let bookInfo of bookList) {
+        await addFetchScript(bookInfo);
+        addMetaInfo(bookInfo);
     }
     return bookList;
 }

@@ -1,7 +1,7 @@
 import sleepAsync from "./sleep_async.js";
 import processPage from "./process_page.js";
 
-export default async function fetchAndSave(menuList, allPageList, apiEndpointInfo,sleepDuration,contextURL,fetchPage) {
+export default async function fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage) {
     //保存menu信息
     try {
         let saveMenuResponse = await window.axios.post(apiEndpointInfo.menuApiURL, menuList)
@@ -16,6 +16,7 @@ export default async function fetchAndSave(menuList, allPageList, apiEndpointInf
         return;
     }
     let hasFetchError = false;
+    let imageFetchList = [];
     for (let pageIndex = 0; pageIndex < allPageList.length; pageIndex++) {
         let pageInfo = allPageList[pageIndex];
         if (pageIndex > 0) {
@@ -41,7 +42,7 @@ export default async function fetchAndSave(menuList, allPageList, apiEndpointInf
             console.error("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] failed: " + postData.message);
             continue
         }
-        await processPage(contentEl, contextURL, postData.progress, apiEndpointInfo)
+        await processPage(contentEl, contextURL, postData.progress, apiEndpointInfo, imageFetchList)
         postData.content = contentEl.outerHTML;
         //提交抓取结果给服务端
         try {
@@ -51,6 +52,8 @@ export default async function fetchAndSave(menuList, allPageList, apiEndpointInf
             console.error(e)
         }
     }
+    //
+    console.log(imageFetchList)
     //通知服务端可以构建了
     if (!hasFetchError) {
         await window.axios.post(apiEndpointInfo.notifyApiURL)

@@ -1,4 +1,4 @@
-import loadBookInfo from "../lib/load_book_info.js";
+import {loadBaseBookInfo} from "../lib/load_book_info.js";
 import {projectDistDir} from "../lib/path_helper.js";
 import {mkdir, stat, open} from "fs/promises";
 import axios from "axios";
@@ -63,12 +63,40 @@ function formatImageURL(srcURL, contentType) {
 }
 
 /**
+ *
+ * @param {string} bookDistDir
+ * @param {string} imageURL
+ * @param {string} referer
+ * @return {Promise<string>}
+ */
+async function processSaveImage(bookDistDir, imageURL, referer) {
+    //最多尝试下载图片次数
+    const maxTryCount = 3
+    let saveFileName = ""
+    for (let i = 0; i < maxTryCount; i++) {
+        try {
+            if (i > 0) {
+                console.warn("[" + (i + 1) + "/" + maxTryCount + "]retry download " + imageURL)
+            }
+            saveFileName = await saveBookImage(bookDistDir, imageURL, referer);
+            break
+        } catch (err) {
+            //最后一次抛出err
+            if (maxTryCount - 1 === i) {
+                throw err
+            }
+        }
+    }
+    return saveFileName
+}
+
+/**
  * 保存网页图片
  */
 export default function saveBookImageHandler(io) {
     return async function (req, resp) {
         let bookName = req.params.bookName;
-        let bookInfo = await loadBookInfo(bookName)
+        let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
             resp.json({
                 code: 4000,
@@ -78,46 +106,35 @@ export default function saveBookImageHandler(io) {
             return;
         }
         let imageURL = req.body.url;
-        if (imageURL === "<data URL>") {
+        let imageType = req.body.type;
+        //不需要fetch的图片,例如data url、重复的图片url
+        if (imageType !== 0) {
             resp.json({
                 code: 0,
                 data: imageURL,
                 message: ""
             });
+            io.emit("fetch-img-skip", bookName, req.body.progress, imageURL);
             return;
         }
         let bookDistDir = projectDistDir(bookName);
         let saveFileName = ""
-        //最多尝试下载图片次数
-        const maxTryCount = 3
         try {
-            for (let i = 0; i < maxTryCount; i++) {
-                try {
-                    if (i > 0) {
-                        console.warn("[" + (i + 1) + "/" + maxTryCount + "]retry download " + imageURL)
-                    }
-                    saveFileName = await saveBookImage(bookDistDir, imageURL, bookInfo.docURL);
-                    break
-                } catch (err) {
-                    //最后一次抛出err
-                    if (maxTryCount - 1 === i) {
-                        throw err
-                    }
-                }
-            }
-            io.emit("save-img-success", bookName, req.body.progress, imageURL);
-            resp.json({
-                code: 0,
-                data: saveFileName,
-                message: ""
-            });
+            saveFileName = await processSaveImage(bookDistDir, imageURL, bookInfo.docURL)
         } catch (e) {
-            io.emit("save-img-error", bookName, req.body.progress, imageURL, e.message);
+            io.emit("fetch-img-error", bookName, req.body.progress, imageURL, e.message);
             resp.json({
                 code: 4000,
                 data: null,
                 message: e.message
             });
+            return
         }
+        io.emit("fetch-img-success", bookName, req.body.progress, imageURL);
+        resp.json({
+            code: 0,
+            data: saveFileName,
+            message: ""
+        });
     }
 }

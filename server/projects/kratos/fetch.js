@@ -3,66 +3,66 @@ import apiEndpoint from "../../fetch_lib/api_endpoint.js";
 import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
 import loadAxios from "../../fetch_lib/load_axios.js";
 
-(async () => {
-    //项目定义
-    const contextURL = "https://go-kratos.dev/docs/";
-    //api定义
-    const apiEndpointInfo = apiEndpoint("kratos");
-    //抓取页面的间隔时间(ms)
-    const sleepDuration = 2300
+//项目定义
+const contextURL = "https://go-kratos.dev/docs/";
+//api定义
+const apiEndpointInfo = apiEndpoint("kratos");
+//抓取页面的间隔时间(ms)
+const sleepDuration = 2300
 
+/**
+ * 抓取页面
+ *
+ * @param {string} pageURL
+ * @return {Promise<HTMLDivElement>}
+ */
+async function fetchPage(pageURL) {
+    let fetchPageResponse = await window.axios.get(pageURL, {
+        responseType: "document"
+    });
+    let doc = fetchPageResponse.data;
     /**
-     * 抓取页面
      *
-     * @param {string} pageURL
-     * @return {Promise<HTMLDivElement>}
+     * @type {HTMLDivElement}
      */
-    async function fetchPage(pageURL) {
-        let fetchPageResponse = await window.axios.get(pageURL, {
-            responseType: "document"
-        });
-        let doc = fetchPageResponse.data;
+    let divElement = doc.querySelector("div.markdown");
+    if (divElement === null) {
+        divElement = doc.querySelector(".container>div");
+        let navElement = divElement.querySelector("nav");
+        let footerElement = divElement.querySelector("footer");
+        divElement.removeChild(navElement);
+        divElement.removeChild(footerElement);
+    }
+    return divElement;
+}
+
+function parseMenuList(liElementList, menuList, allPageList) {
+    for (let itemIndex = 0; itemIndex < liElementList.length; itemIndex++) {
+        let liElement = liElementList.item(itemIndex);
         /**
          *
-         * @type {HTMLDivElement}
+         * @type {HTMLAnchorElement}
          */
-        let divElement = doc.querySelector("div.markdown");
-        if (divElement === null) {
-            divElement = doc.querySelector(".container>div");
-            let navElement = divElement.querySelector("nav");
-            let footerElement = divElement.querySelector("footer");
-            divElement.removeChild(navElement);
-            divElement.removeChild(footerElement);
+        let menuLink = liElement.querySelector("a.menu__link");
+        let subMenuUlEl = liElement.querySelector("ul.menu__list");
+        let menuItem = {
+            title: menuLink.innerText,
+            filename: replaceURL(menuLink.href, contextURL),
+            children: []
         }
-        return divElement;
-    }
-
-    function parseMenuList(liElementList, menuList, allPageList) {
-        for (let itemIndex = 0; itemIndex < liElementList.length; itemIndex++) {
-            let liElement = liElementList.item(itemIndex);
-            /**
-             *
-             * @type {HTMLAnchorElement}
-             */
-            let menuLink = liElement.querySelector("a.menu__link");
-            let subMenuUlEl = liElement.querySelector("ul.menu__list");
-            let menuItem = {
-                title: menuLink.innerText,
-                filename: replaceURL(menuLink.href, contextURL),
-                children: []
-            }
-            allPageList.push({
-                title: menuLink.innerText,
-                filename: replaceURL(menuLink.href, contextURL),
-                url: menuLink.href,
-            });
-            if (subMenuUlEl !== null) {
-                parseMenuList(subMenuUlEl.children, menuItem.children, allPageList);
-            }
-            menuList.push(menuItem);
+        allPageList.push({
+            title: menuLink.innerText,
+            filename: replaceURL(menuLink.href, contextURL),
+            url: menuLink.href,
+        });
+        if (subMenuUlEl !== null) {
+            parseMenuList(subMenuUlEl.children, menuItem.children, allPageList);
         }
+        menuList.push(menuItem);
     }
+}
 
+(async () => {
     //加载脚本
     try {
         await loadAxios();
@@ -80,5 +80,4 @@ import loadAxios from "../../fetch_lib/load_axios.js";
     //console.log(allPageList)
     await fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage);
 })().then(() => {
-
 })

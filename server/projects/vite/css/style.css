@@ -244,7 +244,7 @@ html, body {
     margin-bottom: 10px;
 }
 
-.main-book-content img, .main-book-content svg{
+.main-book-content img, .main-book-content svg {
     max-width: 100%;
     height: auto;
     display: block;

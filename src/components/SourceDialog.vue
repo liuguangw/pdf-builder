@@ -37,7 +37,7 @@ import axios from "axios";
 
 export default {
   name: "SourceDialog",
-  emits: ["dialog-close","copy-success"],
+  emits: ["dialog-close", "copy-success"],
   props: {
     projectName: {
       type: String,
