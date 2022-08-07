@@ -56,7 +56,7 @@ export default function saveBookContentHandler(io) {
             });
             return;
         }
-        resp.send("ok");
+        resp.send("{}");
         let filename = req.body.filename;
         //抓取网页失败
         if (req.body.status !== 0) {

@@ -1,12 +1,13 @@
 import sleepAsync from "./sleep_async.js";
 import processPage from "./process_page.js";
+import requestAPI from "./request_api.js";
 
 export default async function fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage) {
     //保存menu信息
     try {
-        let saveMenuResponse = await window.axios.post(apiEndpointInfo.menuApiURL, menuList)
-        if (saveMenuResponse.data.code !== 0) {
-            console.error(saveMenuResponse.data.message);
+        let saveMenuResponse = await requestAPI(apiEndpointInfo.menuApiURL, menuList)
+        if (saveMenuResponse.code !== 0) {
+            console.error(saveMenuResponse.message);
             return;
         } else {
             console.log("save menu success");
@@ -46,16 +47,16 @@ export default async function fetchAndSave(menuList, allPageList, apiEndpointInf
         postData.content = contentEl.outerHTML;
         //提交抓取结果给服务端
         try {
-            await window.axios.post(apiEndpointInfo.contentApiURL, postData)
+            await requestAPI(apiEndpointInfo.contentApiURL, postData)
         } catch (e) {
             hasFetchError = true;
             console.error(e)
         }
     }
     //
-    console.log(imageFetchList)
+    //console.log(imageFetchList)
     //通知服务端可以构建了
     if (!hasFetchError) {
-        await window.axios.post(apiEndpointInfo.notifyApiURL)
+        await requestAPI(apiEndpointInfo.notifyApiURL,null)
     }
 }

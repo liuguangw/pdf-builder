@@ -7,10 +7,18 @@
         <h4>{{ bookInfo.title }}</h4>
       </div>
       <div class="card-body">
-        <div class="book-info-node"><span>项目名称：</span>{{ bookInfo.projectName }}</div>
-        <div class="book-info-node"><span>URL：</span><a :href="bookInfo.docURL" target="_blank">{{
-            bookInfo.docURL
-          }}</a></div>
+        <table>
+          <tr class="book-info-node">
+            <td><span class="title">项目名称：</span></td>
+            <td>{{ bookInfo.projectName }}</td>
+          </tr>
+          <tr class="book-info-node">
+            <td><span class="title">URL：</span></td>
+            <td><span class="slink"><a :href="bookInfo.docURL" target="_blank">{{
+                bookInfo.docURL
+              }}</a></span></td>
+          </tr>
+        </table>
         <router-link :to="{name:'bookProject',params:{
           projectName:bookInfo.projectName
         }}" class="card-btn">查看项目
@@ -72,23 +80,35 @@ export default {
 
     .card-body {
       padding: 12px 28px;
+      table{
+        border: 0;
+        margin-bottom: 8px;
+      }
 
       .book-info-node {
-        margin-bottom: 8px;
-
-        a {
-          color: #9eafff;
-          text-decoration: none;
-
-          &:hover {
-            color: #22ff66;
-            text-decoration: underline;
+        td{
+          height: 25px;
+          line-height: 25px;
+          span.title {
+            color: #13f4ff;
+            font-weight: bold;
           }
-        }
+          span.slink{
+            height: 25px;
+            max-width: 300px;
+            display: block;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+          a {
+            color: #9eafff;
+            text-decoration: none;
 
-        span {
-          color: #13f4ff;
-          font-weight: bold;
+            &:hover {
+              color: #22ff66;
+              text-decoration: underline;
+            }
+          }
         }
       }
 

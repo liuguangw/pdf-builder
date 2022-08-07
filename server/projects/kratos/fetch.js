@@ -1,7 +1,7 @@
 import replaceURL from "../../fetch_lib/replace_url.js";
 import apiEndpoint from "../../fetch_lib/api_endpoint.js";
 import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
-import loadAxios from "../../fetch_lib/load_axios.js";
+import fetchPageDocument from "../../fetch_lib/fetch_page_document.js";
 
 //项目定义
 const contextURL = "https://go-kratos.dev/docs/";
@@ -17,10 +17,7 @@ const sleepDuration = 2300
  * @return {Promise<HTMLDivElement>}
  */
 async function fetchPage(pageURL) {
-    let fetchPageResponse = await window.axios.get(pageURL, {
-        responseType: "document"
-    });
-    let doc = fetchPageResponse.data;
+    let doc = await fetchPageDocument(pageURL)
     /**
      *
      * @type {HTMLDivElement}
@@ -55,25 +52,18 @@ function parseMenuList(liElementList, menuList, allPageList) {
             url: menuLink.href,
         });
         if (subMenuUlEl !== null) {
-            parseMenuList(subMenuUlEl.children, menuItem.children, allPageList);
+            parseMenuList(Array.from(subMenuUlEl.children), menuItem.children, allPageList);
         }
         menuList.push(menuItem);
     })
 }
 
 (async () => {
-    //加载脚本
-    try {
-        await loadAxios();
-    } catch (e) {
-        console.error(e);
-        return;
-    }
     //获取menu list
     let menuList = [];
     let allPageList = [];
     let menuRootEl = document.querySelector(".theme-doc-sidebar-menu.menu__list");
-    parseMenuList(menuRootEl.children, menuList, allPageList);
+    parseMenuList(Array.from(menuRootEl.children), menuList, allPageList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
     //console.log(allPageList)

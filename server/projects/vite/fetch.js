@@ -1,7 +1,7 @@
 import apiEndpoint from "../../fetch_lib/api_endpoint.js";
-import loadAxios from "../../fetch_lib/load_axios.js";
 import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
 import replaceURL from "../../fetch_lib/replace_url.js";
+import fetchPageDocument from "../../fetch_lib/fetch_page_document.js";
 
 //项目定义
 const contextURL = "https://cn.vitejs.dev/";
@@ -17,10 +17,7 @@ const sleepDuration = 2300;
  * @return {Promise<HTMLDivElement>}
  */
 async function fetchPage(pageURL) {
-    let fetchPageResponse = await window.axios.get(pageURL, {
-        responseType: "document"
-    });
-    let doc = fetchPageResponse.data;
+    let doc = await fetchPageDocument(pageURL)
     /**
      *
      * @type {HTMLDivElement}
@@ -65,13 +62,6 @@ function parseMenuList(groupList, menuList, allPageList) {
 }
 
 (async () => {
-    //加载脚本
-    try {
-        await loadAxios();
-    } catch (e) {
-        console.error(e);
-        return;
-    }
     //获取menu list
     let menuList = [];
     let allPageList = [];
@@ -82,10 +72,7 @@ function parseMenuList(groupList, menuList, allPageList) {
         groupList.push(groupNodeList.item(i));
     }
     //配置文档
-    let fetchPageResponse = await window.axios.get(contextURL + "config/", {
-        responseType: "document"
-    });
-    let configDoc = fetchPageResponse.data;
+    let configDoc = await fetchPageDocument(contextURL + "config/")
     groupList.push(configDoc.querySelector("nav>div.group"));
     parseMenuList(groupList, menuList, allPageList);
     //console.log(menuList)

@@ -1,0 +1,20 @@
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
+.main-book-content {
+    color: rgb(13, 20, 30);
+    background: #ffffff;
+    font-family: Verdana, Arial;
+    font-size: 16px;
+    line-height: 25px;
+    min-height: 100vh;
+    word-wrap: break-word;
+}
+
+.main-book-content > #content {
+    margin: 0 auto;
+    max-width: 750px;
+    box-sizing: border-box;
+}

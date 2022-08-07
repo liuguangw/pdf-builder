@@ -1,7 +1,7 @@
 import apiEndpoint from "../../fetch_lib/api_endpoint.js";
 import replaceURL from "../../fetch_lib/replace_url.js";
 import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
-import loadAxios from "../../fetch_lib/load_axios.js";
+import fetchPageDocument from "../../fetch_lib/fetch_page_document.js";
 
 //项目定义
 const contextURL = "https://learnku.com/docs/laravel/9.x/";
@@ -17,10 +17,7 @@ const sleepDuration = 2300;
  * @return {Promise<HTMLDivElement>}
  */
 async function fetchPage(pageURL) {
-    let fetchPageResponse = await window.axios.get(pageURL, {
-        responseType: "document"
-    });
-    let doc = fetchPageResponse.data;
+    let doc = await fetchPageDocument(pageURL)
     return doc.querySelector("div.content-body");
 }
 
@@ -53,13 +50,6 @@ function parseMenuList(groupNodeList, menuList, allPageList) {
 }
 
 (async () => {
-    //加载脚本
-    try {
-        await loadAxios();
-    } catch (e) {
-        console.error(e);
-        return;
-    }
     //获取menu list
     let menuList = [];
     let allPageList = [];

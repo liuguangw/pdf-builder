@@ -23,6 +23,6 @@ export default async function processPage(contentEl, contextURL, progress, apiEn
     let imageNodeList = contentEl.querySelectorAll("img")
     for (let imgIndex = 0; imgIndex < imageNodeList.length; imgIndex++) {
         let imgElement = imageNodeList.item(imgIndex)
-        await replaceContentImage(imgElement, imgIndex, progress, apiEndpointInfo, imageFetchList);
+        await replaceContentImage(imgElement, imgIndex, imageNodeList.length, progress, apiEndpointInfo, imageFetchList);
     }
 }

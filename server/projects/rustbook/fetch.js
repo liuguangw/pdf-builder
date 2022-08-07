@@ -1,8 +1,8 @@
-import loadAxios from "../../fetch_lib/load_axios.js";
 import apiEndpoint from "../../fetch_lib/api_endpoint.js";
 import replaceURL from "../../fetch_lib/replace_url.js";
 import loadScript from "../../fetch_lib/load_script.js";
 import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
+import fetchPageDocument from "../../fetch_lib/fetch_page_document.js";
 
 //项目定义
 const contextURL = "https://kaisery.github.io/trpl-zh-cn/";
@@ -18,10 +18,7 @@ const sleepDuration = 2300;
  * @return {Promise<HTMLDivElement>}
  */
 async function fetchPage(pageURL) {
-    let fetchPageResponse = await window.axios.get(pageURL, {
-        responseType: "document"
-    });
-    let doc = fetchPageResponse.data;
+    let doc = await fetchPageDocument(pageURL)
     //代码高亮
     docHighlight(doc);
     //有问题的代码图标
@@ -52,7 +49,7 @@ function parseMenuList(liElementList, menuList, allPageList) {
             url: menuLink.href,
         });
         if (subMenuUlEl !== null) {
-            parseMenuList(subMenuUlEl.children, menuItem.children, allPageList);
+            parseMenuList(Array.from(subMenuUlEl.children), menuItem.children, allPageList);
         }
         menuList.push(menuItem);
     })
@@ -196,28 +193,11 @@ function processFerrises(doc) {
 }
 
 (async () => {
-    //加载脚本
-    try {
-        await loadAxios();
-    } catch (e) {
-        console.error(e);
-        return;
-    }
-    if (!("hljs" in window)) {
-        //加载js
-        const hljsURL = contextURL + +"highlight.js";
-        try {
-            await loadScript(hljsURL);
-        } catch (e) {
-            console.error(e);
-            return;
-        }
-    }
     //获取menu list
     let menuList = [];
     let allPageList = [];
     let menuRootEl = document.querySelector("ol.chapter");
-    parseMenuList(menuRootEl.children, menuList, allPageList);
+    parseMenuList(Array.from(menuRootEl.children), menuList, allPageList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
     await fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage);

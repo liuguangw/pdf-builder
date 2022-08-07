@@ -2,6 +2,7 @@ import kratos from "../projects/kratos/main.js";
 import rustbook from "../projects/rustbook/main.js";
 import viteBook from "../projects/vite/main.js";
 import laravel from "../projects/laravel/main.js";
+import es6tutorial from "../projects/es6tutorial/main.js"
 
 /**
  * 加载基本的book信息列表
@@ -10,6 +11,7 @@ import laravel from "../projects/laravel/main.js";
  */
 export default function loadBaseBookList() {
     return [
-        kratos(), rustbook(), viteBook(), laravel()
+        kratos(), rustbook(), viteBook(), laravel(),
+        es6tutorial()
     ]
 }
