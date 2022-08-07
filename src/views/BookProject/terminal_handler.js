@@ -2,6 +2,17 @@ import {Terminal} from "xterm";
 import {FitAddon} from "xterm-addon-fit";
 import {ref} from "vue";
 
+/**
+ *
+ * @param {string} msgContent
+ * @return {string}
+ */
+function formatMsgContent(msgContent) {
+    //单独的\n -> \r\n
+    // \r\n结尾的去掉\r\n
+    return msgContent.replace(/(?<!\r)\n/g, "\r\n").replace(/\r\n$/, '')
+}
+
 function handleEvents(socketClient, terminal, projectName, canBuild, showMessage, messageType, message) {
     socketClient.on("hello-message", (msgContent) => {
         terminal.writeln(msgContent);
@@ -58,13 +69,13 @@ function handleEvents(socketClient, terminal, projectName, canBuild, showMessage
         if (pName !== projectName.value) {
             return;
         }
-        terminal.writeln(msgContent.trimEnd("\n"));
+        terminal.writeln(formatMsgContent(msgContent));
     });
     socketClient.on("build-stderr", (pName, msgContent) => {
         if (pName !== projectName.value) {
             return;
         }
-        terminal.writeln("\x1B[1;0;31m" + msgContent.trimEnd("\n") + "\x1B[0m");
+        terminal.writeln("\x1B[1;0;31m" + formatMsgContent(msgContent) + "\x1B[0m");
     });
     socketClient.on("build-success", (pName) => {
         if (pName !== projectName.value) {
