@@ -16,7 +16,7 @@ export async function addFetchScript(bookInfo, serverURL) {
         let buildItemResult = buildResult.outputFiles.pop();
         bookInfo.fetchScript = buildItemResult.text;
     } catch (e) {
-        bookInfo.fetchScript = "";
+        bookInfo.fetchScript = "[ERROR] " + e.message;
         console.error(e);
     }
 }

@@ -13,7 +13,7 @@ export default function () {
                 bookList.value = fetchResult.data
             }
         } catch (e) {
-            messageType.value = 1
+            messageType.value = 2
             message.value = e.message
             showMessage.value = true
             console.error(e)

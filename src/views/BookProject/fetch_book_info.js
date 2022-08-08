@@ -13,7 +13,7 @@ export default function (showMessage, messageType, message) {
             })
             let bookInfoResponse = fetchResult.data
             if (bookInfoResponse.code !== 0) {
-                messageType.value = 1
+                messageType.value = 2
                 message.value = bookInfoResponse.message
                 showMessage.value = true
                 console.error(message.value)
@@ -23,7 +23,7 @@ export default function (showMessage, messageType, message) {
                 title.value = bookInfoResponse.data.title
             }
         } catch (e) {
-            messageType.value = 1
+            messageType.value = 2
             message.value = e.message
             showMessage.value = true
             console.error(message.value)
