@@ -85,7 +85,9 @@ export default {
         return
       }
       try {
-        let buildResult = await axios.post("/api/books/" + this.projectName + "/build")
+        let buildResult = await axios.post("/api/book-build",{
+          bookName:this.projectName
+        })
         let buildResponse = buildResult.data
         if (buildResponse.code !== 0) {
           this.message = buildResponse.message;

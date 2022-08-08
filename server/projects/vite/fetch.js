@@ -1,12 +1,10 @@
-import apiEndpoint from "../../fetch_lib/api_endpoint.js";
-import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
-import replaceURL from "../../fetch_lib/replace_url.js";
-import fetchPageDocument from "../../fetch_lib/fetch_page_document.js";
+import fetchAndSave from "../../fetch_lib/fetch_and_save";
+import replaceURL from "../../fetch_lib/replace_url";
+import fetchPageDocument from "../../fetch_lib/fetch_page_document";
 
 //项目定义
+let projectName = "vite";
 const contextURL = "https://cn.vitejs.dev/";
-//api定义
-const apiEndpointInfo = apiEndpoint("vite");
 //抓取页面的间隔时间(ms)
 const sleepDuration = 2300;
 
@@ -78,7 +76,5 @@ function parseMenuList(groupList, menuList, allPageList) {
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
     //console.log(allPageList)
-    await fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage);
-})().then(() => {
-
-});
+    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+})();

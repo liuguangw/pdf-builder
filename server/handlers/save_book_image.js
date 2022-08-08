@@ -3,6 +3,7 @@ import {projectDistDir} from "../lib/path_helper.js";
 import {mkdir, stat, open} from "fs/promises";
 import axios from "axios";
 import md5 from 'crypto-js/md5.js';
+import writeJson from "../lib/write_json.js";
 
 /**
  *
@@ -95,10 +96,10 @@ async function processSaveImage(bookDistDir, imageURL, referer) {
  */
 export default function saveBookImageHandler(io) {
     return async function (req, resp) {
-        let bookName = req.params.bookName;
+        let bookName = req.body.bookName;
         let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
-            resp.json({
+           writeJson(resp,{
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"
@@ -106,10 +107,10 @@ export default function saveBookImageHandler(io) {
             return;
         }
         let imageURL = req.body.url;
-        let imageType = req.body.type;
+        let imageType = req.body.imageType;
         //不需要fetch的图片,例如data url、重复的图片url
         if (imageType !== 0) {
-            resp.json({
+           writeJson(resp,{
                 code: 0,
                 data: imageURL,
                 message: ""
@@ -123,7 +124,7 @@ export default function saveBookImageHandler(io) {
             saveFileName = await processSaveImage(bookDistDir, imageURL, bookInfo.docURL)
         } catch (e) {
             io.emit("fetch-img-error", bookName, req.body.progress, imageURL, e.message);
-            resp.json({
+           writeJson(resp,{
                 code: 4000,
                 data: null,
                 message: e.message
@@ -131,7 +132,7 @@ export default function saveBookImageHandler(io) {
             return
         }
         io.emit("fetch-img-success", bookName, req.body.progress, imageURL);
-        resp.json({
+       writeJson(resp,{
             code: 0,
             data: saveFileName,
             message: ""

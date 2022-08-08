@@ -3,14 +3,8 @@ export default function () {
     let projectName = "es6tutorial";
     return {
         docURL,
-        contextURL: docURL,
         title: "ES6 入门教程",
         projectName,
-        tocXpath: {
-            level1: "//h:h1",
-            level2: "//h:h2",
-            level3: "//h:h3"
-        },
         styles: ["css/code.css", "css/style.css"]
     };
 }

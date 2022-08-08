@@ -1,13 +1,10 @@
-import apiEndpoint from "../../fetch_lib/api_endpoint.js";
-import replaceURL from "../../fetch_lib/replace_url.js";
-import loadScript from "../../fetch_lib/load_script.js";
-import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
-import fetchPageDocument from "../../fetch_lib/fetch_page_document.js";
+import replaceURL from "../../fetch_lib/replace_url";
+import fetchAndSave from "../../fetch_lib/fetch_and_save";
+import fetchPageDocument from "../../fetch_lib/fetch_page_document";
 
 //项目定义
+let projectName = "rustbook";
 const contextURL = "https://kaisery.github.io/trpl-zh-cn/";
-//api定义
-const apiEndpointInfo = apiEndpoint("rustbook");
 //抓取页面的间隔时间(ms)
 const sleepDuration = 2300;
 
@@ -200,7 +197,5 @@ function processFerrises(doc) {
     parseMenuList(Array.from(menuRootEl.children), menuList, allPageList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
-    await fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage);
-})().then(() => {
-
-})
+    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+})();

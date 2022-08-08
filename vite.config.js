@@ -1,16 +1,13 @@
 import {defineConfig} from 'vite'
 import vue from '@vitejs/plugin-vue'
+import builderPlugin from "./server/builder_plugin.js";
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [vue(), builderPlugin()],
     server: {
-        proxy: {
-            '/api': 'http://127.0.0.1:3000',
-            '/socket.io': {
-                target: 'ws://127.0.0.1:3000',
-                ws: true
-            }
+        watch: {
+            ignored: ['**/server/projects/**/dist']
         }
     }
 })

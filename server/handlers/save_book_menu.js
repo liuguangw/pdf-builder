@@ -2,6 +2,7 @@ import {writeFile, stat, mkdir} from 'fs/promises';
 import formatMenuList from "../lib/format_menu_list.js";
 import {loadBaseBookInfo} from "../lib/load_book_info.js";
 import {projectDistDir} from "../lib/path_helper.js";
+import writeJson from "../lib/write_json.js";
 
 async function saveBookMenu(bookInfo, menuList) {
     let projectName = bookInfo.projectName;
@@ -42,10 +43,10 @@ function formatMenuHtml(projectName, bookTitle, menuList) {
  */
 export default function saveBookMenuHandler(io) {
     return async function (req, resp) {
-        let bookName = req.params.bookName;
+        let bookName = req.body.bookName;
         let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
-            resp.json({
+           writeJson(resp,{
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"
@@ -53,17 +54,17 @@ export default function saveBookMenuHandler(io) {
             return;
         }
         try {
-            await saveBookMenu(bookInfo, req.body);
+            await saveBookMenu(bookInfo, req.body.menuList);
             io.emit("save-menu-success", bookName)
         } catch (e) {
-            resp.json({
+           writeJson(resp,{
                 code: 4000,
                 data: null,
                 message: e.message
             });
             return;
         }
-        resp.json({
+       writeJson(resp,{
             code: 0,
             data: null,
             message: ""

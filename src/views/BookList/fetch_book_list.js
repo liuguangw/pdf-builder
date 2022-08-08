@@ -9,7 +9,9 @@ export default function () {
     const fetchBookList = async () => {
         try {
             let fetchResult = await axios.get("/api/books")
-            bookList.value = fetchResult.data
+            if (fetchResult.headers["content-type"].indexOf("application/json") !== -1) {
+                bookList.value = fetchResult.data
+            }
         } catch (e) {
             messageType.value = 1
             message.value = e.message

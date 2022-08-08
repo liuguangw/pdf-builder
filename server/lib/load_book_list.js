@@ -2,12 +2,13 @@ import {projectDir} from "./path_helper.js";
 import esbuild from "esbuild"
 import loadBaseBookList from "./load_base_book_list.js";
 
-export async function addFetchScript(bookInfo) {
+export async function addFetchScript(bookInfo, serverURL) {
     let fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
     try {
         let buildResult = await esbuild.build({
             entryPoints: [fetchJsPath],
             bundle: true,
+            define: {VITE_SERVER_URL: JSON.stringify(serverURL)},
             //minify: true,
             write: false,
             target: ["chrome87", "firefox78"]

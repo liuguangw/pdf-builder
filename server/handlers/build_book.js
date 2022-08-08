@@ -1,7 +1,8 @@
 import {projectDistDir, projectPdfPath} from "../lib/path_helper.js";
 import {stat} from 'fs/promises';
 import {spawn} from "child_process";
-import loadBookInfo, {loadBaseBookInfo} from "../lib/load_book_info.js";
+import loadBookInfo from "../lib/load_book_info.js";
+import writeJson from "../lib/write_json.js";
 
 async function buildBook(io, bookInfo, inputPath, outputPath) {
     io.emit("build-stdout", bookInfo.projectName, "build project " + bookInfo.projectName);
@@ -59,10 +60,10 @@ async function buildBook(io, bookInfo, inputPath, outputPath) {
  */
 export default function buildBookHandler(io) {
     return async function (req, resp) {
-        let bookName = req.params.bookName;
+        let bookName = req.body.bookName;
         let bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
-            resp.json({
+           writeJson(resp,{
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"
@@ -74,7 +75,7 @@ export default function buildBookHandler(io) {
         try {
             await buildBook(io, bookInfo, inputPath, outputPath);
         } catch (e) {
-            resp.json({
+           writeJson(resp,{
                 code: 4000,
                 data: null,
                 message: e.message
@@ -82,7 +83,7 @@ export default function buildBookHandler(io) {
             io.emit("build-failed", bookName, e.message)
             return;
         }
-        resp.json({
+       writeJson(resp,{
             code: 0,
             data: null,
             message: ""

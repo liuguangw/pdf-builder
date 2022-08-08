@@ -1,6 +1,7 @@
 import {loadBaseBookInfo} from "../lib/load_book_info.js";
 import {projectDistDir} from "../lib/path_helper.js";
 import {writeFile} from "fs/promises";
+import writeJson from "../lib/write_json.js";
 
 /**
  *
@@ -46,17 +47,17 @@ function formatContentHtml(title, content, styles) {
  */
 export default function saveBookContentHandler(io) {
     return async function (req, resp) {
-        let bookName = req.params.bookName;
+        let bookName = req.body.bookName;
         let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
-            resp.json({
+           writeJson(resp,{
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"
             });
             return;
         }
-        resp.send("{}");
+        resp.end("{}");
         let filename = req.body.filename;
         //抓取网页失败
         if (req.body.status !== 0) {

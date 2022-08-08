@@ -1,12 +1,10 @@
-import replaceURL from "../../fetch_lib/replace_url.js";
-import apiEndpoint from "../../fetch_lib/api_endpoint.js";
-import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
-import fetchPageDocument from "../../fetch_lib/fetch_page_document.js";
+import replaceURL from "../../fetch_lib/replace_url";
+import fetchAndSave from "../../fetch_lib/fetch_and_save";
+import fetchPageDocument from "../../fetch_lib/fetch_page_document";
 
 //项目定义
+let projectName = "kratos";
 const contextURL = "https://go-kratos.dev/docs/";
-//api定义
-const apiEndpointInfo = apiEndpoint("kratos");
 //抓取页面的间隔时间(ms)
 const sleepDuration = 2300
 
@@ -67,6 +65,5 @@ function parseMenuList(liElementList, menuList, allPageList) {
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
     //console.log(allPageList)
-    await fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage);
-})().then(() => {
-})
+    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+})();

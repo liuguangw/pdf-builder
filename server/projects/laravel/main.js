@@ -3,14 +3,8 @@ export default function () {
     let projectName = "laravel";
     return {
         docURL,
-        contextURL: docURL,
         title: "Laravel 9 中文文档",
         projectName,
-        tocXpath: {
-            level1: "//h:h1",
-            level2: "//h:h2",
-            level3: "//h:h3"
-        },
         styles: ["css/style.css"]
     };
 }

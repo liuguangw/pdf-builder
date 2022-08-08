@@ -1,16 +1,13 @@
-import replaceURL from "./replace_url.js";
-import replaceContentImage from "./replace_content_image.js";
+import replaceURL from "./replace_url";
+import replaceContentImage from "./replace_content_image";
+import {FetchedImageInfo} from "./common";
+import ApiEndpoint from "./api_endpoint";
 
 /**
  * 抓取到网页内容后的一些通用处理过程
- * @param {HTMLElement} contentEl
- * @param {string} contextURL
- * @param {string} progress
- * @param {string} apiEndpointInfo
- * @param {Object[]} imageFetchList
- * @return {Promise<void>}
  */
-export default async function processPage(contentEl, contextURL, progress, apiEndpointInfo, imageFetchList) {
+export default async function processPage(contentEl: HTMLElement, contextURL: string, progress: string,
+                                          apiEndpointInfo: ApiEndpoint, imageFetchList: FetchedImageInfo[]): Promise<void> {
     //a标签链接替换
     contentEl.querySelectorAll("a").forEach(aElement => {
         if (aElement.href === "") {

@@ -8,7 +8,9 @@ export default function (showMessage, messageType, message) {
 
     const fetchBookInfo = async (projectName) => {
         try {
-            let fetchResult = await axios.get("/api/books/" + projectName + "/info")
+            let fetchResult = await axios.post("/api/book-info", {
+                bookName: projectName
+            })
             let bookInfoResponse = fetchResult.data
             if (bookInfoResponse.code !== 0) {
                 messageType.value = 1

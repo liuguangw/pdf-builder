@@ -1,7 +1,12 @@
 import loadBaseBookList from "../lib/load_base_book_list.js";
+import writeJson from "../lib/write_json.js";
 
-
-export default function (req, resp) {
+/**
+ *
+ * @param {Connect.IncomingMessage} req
+ * @param {ServerResponse} resp
+ */
+export default function bookListHandler(req, resp) {
     let items = loadBaseBookList()
-    resp.json(items);
+    writeJson(resp, items)
 }

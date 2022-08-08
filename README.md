@@ -19,11 +19,9 @@
 # 以pnpm工具运行命令example
 # 安装项目依赖(只需要在安装时执行)
 pnpm install
-# 编译项目(只需执行一次,除非修改了代码)
-pnpm run build
 # 启动server
-pnpm run server
-# 然后用浏览器打开 http://127.0.0.1:3000/
+pnpm run dev
+# 然后用浏览器打开 http://127.0.0.1:5173
 # 根据提示进行即可
 ```
 
@@ -31,7 +29,7 @@ pnpm run server
 
 - src  vue3 + vite前端源码
 - dist 前端编译处理后的目录
-- server 后端代码(express + socket.io)
+- server 后端代码(http + socket.io)
 - output 制作的pdf文档输出目录
 
 ## 扩展方式

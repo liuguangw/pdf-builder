@@ -1,11 +1,9 @@
-import apiEndpoint from "../../fetch_lib/api_endpoint.js";
-import fetchAndSave from "../../fetch_lib/fetch_and_save.js";
-import fetchPageContent from "../../fetch_lib/fetch_page_content.js";
+import fetchAndSave from "../../fetch_lib/fetch_and_save";
+import fetchPageContent from "../../fetch_lib/fetch_page_content";
 
 //项目定义
+let projectName = "es6tutorial";
 const contextURL = "https://es6.ruanyifeng.com/";
-//api定义
-const apiEndpointInfo = apiEndpoint("es6tutorial");
 //抓取页面的间隔时间(ms)
 const sleepDuration = 2300;
 
@@ -54,7 +52,5 @@ function parseMenuList(menuNodeList, menuList, allPageList) {
     //console.log(menuList)
     //console.log(JSON.stringify(menuList))
     //console.log(allPageList)
-    await fetchAndSave(menuList, allPageList, apiEndpointInfo, sleepDuration, contextURL, fetchPage);
-})().then(() => {
-
-})
+    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+})();

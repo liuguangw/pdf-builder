@@ -3,7 +3,6 @@ export default function () {
     let projectName = "kratos";
     return {
         docURL,
-        contextURL: docURL,
         title: "Kratos 中文文档",
         projectName,
         tocXpath: {
