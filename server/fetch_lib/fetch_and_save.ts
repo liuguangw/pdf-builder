@@ -62,7 +62,7 @@ export default async function fetchAndSave(menuList: MenuInfo[], projectName: st
             console.error("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] failed: " + postData.message);
             continue
         }
-        await processPage(contentEl, pageInfo.deep, contextURL, postData.progress, apiEndpointInfo, imageFetchList)
+        await processPage(contentEl, pageInfo.url, pageInfo.deep, contextURL, postData.progress, apiEndpointInfo, imageFetchList)
         postData.content = contentEl.outerHTML;
         //提交抓取结果给服务端
         try {

@@ -6,14 +6,24 @@ import ApiEndpoint from "./api_endpoint";
 /**
  * 抓取到网页内容后的一些通用处理过程
  */
-export default async function processPage(contentEl: HTMLElement, pageDeep: number, contextURL: string, progress: string,
-                                          apiEndpointInfo: ApiEndpoint, imageFetchList: FetchedImageInfo[]): Promise<void> {
+export default async function processPage(contentEl: HTMLElement, pageURL: string, pageDeep: number, contextURL: string,
+                                          progress: string, apiEndpointInfo: ApiEndpoint,
+                                          imageFetchList: FetchedImageInfo[]): Promise<void> {
     //a标签链接替换
     contentEl.querySelectorAll("a").forEach(aElement => {
-        if (aElement.href === "") {
+        let hrefValue = aElement.getAttribute("href")
+        if (hrefValue === null) {
             return
         }
-        aElement.href = replaceURL(aElement.href, contextURL)
+        if (hrefValue !== "") {
+            // 以#开头的
+            if (hrefValue.substring(0, 1) === "#") {
+                return
+            }
+        }
+        //计算完整URL
+        let linkURLInfo = new URL(hrefValue, pageURL)
+        aElement.href = replaceURL(linkURLInfo.href, contextURL)
     })
     //找出h1 - h6
     let currentDeep = pageDeep
