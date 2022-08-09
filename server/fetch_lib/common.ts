@@ -1,7 +1,15 @@
 export interface PageInfo {
     title: string,
     url: string,
-    filename: string
+    filename: string,
+    deep: number
+}
+
+export interface MenuInfo {
+    title: string,
+    url: string,
+    filename: string,
+    children: MenuInfo[]
 }
 
 export interface ApiResponse {

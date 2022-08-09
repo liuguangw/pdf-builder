@@ -29,7 +29,7 @@ async function fetchPage(pageURL) {
     return divElement;
 }
 
-function parseMenuList(groupList, menuList, allPageList) {
+function parseMenuList(groupList, menuList) {
     groupList.forEach(groupElement => {
         /**
          *
@@ -39,20 +39,17 @@ function parseMenuList(groupList, menuList, allPageList) {
         let subMenuNodeList = groupElement.querySelectorAll(".items>a");
         let menuItem = {
             title: groupTitleElement.innerText,
+            url: "",
             filename: "",
             children: []
         }
         subMenuNodeList.forEach(subMenuEl => {
             let subMenuItem = {
                 title: subMenuEl.innerText,
+                url: subMenuEl.href,
                 filename: replaceURL(subMenuEl.href, contextURL),
                 children: []
             }
-            allPageList.push({
-                title: subMenuItem.title,
-                filename: subMenuItem.filename,
-                url: subMenuEl.href
-            });
             menuItem.children.push(subMenuItem);
         })
         menuList.push(menuItem);
@@ -62,19 +59,16 @@ function parseMenuList(groupList, menuList, allPageList) {
 (async () => {
     //获取menu list
     let menuList = [];
-    let allPageList = [];
-
     let groupList = [];
     let groupNodeList = document.querySelectorAll("nav>div.group");
-    for (let i = 0; i < groupNodeList.length; i++) {
-        groupList.push(groupNodeList.item(i));
-    }
+    groupNodeList.forEach(groupNode => {
+        groupList.push(groupNode);
+    })
     //配置文档
     let configDoc = await fetchPageDocument(contextURL + "config/")
     groupList.push(configDoc.querySelector("nav>div.group"));
-    parseMenuList(groupList, menuList, allPageList);
+    parseMenuList(groupList, menuList);
     //console.log(menuList)
-    //console.log(JSON.stringify(menuList))
-    //console.log(allPageList)
-    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+    //console.log(JSON.stringify(menuList,null,"\t"))
+    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
 })();

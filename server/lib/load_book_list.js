@@ -34,12 +34,14 @@ function addMetaInfo(bookInfo) {
     if (!("paperSize" in bookInfo)) {
         bookInfo.paperSize = "a4";
     }
-    if (!("tocXpath" in bookInfo)) {
-        bookInfo.tocXpath = {
-            level1: "//h:h1",
-            level2: "//h:h2",
-            level3: "//h:h3"
-        };
+    if (!("tocLevel1" in bookInfo)) {
+        bookInfo.tocLevel1 = "//*[@class=\"pdf-toc1\"]"
+    }
+    if (!("tocLevel2" in bookInfo)) {
+        bookInfo.tocLevel2 = "//*[@class=\"pdf-toc2\"]"
+    }
+    if (!("tocLevel3" in bookInfo)) {
+        bookInfo.tocLevel3 = "//*[@class=\"pdf-toc3\"]"
     }
     if (!("marginOption" in bookInfo)) {
         bookInfo.marginOption = {

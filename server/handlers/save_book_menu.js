@@ -19,7 +19,7 @@ async function saveBookMenu(bookInfo, menuList) {
 }
 
 function formatMenuHtml(projectName, bookTitle, menuList) {
-    let allGroupHtml = "\t<div class=\"book-main-title\"><h1>目录</h1></div>\n" +
+    let allGroupHtml = "\t<div class=\"book-main-title\"><h1 class=\"pdf-toc1\">目录</h1></div>\n" +
         "\t<div class=\"menu-list\">\n";
     allGroupHtml += formatMenuList(menuList, 1)
     allGroupHtml += "\n\t</div>\n"

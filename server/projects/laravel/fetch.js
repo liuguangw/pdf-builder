@@ -19,13 +19,14 @@ async function fetchPage(pageURL) {
     return doc.querySelector("div.content-body");
 }
 
-function parseMenuList(groupNodeList, menuList, allPageList) {
+function parseMenuList(groupNodeList, menuList) {
     groupNodeList.forEach(groupElement => {
         let groupIconElement = groupElement.querySelector("i");
         let groupTitle = groupIconElement.nextSibling.textContent.trim();
         let subMenuNodeList = groupElement.querySelectorAll("ol>li.item>a");
         let menuItem = {
             title: groupTitle,
+            url: "",
             filename: "",
             children: []
         }
@@ -33,14 +34,10 @@ function parseMenuList(groupNodeList, menuList, allPageList) {
             let subMenuChildNodes = subMenuEl.childNodes;
             let subMenuItem = {
                 title: subMenuChildNodes.item(0).textContent.trim(),
+                url: subMenuEl.href,
                 filename: replaceURL(subMenuEl.href, contextURL),
                 children: []
-            }
-            allPageList.push({
-                title: subMenuItem.title,
-                filename: subMenuItem.filename,
-                url: subMenuEl.href
-            });
+            };
             menuItem.children.push(subMenuItem);
         })
         menuList.push(menuItem);
@@ -50,11 +47,9 @@ function parseMenuList(groupNodeList, menuList, allPageList) {
 (async () => {
     //获取menu list
     let menuList = [];
-    let allPageList = [];
     let groupNodeList = document.querySelectorAll("ol.sorted_table>li.item");
-    parseMenuList(groupNodeList, menuList, allPageList);
+    parseMenuList(groupNodeList, menuList);
     //console.log(menuList)
-    //console.log(JSON.stringify(menuList))
-    //console.log(allPageList)
-    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+    //console.log(JSON.stringify(menuList,null,"\t"))
+    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
 })();

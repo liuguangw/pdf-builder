@@ -22,16 +22,28 @@ async function fetchPage(pageURL) {
      */
     let divElement = doc.querySelector("div.markdown");
     if (divElement === null) {
+        //card页面
         divElement = doc.querySelector(".container>div");
         let navElement = divElement.querySelector("nav");
         let footerElement = divElement.querySelector("footer");
         divElement.removeChild(navElement);
         divElement.removeChild(footerElement);
+        //h2替换,防止影响pdf目录结构
+        let h2ElementList = divElement.querySelectorAll("h2")
+        h2ElementList.forEach(h2Element => {
+            let newH2Element = doc.createElement("div")
+            newH2Element.className = "card-h2"
+            newH2Element.title = h2Element.title
+            newH2Element.innerHTML = h2Element.innerHTML
+            let parentEl = h2Element.parentElement
+            parentEl.insertBefore(newH2Element, h2Element.nextElementSibling)
+            parentEl.removeChild(h2Element)
+        })
     }
     return divElement;
 }
 
-function parseMenuList(liElementList, menuList, allPageList) {
+function parseMenuList(liElementList, menuList) {
     liElementList.forEach(liElement => {
         /**
          *
@@ -41,16 +53,12 @@ function parseMenuList(liElementList, menuList, allPageList) {
         let subMenuUlEl = liElement.querySelector("ul.menu__list");
         let menuItem = {
             title: menuLink.innerText,
+            url: menuLink.href,
             filename: replaceURL(menuLink.href, contextURL),
             children: []
         }
-        allPageList.push({
-            title: menuItem.title,
-            filename: menuItem.filename,
-            url: menuLink.href,
-        });
         if (subMenuUlEl !== null) {
-            parseMenuList(Array.from(subMenuUlEl.children), menuItem.children, allPageList);
+            parseMenuList(Array.from(subMenuUlEl.children), menuItem.children);
         }
         menuList.push(menuItem);
     })
@@ -59,11 +67,9 @@ function parseMenuList(liElementList, menuList, allPageList) {
 (async () => {
     //获取menu list
     let menuList = [];
-    let allPageList = [];
-    let menuRootEl = document.querySelector(".theme-doc-sidebar-menu.menu__list");
-    parseMenuList(Array.from(menuRootEl.children), menuList, allPageList);
+    let menuNodeList = document.querySelectorAll("nav>ul.menu__list>li");
+    parseMenuList(menuNodeList, menuList);
     //console.log(menuList)
-    //console.log(JSON.stringify(menuList))
-    //console.log(allPageList)
-    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+    //console.log(JSON.stringify(menuList,null,"\t"))
+    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
 })();

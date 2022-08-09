@@ -34,6 +34,6 @@ export default function replaceURL(fullURL: string, contextURL: string): string 
     } else if (!pathname.endsWith(".html")) {
         pathname += ".html"
     }
-    pathname = pathname.replace(/\//g, "-")
-    return decodeURI(pathname + itemHash)
+    pathname = pathname.replace(/\//g, "-").replace(/%/g, "")
+    return pathname + itemHash
 }

@@ -6,6 +6,8 @@ html, body {
 .main-book-content {
     word-wrap: break-word;
     font-size: 16px;
+    max-width: 750px;
+    margin: 0 auto;
 }
 
 .main-book-content a {
@@ -33,7 +35,7 @@ html, body {
 }
 
 .main-book-content .row .col {
-    width: 100%;
+    max-width: 50%;
     padding: 0 16px;
     flex: 0 0 50%;
     box-sizing: border-box;
@@ -47,21 +49,27 @@ html, body {
     flex-direction: column;
     overflow: hidden;
     color: #444950;
+    border: 1px solid #ebe8e8;
 }
 
 .main-book-content .text--truncate {
     overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap;
+    white-space: break-spaces;
 }
 
-.main-book-content .card h2 {
+.main-book-content .card .card-h2 {
     font-size: 19px;
+    line-height: 1.25;
+    font-weight: 700;
+    margin-bottom: 16px;
     margin-top: 0;
 }
 
 .main-book-content .card p {
     font-size: 13px;
+    height: 42px;
+    line-height: 21px;
     margin: 0;
 }
 

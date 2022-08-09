@@ -18,32 +18,27 @@ html, body {
     padding: 0 25px;
 }
 
-.menu-list > ul {
-    padding: 0;
-}
-
 .menu-list ul {
     margin: 0;
     list-style: none;
 }
 
-.menu-list ul > ul:last-child {
-    border: none;
-}
-
-.menu-list ul > li {
+.menu-list li {
     display: block;
     list-style: none;
-    margin: 5px;
-    padding: 5px;
-    border-bottom: 1px dashed #bbb4d6;
+    border-top: 1px dashed #bbb4d6;
 }
 
-.menu-list ul > li:last-child {
+.menu-list > ul {
+    padding: 0;
+}
+
+.menu-list > ul > li:first-child {
     border: none;
 }
 
-.menu-list ul li a {
+.menu-list li a {
+    padding: 10px 0;
     font-size: 16px;
     height: 24px;
     line-height: 24px;
@@ -52,7 +47,8 @@ html, body {
     display: block;
 }
 
-.menu-list ul li span {
+.menu-list li span {
+    padding: 10px 0;
     font-size: 18px;
     height: 27px;
     line-height: 27px;

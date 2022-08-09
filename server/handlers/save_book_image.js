@@ -1,6 +1,6 @@
 import {loadBaseBookInfo} from "../lib/load_book_info.js";
 import {projectDistDir} from "../lib/path_helper.js";
-import {mkdir, stat, open} from "fs/promises";
+import {mkdir, stat, open, copyFile, rm} from "fs/promises";
 import axios from "axios";
 import md5 from 'crypto-js/md5.js';
 import writeJson from "../lib/write_json.js";
@@ -28,9 +28,25 @@ async function saveBookImage(bookDistDir, imageURL, referer) {
         timeout: 60 * 1000
     })
     //console.log(fetchResult.status, fetchResult.headers["content-type"])
-    let filename = imgDirName + "/" + formatImageURL(imageURL, fetchResult.headers["content-type"])
+    let imageExt = getImageExt(fetchResult.headers["content-type"])
+    let filename = formatImageFileName(imageURL, imageExt)
+    let tmpFilename = "tmp." + imageExt
+    let imgFilePath = saveDir + "/" + filename
+    let tmpFilePath = saveDir + "/" + tmpFilename
+    //判断图片文件是否已经存在
+    let imgFilePathExists = false
+    try {
+        await stat(imgFilePath)
+        imgFilePathExists = true
+    } catch (e) {
+    }
+    //文件存在,直接返回,不继续下载
+    if (imgFilePathExists) {
+        return imgDirName + "/" + filename
+    }
+    //下载到临时文件
     let streamReader = fetchResult.data
-    const fd = await open(bookDistDir + "/" + filename, "w");
+    const fd = await open(tmpFilePath, "w");
     let streamWriter = await fd.createWriteStream();
     streamReader.pipe(streamWriter)
     let streamFn = new Promise((resolve, reject) => {
@@ -42,25 +58,37 @@ async function saveBookImage(bookDistDir, imageURL, referer) {
             reject(err);
         });
     });
-    await streamFn;
-    streamWriter.close()
-    await fd.close()
-    return filename
+    try {
+        await streamFn;
+    } catch (err) {
+        throw err
+    } finally {
+        streamWriter.close()
+        await fd.close()
+    }
+    //copy覆盖
+    await copyFile(tmpFilePath, imgFilePath)
+    await rm(tmpFilePath)
+    return imgDirName + "/" + filename
     //await writeFile(htmlPath, contentHtml);
 }
 
-function formatImageURL(srcURL, contentType) {
-    let imageType = "png"
+function formatImageFileName(srcURL, imageExt) {
+    return md5(srcURL) + "." + imageExt
+}
+
+function getImageExt(contentType) {
+    let imageExt = "png"
     let pos = contentType.indexOf("/")
     if (pos !== -1) {
-        imageType = contentType.substring(pos + 1)
-        if (imageType === "jpeg") {
-            imageType = "jpg"
-        } else if (imageType === "svg+xml") {
-            imageType = "svg"
+        imageExt = contentType.substring(pos + 1)
+        if (imageExt === "jpeg") {
+            imageExt = "jpg"
+        } else if (imageExt === "svg+xml") {
+            imageExt = "svg"
         }
     }
-    return md5(srcURL) + "." + imageType
+    return imageExt
 }
 
 /**
@@ -99,7 +127,7 @@ export default function saveBookImageHandler(io) {
         let bookName = req.body.bookName;
         let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"
@@ -110,7 +138,7 @@ export default function saveBookImageHandler(io) {
         let imageType = req.body.imageType;
         //不需要fetch的图片,例如data url、重复的图片url
         if (imageType !== 0) {
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 0,
                 data: imageURL,
                 message: ""
@@ -124,7 +152,7 @@ export default function saveBookImageHandler(io) {
             saveFileName = await processSaveImage(bookDistDir, imageURL, bookInfo.docURL)
         } catch (e) {
             io.emit("fetch-img-error", bookName, req.body.progress, imageURL, e.message);
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 4000,
                 data: null,
                 message: e.message
@@ -132,7 +160,7 @@ export default function saveBookImageHandler(io) {
             return
         }
         io.emit("fetch-img-success", bookName, req.body.progress, imageURL);
-       writeJson(resp,{
+        writeJson(resp, {
             code: 0,
             data: saveFileName,
             message: ""

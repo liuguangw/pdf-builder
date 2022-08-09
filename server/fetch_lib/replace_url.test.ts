@@ -34,6 +34,10 @@ test('root', () => {
     expect(replaceURL(fullURL, contextURL)).toBe("_index.html");
 });
 test('root with hash', () => {
-    let fullURL = contextURL+"#opt2";
+    let fullURL = contextURL + "#opt2";
     expect(replaceURL(fullURL, contextURL)).toBe("_index.html#opt2");
+});
+test('encodeURI', () => {
+    let fullURL = "https://www.a.com/aaaaa/doc/category-%E7%AE%80%E4%BB%8B.html";
+    expect(replaceURL(fullURL, contextURL)).toBe("category-E7AE80E4BB8B.html");
 });

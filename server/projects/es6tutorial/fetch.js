@@ -23,34 +23,41 @@ async function fetchPage(pageURL) {
     doc.querySelectorAll("pre code").forEach(codeElement => {
         window.Prism.highlightElement(codeElement)
     });
+    //图片链接fix
+    doc.querySelectorAll("img").forEach(imgElement => {
+        if (imgElement.parentElement.tagName.toLowerCase() === "a") {
+            imgElement.parentElement.href = contextURL + "README"
+        }
+    });
+    //h3 id fix
+    doc.querySelectorAll("h3").forEach(h3Element => {
+        if (h3Element.getAttribute("id") === "-") {
+            h3Element.removeAttribute("id")
+        }
+    });
     return doc.querySelector("div#content");
 }
 
-function parseMenuList(menuNodeList, menuList, allPageList) {
+function parseMenuList(menuNodeList, menuList) {
     menuNodeList.forEach(menuElement => {
         let linkElement = menuElement.querySelector("a");
+        let hashText = linkElement.hash.substring(1)
         let menuItem = {
             title: linkElement.innerText,
-            filename: linkElement.hash.substring(1).replaceAll("/", "-") + ".html",
+            url: contextURL + hashText + ".md",
+            filename: hashText.replaceAll("/", "-") + ".html",
             children: []
         }
         menuList.push(menuItem);
-        allPageList.push({
-            title: menuItem.title,
-            filename: menuItem.filename,
-            url: contextURL + linkElement.hash.substring(1) + ".md"
-        });
     })
 }
 
 (async () => {
     //获取menu list
     let menuList = [];
-    let allPageList = [];
     let menuNodeList = document.querySelectorAll("#sidebar>ol>li");
-    parseMenuList(menuNodeList, menuList, allPageList);
+    parseMenuList(menuNodeList, menuList);
     //console.log(menuList)
-    //console.log(JSON.stringify(menuList))
-    //console.log(allPageList)
-    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+    //console.log(JSON.stringify(menuList,null,"\t"))
+    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
 })();

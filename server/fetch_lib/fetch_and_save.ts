@@ -1,11 +1,20 @@
 import sleepAsync from "./sleep_async";
 import processPage from "./process_page";
 import requestAPI from "./request_api.js";
-import {PageInfo, fetchPageHandler, ApiResponse, ContentApiRequest, FetchedImageInfo, MenuApiRequest} from "./common";
+import {
+    PageInfo,
+    fetchPageHandler,
+    ApiResponse,
+    ContentApiRequest,
+    FetchedImageInfo,
+    MenuApiRequest,
+    MenuInfo
+} from "./common";
 import ApiEndpoint from "./api_endpoint";
+import parsePageList from "./parse_page_list";
 
-export default async function fetchAndSave(menuList: any[], allPageList: PageInfo[], projectName: string,
-                                           sleepDuration: number, contextURL: string, fetchPage: fetchPageHandler): Promise<void> {
+export default async function fetchAndSave(menuList: MenuInfo[], projectName: string, sleepDuration: number,
+                                           contextURL: string, fetchPage: fetchPageHandler): Promise<void> {
     let apiEndpointInfo = new ApiEndpoint(projectName);
     //保存menu信息
     try {
@@ -26,6 +35,7 @@ export default async function fetchAndSave(menuList: any[], allPageList: PageInf
     }
     let hasFetchError = false;
     let imageFetchList: FetchedImageInfo[] = [];
+    let allPageList: PageInfo[] = parsePageList(menuList, 1)
     for (let pageIndex = 0; pageIndex < allPageList.length; pageIndex++) {
         let pageInfo = allPageList[pageIndex];
         if (pageIndex > 0) {
@@ -52,7 +62,7 @@ export default async function fetchAndSave(menuList: any[], allPageList: PageInf
             console.error("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] failed: " + postData.message);
             continue
         }
-        await processPage(contentEl, contextURL, postData.progress, apiEndpointInfo, imageFetchList)
+        await processPage(contentEl, pageInfo.deep, contextURL, postData.progress, apiEndpointInfo, imageFetchList)
         postData.content = contentEl.outerHTML;
         //提交抓取结果给服务端
         try {

@@ -1,6 +1,6 @@
 import {ApiResponse} from "./common";
 
-export default async function requestAPI(url:string, postData:any):Promise<ApiResponse> {
+export default async function requestAPI(url: string, postData: any): Promise<ApiResponse> {
     let reqHeaders = new Headers();
     let reqBody = ""
     if (postData !== null) {

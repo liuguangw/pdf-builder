@@ -23,30 +23,25 @@ async function fetchPage(pageURL) {
     return doc.querySelector("#content main");
 }
 
-function parseMenuList(liElementList, menuList, allPageList) {
+function parseMenuList(liElementList, menuList) {
     liElementList.forEach(liElement => {
         /**
          *
          * @type {HTMLAnchorElement}
          */
         let menuLink = liElement.querySelector("a");
-        let nextLi = liElement.nextElementSibling;
-        let subMenuUlEl = null;
-        if (nextLi !== null) {
-            subMenuUlEl = nextLi.querySelector("ol.section");
-        }
         let menuItem = {
             title: menuLink.innerText,
+            url: menuLink.href,
             filename: replaceURL(menuLink.href, contextURL),
             children: []
         }
-        allPageList.push({
-            title: menuItem.title,
-            filename: menuItem.filename,
-            url: menuLink.href,
-        });
-        if (subMenuUlEl !== null) {
-            parseMenuList(Array.from(subMenuUlEl.children), menuItem.children, allPageList);
+        let nextElement = liElement.nextElementSibling;
+        if (nextElement !== null) {
+            let subOlElement = nextElement.querySelector("ol");
+            if (subOlElement !== null) {
+                parseMenuList(Array.from(subOlElement.children), menuItem.children)
+            }
         }
         menuList.push(menuItem);
     })
@@ -192,10 +187,9 @@ function processFerrises(doc) {
 (async () => {
     //获取menu list
     let menuList = [];
-    let allPageList = [];
-    let menuRootEl = document.querySelector("ol.chapter");
-    parseMenuList(Array.from(menuRootEl.children), menuList, allPageList);
+    let liElementList = document.querySelectorAll("ol.chapter>li.chapter-item");
+    parseMenuList(liElementList, menuList);
     //console.log(menuList)
-    //console.log(JSON.stringify(menuList))
-    await fetchAndSave(menuList, allPageList, projectName, sleepDuration, contextURL, fetchPage);
+    //console.log(JSON.stringify(menuList,null,"\t"))
+    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
 })();
