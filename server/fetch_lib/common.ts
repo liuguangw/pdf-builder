@@ -60,4 +60,5 @@ export interface FetchedImageInfo {
     data: string
 }
 
-export type fetchPageHandler = (pageURL: string) => Promise<HTMLElement>
+export type FetchPageHandler = (pageURL: string) => Promise<HTMLElement>
+export type ReplaceURLHandler = (fullURL: string, contextURL: string) => string

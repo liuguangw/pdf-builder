@@ -3,18 +3,19 @@ import processPage from "./process_page";
 import requestAPI from "./request_api.js";
 import {
     PageInfo,
-    fetchPageHandler,
     ApiResponse,
     ContentApiRequest,
     FetchedImageInfo,
     MenuApiRequest,
-    MenuInfo
+    MenuInfo, FetchPageHandler, ReplaceURLHandler
 } from "./common";
 import ApiEndpoint from "./api_endpoint";
 import parsePageList from "./parse_page_list";
+import replaceURL from "./replace_url";
 
-export default async function fetchAndSave(menuList: MenuInfo[], projectName: string, sleepDuration: number,
-                                           contextURL: string, fetchPage: fetchPageHandler): Promise<void> {
+export default async function fetchAndSave(menuList: MenuInfo[], projectName: string,
+                                           sleepDuration: number, contextURL: string,
+                                           fetchPage: FetchPageHandler, replaceURLHandler: ReplaceURLHandler = replaceURL): Promise<void> {
     let apiEndpointInfo = new ApiEndpoint(projectName);
     //保存menu信息
     try {
@@ -62,7 +63,7 @@ export default async function fetchAndSave(menuList: MenuInfo[], projectName: st
             console.error("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] failed: " + postData.message);
             continue
         }
-        await processPage(contentEl, pageInfo.url, pageInfo.deep, contextURL, postData.progress, apiEndpointInfo, imageFetchList)
+        await processPage(contentEl, pageInfo.url, pageInfo.deep, contextURL, replaceURLHandler, postData.progress, apiEndpointInfo, imageFetchList)
         postData.content = contentEl.outerHTML;
         //提交抓取结果给服务端
         try {

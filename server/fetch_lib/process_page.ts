@@ -1,12 +1,13 @@
 import replaceURL from "./replace_url";
 import replaceContentImage from "./replace_content_image";
-import {FetchedImageInfo} from "./common";
+import {FetchedImageInfo, ReplaceURLHandler} from "./common";
 import ApiEndpoint from "./api_endpoint";
 
 /**
  * 抓取到网页内容后的一些通用处理过程
  */
-export default async function processPage(contentEl: HTMLElement, pageURL: string, pageDeep: number, contextURL: string,
+export default async function processPage(contentEl: HTMLElement, pageURL: string, pageDeep: number,
+                                          contextURL: string,replaceURLHandler: ReplaceURLHandler,
                                           progress: string, apiEndpointInfo: ApiEndpoint,
                                           imageFetchList: FetchedImageInfo[]): Promise<void> {
     //a标签链接替换
@@ -23,7 +24,7 @@ export default async function processPage(contentEl: HTMLElement, pageURL: strin
         }
         //计算完整URL
         let linkURLInfo = new URL(hrefValue, pageURL)
-        aElement.href = replaceURL(linkURLInfo.href, contextURL)
+        aElement.href = replaceURLHandler(linkURLInfo.href, contextURL)
     })
     //找出h1 - h6
     let currentDeep = pageDeep

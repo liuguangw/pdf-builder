@@ -28,6 +28,27 @@ async function fetchPage(pageURL) {
     return contentEl;
 }
 
+/**
+ * 用于laravel文档的url替换算法
+ *
+ * @param {string} fullURL
+ * @param {string} contextURL
+ * @return string
+ */
+function myReplaceURL(fullURL, contextURL) {
+    //将url和hash分开
+    let itemURL = fullURL;
+    let itemHash = "";
+    let pos = itemURL.indexOf("#")
+    if (pos !== -1) {
+        itemHash = itemURL.substring(pos)
+        itemURL = itemURL.substring(0, pos)
+    }
+    //去除尾部的 /+数字
+    itemURL = itemURL.replace(/\/\d+$/, "")
+    return replaceURL(itemURL + itemHash, contextURL)
+}
+
 function parseMenuList(groupNodeList, menuList) {
     groupNodeList.forEach(groupElement => {
         let groupIconElement = groupElement.querySelector("i");
@@ -44,7 +65,7 @@ function parseMenuList(groupNodeList, menuList) {
             let subMenuItem = {
                 title: subMenuChildNodes.item(0).textContent.trim(),
                 url: subMenuEl.href,
-                filename: replaceURL(subMenuEl.href, contextURL),
+                filename: myReplaceURL(subMenuEl.href, contextURL),
                 children: []
             };
             menuItem.children.push(subMenuItem);
@@ -60,5 +81,5 @@ function parseMenuList(groupNodeList, menuList) {
     parseMenuList(groupNodeList, menuList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList,null,"\t"))
-    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
+    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage, myReplaceURL);
 })();
