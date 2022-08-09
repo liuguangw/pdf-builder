@@ -20,6 +20,22 @@ async function saveBookImage(bookDistDir, imageURL, referer) {
     } catch (e) {
         await mkdir(saveDir)
     }
+    let imageExt = getImageExtFromUrl(imageURL)
+    let imgFilePathExists = false
+    if (imageExt !== "") {
+        let filename = formatImageFileName(imageURL, imageExt)
+        let imgFilePath = saveDir + "/" + filename
+        //判断图片文件是否已经存在
+        try {
+            await stat(imgFilePath)
+            imgFilePathExists = true
+        } catch (e) {
+        }
+        //文件存在,直接返回,不发出http请求
+        if (imgFilePathExists) {
+            return imgDirName + "/" + filename
+        }
+    }
     let fetchResult = await axios.get(imageURL, {
         responseType: "stream",
         headers: {
@@ -28,13 +44,14 @@ async function saveBookImage(bookDistDir, imageURL, referer) {
         timeout: 60 * 1000
     })
     //console.log(fetchResult.status, fetchResult.headers["content-type"])
-    let imageExt = getImageExt(fetchResult.headers["content-type"])
+    if (imageExt === "") {
+        imageExt = getImageExt(fetchResult.headers["content-type"])
+    }
     let filename = formatImageFileName(imageURL, imageExt)
     let tmpFilename = "tmp." + imageExt
     let imgFilePath = saveDir + "/" + filename
     let tmpFilePath = saveDir + "/" + tmpFilename
     //判断图片文件是否已经存在
-    let imgFilePathExists = false
     try {
         await stat(imgFilePath)
         imgFilePathExists = true
@@ -75,6 +92,25 @@ async function saveBookImage(bookDistDir, imageURL, referer) {
 
 function formatImageFileName(srcURL, imageExt) {
     return md5(srcURL) + "." + imageExt
+}
+
+/**
+ * 从图片url中获取图片文件后缀,如果获取失败,则返回空字符串
+ *
+ * @param {string} imageURL
+ * @return {string}
+ */
+function getImageExtFromUrl(imageURL) {
+    const commonExtList = ["png", "jpg", "jpeg", "gif", "bmp", "svg", "webp"]
+    let imageURLInfo = new URL(imageURL)
+    let imageExt = ""
+    for (let extName of commonExtList) {
+        if (imageURLInfo.pathname.endsWith("." + extName)) {
+            imageExt = extName
+            break
+        }
+    }
+    return imageExt
 }
 
 function getImageExt(contentType) {
