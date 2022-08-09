@@ -16,7 +16,16 @@ const sleepDuration = 2300;
  */
 async function fetchPage(pageURL) {
     let doc = await fetchPageDocument(pageURL)
-    return doc.querySelector("div.content-body");
+    let contentEl = doc.querySelector("div.content-body");
+    //fix 锚点问题
+    contentEl.querySelectorAll("a").forEach(linkElement => {
+        let nameValue = linkElement.getAttribute("name")
+        if (nameValue !== null) {
+            linkElement.setAttribute("id", nameValue)
+            linkElement.removeAttribute("name")
+        }
+    })
+    return contentEl;
 }
 
 function parseMenuList(groupNodeList, menuList) {
