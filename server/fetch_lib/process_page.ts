@@ -19,7 +19,8 @@ export default async function processPage(contentEl: HTMLElement, pageDeep: numb
     let currentDeep = pageDeep
     for (let i = 1; i < 7; i++) {
         let tagName = "h" + i
-        let hNodeList = contentEl.querySelectorAll(tagName)
+        //排除.pdf-no-toc
+        let hNodeList = contentEl.querySelectorAll(tagName + ":not(.pdf-no-toc)")
         if (hNodeList.length > 0) {
             //添加标题class属性
             let hClassName = "pdf-toc" + currentDeep

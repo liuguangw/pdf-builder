@@ -20,6 +20,12 @@ async function fetchPage(pageURL) {
     docHighlight(doc);
     //有问题的代码图标
     processFerrises(doc);
+    //总结不需要加入pdf目录
+    doc.querySelectorAll("h2").forEach(h2Element => {
+        if (h2Element.innerText === "总结") {
+            h2Element.classList.add("pdf-no-toc")
+        }
+    })
     return doc.querySelector("#content main");
 }
 

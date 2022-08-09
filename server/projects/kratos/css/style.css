@@ -58,7 +58,7 @@ html, body {
     white-space: break-spaces;
 }
 
-.main-book-content .card .card-h2 {
+.main-book-content .card h2 {
     font-size: 19px;
     line-height: 1.25;
     font-weight: 700;

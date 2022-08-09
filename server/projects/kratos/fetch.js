@@ -31,13 +31,7 @@ async function fetchPage(pageURL) {
         //h2替换,防止影响pdf目录结构
         let h2ElementList = divElement.querySelectorAll("h2")
         h2ElementList.forEach(h2Element => {
-            let newH2Element = doc.createElement("div")
-            newH2Element.className = "card-h2"
-            newH2Element.title = h2Element.title
-            newH2Element.innerHTML = h2Element.innerHTML
-            let parentEl = h2Element.parentElement
-            parentEl.insertBefore(newH2Element, h2Element.nextElementSibling)
-            parentEl.removeChild(h2Element)
+            h2Element.classList.add("pdf-no-toc")
         })
     }
     return divElement;
