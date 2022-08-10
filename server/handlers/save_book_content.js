@@ -25,21 +25,22 @@ async function saveBookContent(htmlPath, title, content, styles) {
  */
 function formatContentHtml(title, content, styles) {
     let styleHtml = "";
-    for (let i = 0; i < styles.length; i++) {
-        styleHtml += ("    <link rel=\"stylesheet\" href=\"../" + styles[i] + "\" />\n");
-    }
-    return "<!DOCTYPE html>\n" +
-        "<html lang=\"zh-CN\">\n" +
-        "  <head>\n" +
-        "    <meta charset=\"utf-8\" />\n" +
-        "    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\" />\n" +
-        "    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no\" />\n" +
-        "    <title>" + title + "</title>\n" + styleHtml +
-        "  </head>\n" +
-        "  <body>\n" +
-        "   <div class=\"main-book-content\">" + content + "</div>\n" +
-        " </body>\n" +
-        "</html>";
+    styles.forEach(stylePath => {
+        styleHtml += `\n\t\t<link rel="stylesheet" href="../${stylePath}" />`
+    })
+    return `<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <title>${title}</title>
+        <link rel="stylesheet" href="../../../css/content.css" />${styleHtml}
+    </head>
+    <body>
+        <div class="main-book-content">${content}</div>
+    </body>
+</html>`
 }
 
 /**
@@ -50,7 +51,7 @@ export default function saveBookContentHandler(io) {
         let bookName = req.body.bookName;
         let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"

@@ -2,16 +2,9 @@
     box-sizing: border-box;
 }
 
-body {
-    margin: 0;
-    font-size: 1rem;
+.main-book-content main {
     overflow-x: hidden;
     font-family: "Open Sans", sans-serif;
-}
-
-.main-book-content main {
-    margin: 0 auto;
-    max-width: 750px;
 }
 
 .main-book-content main a {
@@ -111,9 +104,4 @@ main .does_not_compile, main .panics, main .not_desired_behavior, body.rust .doe
     top: 30px;
     width: 10%;
     height: auto;
-}
-
-.main-book-content main pre code {
-    white-space: pre-wrap;
-    word-wrap: break-word;
 }

@@ -1,19 +1,6 @@
-html, body {
-    margin: 0;
-    padding: 0;
-}
-
 .main-book-content {
-    word-wrap: break-word;
-    font-size: 16px;
     line-height: 24px;
     font-family: "Inter var experimental", "Inter var", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
-}
-
-.main-book-content > div {
-    margin: 0 auto;
-    max-width: 750px;
-    box-sizing: border-box;
 }
 
 #play-vite-audio {

@@ -1,21 +1,8 @@
-html, body {
-    margin: 0;
-    padding: 0;
-}
-
 .main-book-content {
     color: #636b6f;
-    background: #ffffff;
     font-family: Helvetica, Arial, PingFang SC, Noto Sans, Roboto, Microsoft Yahei, sans-serif;
     font-size: 15px;
     min-height: 100vh;
-    word-wrap: break-word;
-}
-
-.main-book-content > div {
-    margin: 0 auto;
-    max-width: 750px;
-    box-sizing: border-box;
 }
 
 .main-book-content p {
@@ -139,7 +126,6 @@ html, body {
 }
 
 .main-book-content pre > code {
-    word-wrap: break-word;
     color: #d1d2d2;
     max-width: inherit;
     background: none;
