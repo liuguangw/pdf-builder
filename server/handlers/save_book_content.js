@@ -4,26 +4,14 @@ import {writeFile} from "fs/promises";
 import writeJson from "../lib/write_json.js";
 
 /**
+ * 根据参数,生成html内容
  *
- * @param {string} htmlPath
- * @param {string} title
- * @param {string} content
- * @param {string[]} styles
- * @return {Promise<void>}
+ * @param {string} title 标题
+ * @param {string[]} styles 样式文件列表
+ * @param {string} content 内容html
+ * @return {string} 返回完整的html代码
  */
-async function saveBookContent(htmlPath, title, content, styles) {
-    let contentHtml = formatContentHtml(title, content, styles);
-    await writeFile(htmlPath, contentHtml);
-}
-
-/**
- *
- * @param {string} title
- * @param {string} content
- * @param {string[]} styles
- * @return {string}
- */
-function formatContentHtml(title, content, styles) {
+function formatContentHtml(title, styles, content) {
     let styleHtml = "";
     styles.forEach(stylePath => {
         styleHtml += `\n\t\t<link rel="stylesheet" href="../${stylePath}" />`
@@ -44,6 +32,20 @@ function formatContentHtml(title, content, styles) {
 }
 
 /**
+ * 根据参数,保存网页到本地文件
+ *
+ * @param {string} htmlPath 保存路径
+ * @param {string} title 标题
+ * @param {string[]} styles 样式文件列表
+ * @param {string} content 内容html
+ * @return {Promise<void>}
+ */
+async function saveBookContent(htmlPath, title, styles, content) {
+    let contentHtml = formatContentHtml(title, styles, content);
+    await writeFile(htmlPath, contentHtml);
+}
+
+/**
  * 保存网页内容
  */
 export default function saveBookContentHandler(io) {
@@ -58,19 +60,34 @@ export default function saveBookContentHandler(io) {
             });
             return;
         }
-        resp.end("{}");
         let filename = req.body.filename;
         //抓取网页失败
         if (req.body.status !== 0) {
             io.emit("fetch-content-error", bookName, req.body.progress, filename, req.body.title, req.body.message);
+            writeJson(resp, {
+                code: 4000,
+                data: null,
+                message: req.body.message
+            });
             return;
         }
         let htmlPath = projectDistDir(bookName) + "/" + filename;
         try {
-            await saveBookContent(htmlPath, req.body.title, req.body.content, bookInfo.styles);
-            io.emit("save-content-success", bookName, req.body.progress, filename, req.body.title);
+            await saveBookContent(htmlPath, req.body.title, bookInfo.styles, req.body.content);
         } catch (e) {
             io.emit("save-content-error", bookName, req.body.progress, filename, req.body.title, e.message);
+            writeJson(resp, {
+                code: 4000,
+                data: null,
+                message: e.message
+            });
+            return
         }
+        io.emit("save-content-success", bookName, req.body.progress, filename, req.body.title);
+        writeJson(resp, {
+            code: 0,
+            data: null,
+            message: ""
+        });
     }
 }
