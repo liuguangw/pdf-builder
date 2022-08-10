@@ -1,5 +1,6 @@
 import fetchAndSave from "../../fetch_lib/fetch_and_save";
 import fetchPageContent from "../../fetch_lib/fetch_page_content";
+import {parseAsDocument} from "../../fetch_lib/fetch_page_document.js";
 
 //项目定义
 let projectName = "es6tutorial";
@@ -16,9 +17,7 @@ const sleepDuration = 2300;
 async function fetchPage(pageURL) {
     let markdownContent = await fetchPageContent(pageURL)
     let contentHtml = window.marked(markdownContent)
-    contentHtml = "<div id=\"content\">" + contentHtml + "</div>"
-    const parser = new DOMParser();
-    let doc = parser.parseFromString(contentHtml, "text/html")
+    let doc = parseAsDocument(`<div id="content">${contentHtml}</div>`)
     //代码高亮
     doc.querySelectorAll("pre code").forEach(codeElement => {
         window.Prism.highlightElement(codeElement)

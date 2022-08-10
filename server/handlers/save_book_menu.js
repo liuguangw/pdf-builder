@@ -1,8 +1,8 @@
 import {writeFile, stat, mkdir} from 'fs/promises';
 import formatMenuList from "../lib/format_menu_list.js";
-import {loadBaseBookInfo} from "../lib/load_book_info.js";
 import {projectDistDir} from "../lib/path_helper.js";
 import writeJson from "../lib/write_json.js";
+import loadBookInfo from "../lib/load_book_info.js";
 
 function formatMenuHtml(projectName, bookTitle, menuList) {
     let menuListHtml = formatMenuList(menuList, 1)
@@ -46,7 +46,7 @@ async function saveBookMenu(bookInfo, menuList) {
 export default function saveBookMenuHandler(io) {
     return async function (req, resp) {
         let bookName = req.body.bookName;
-        let bookInfo = loadBaseBookInfo(bookName)
+        let bookInfo = loadBookInfo(bookName)
         if (bookInfo === null) {
             writeJson(resp, {
                 code: 4000,

@@ -55,13 +55,13 @@ async function buildBook(io, bookInfo, inputPath, outputPath) {
 }
 
 /**
- * 保存网页内容
+ * 构建pdf文档
  *
  */
 export default function buildBookHandler(io) {
     return async function (req, resp) {
         let bookName = req.body.bookName;
-        let bookInfo = await loadBookInfo(bookName)
+        let bookInfo = loadBookInfo(bookName, true)
         if (bookInfo === null) {
             writeJson(resp, {
                 code: 4000,

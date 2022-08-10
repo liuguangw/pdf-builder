@@ -1,4 +1,4 @@
-import {loadBaseBookInfo} from "../lib/load_book_info.js";
+import loadBookInfo from "../lib/load_book_info.js";
 import {projectDistDir} from "../lib/path_helper.js";
 import {writeFile} from "fs/promises";
 import writeJson from "../lib/write_json.js";
@@ -51,7 +51,7 @@ async function saveBookContent(htmlPath, title, styles, content) {
 export default function saveBookContentHandler(io) {
     return async function (req, resp) {
         let bookName = req.body.bookName;
-        let bookInfo = loadBaseBookInfo(bookName)
+        let bookInfo = loadBookInfo(bookName)
         if (bookInfo === null) {
             writeJson(resp, {
                 code: 4000,

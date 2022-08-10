@@ -2,8 +2,8 @@ import requestAPI from "./request_api";
 import {ApiResponse, FetchedImageInfo, ImageApiRequest, ImageType} from "./common";
 import ApiEndpoint from "./api_endpoint";
 
-export async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageApiRequest,
-                                        imgElement: HTMLImageElement, imageFetchList: FetchedImageInfo[]) {
+async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageApiRequest,
+                                 imgElement: HTMLImageElement, imageFetchList: FetchedImageInfo[]) {
     let fetchImgResponse: ApiResponse = await requestAPI(apiEndpointInfo.imageApiURL, postData)
     //console.log(fetchImgResponse)
     if (fetchImgResponse.code !== 0) {

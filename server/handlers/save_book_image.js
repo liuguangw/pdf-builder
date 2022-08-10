@@ -1,4 +1,4 @@
-import {loadBaseBookInfo} from "../lib/load_book_info.js";
+import loadBookInfo from "../lib/load_book_info.js";
 import {projectDistDir} from "../lib/path_helper.js";
 import {mkdir, stat, open, rename} from "fs/promises";
 import axios from "axios";
@@ -157,7 +157,7 @@ async function saveBookImage(bookDistDir, imageURL, referer) {
 export default function saveBookImageHandler(io) {
     return async function (req, resp) {
         let bookName = req.body.bookName;
-        let bookInfo = loadBaseBookInfo(bookName)
+        let bookInfo = loadBookInfo(bookName)
         if (bookInfo === null) {
             writeJson(resp, {
                 code: 4000,

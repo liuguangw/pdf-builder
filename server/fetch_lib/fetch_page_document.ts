@@ -7,5 +7,9 @@ const parser: DOMParser = new DOMParser();
  */
 export default async function fetchPageDocument(pageURL: string): Promise<Document> {
     let contentHtml: string = await fetchPageContent(pageURL)
+    return parseAsDocument(contentHtml)
+}
+
+export function parseAsDocument(contentHtml: string): Document {
     return parser.parseFromString(contentHtml, "text/html");
 }

@@ -1,4 +1,3 @@
-import replaceURL from "./replace_url";
 import replaceContentImage from "./replace_content_image";
 import {FetchedImageInfo, ReplaceURLHandler} from "./common";
 import ApiEndpoint from "./api_endpoint";

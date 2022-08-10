@@ -15,3 +15,7 @@ html, body {
 .main-book-content code {
     white-space: pre-wrap;
 }
+
+.main-book-content img {
+    max-width: 100%;
+}

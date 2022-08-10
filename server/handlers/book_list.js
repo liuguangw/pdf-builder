@@ -1,5 +1,5 @@
-import loadBaseBookList from "../lib/load_base_book_list.js";
 import writeJson from "../lib/write_json.js";
+import loadBookList from "../lib/load_book_list.js";
 
 /**
  *
@@ -7,6 +7,6 @@ import writeJson from "../lib/write_json.js";
  * @param {ServerResponse} resp
  */
 export default function bookListHandler(req, resp) {
-    let items = loadBaseBookList()
+    let items = loadBookList()
     writeJson(resp, items)
 }

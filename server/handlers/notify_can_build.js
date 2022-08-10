@@ -1,5 +1,5 @@
-import {loadBaseBookInfo} from "../lib/load_book_info.js";
 import writeJson from "../lib/write_json.js";
+import loadBookInfo from "../lib/load_book_info.js";
 
 /**
  * 处理can build通知
@@ -7,7 +7,7 @@ import writeJson from "../lib/write_json.js";
 export default function notifyCanBuildHandler(io) {
     return function (req, resp) {
         let bookName = req.body.bookName;
-        let bookInfo = loadBaseBookInfo(bookName)
+        let bookInfo = loadBookInfo(bookName)
         if (bookInfo === null) {
             writeJson(resp, {
                 code: 4000,
