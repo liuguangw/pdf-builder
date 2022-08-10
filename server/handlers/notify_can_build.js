@@ -9,7 +9,7 @@ export default function notifyCanBuildHandler(io) {
         let bookName = req.body.bookName;
         let bookInfo = loadBaseBookInfo(bookName)
         if (bookInfo === null) {
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"
@@ -19,14 +19,14 @@ export default function notifyCanBuildHandler(io) {
         try {
             io.emit("can-build", bookName)
         } catch (e) {
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 4000,
                 data: null,
                 message: e.message
             });
             return;
         }
-       writeJson(resp,{
+        writeJson(resp, {
             code: 0,
             data: null,
             message: ""

@@ -63,7 +63,7 @@ export default function buildBookHandler(io) {
         let bookName = req.body.bookName;
         let bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 4000,
                 data: null,
                 message: "book " + bookName + " not found"
@@ -75,7 +75,7 @@ export default function buildBookHandler(io) {
         try {
             await buildBook(io, bookInfo, inputPath, outputPath);
         } catch (e) {
-           writeJson(resp,{
+            writeJson(resp, {
                 code: 4000,
                 data: null,
                 message: e.message
@@ -83,7 +83,7 @@ export default function buildBookHandler(io) {
             io.emit("build-failed", bookName, e.message)
             return;
         }
-       writeJson(resp,{
+        writeJson(resp, {
             code: 0,
             data: null,
             message: ""

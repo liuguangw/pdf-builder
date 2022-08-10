@@ -6,7 +6,7 @@ import writeJson from "../lib/write_json.js";
 
 function formatMenuHtml(projectName, bookTitle, menuList) {
     let menuListHtml = formatMenuList(menuList, 1)
-        return `<!DOCTYPE html>
+    return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="utf-8" />

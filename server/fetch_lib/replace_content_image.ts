@@ -28,6 +28,7 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
         }
     }
     try {
+        console.log("[" + postData.progress + "]fetch " + postData.url + " .....");
         let fetchImgResponse: ApiResponse = await requestAPI(apiEndpointInfo.imageApiURL, postData)
         //console.log(fetchImgResponse)
         if (fetchImgResponse.code !== 0) {
