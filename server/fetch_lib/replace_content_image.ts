@@ -2,6 +2,24 @@ import requestAPI from "./request_api";
 import {ApiResponse, FetchedImageInfo, ImageApiRequest, ImageType} from "./common";
 import ApiEndpoint from "./api_endpoint";
 
+export async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageApiRequest,
+                                        imgElement: HTMLImageElement, imageFetchList: FetchedImageInfo[]) {
+    let fetchImgResponse: ApiResponse = await requestAPI(apiEndpointInfo.imageApiURL, postData)
+    //console.log(fetchImgResponse)
+    if (fetchImgResponse.code !== 0) {
+        throw new Error(fetchImgResponse.message)
+    } else if (postData.imageType === ImageType.Common) {
+        //下载成功
+        imgElement.src = fetchImgResponse.data
+        //加入缓存
+        let imgInfo: FetchedImageInfo = {
+            url: postData.url,
+            data: fetchImgResponse.data
+        }
+        imageFetchList.push(imgInfo)
+    }
+}
+
 /**
  * 替换抓取的网页节点中的图片
  */
@@ -9,7 +27,6 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
                                                   progress: string, apiEndpointInfo: ApiEndpoint,
                                                   imageFetchList: FetchedImageInfo[]): Promise<void> {
     let imgSrcURL: string = imgElement.src
-    let imgDistURL: string = ""
     //data URL不需要服务端fetch
     let isDataURL: boolean = (imgSrcURL.substring(0, 5) === "data:")
     let postData: ImageApiRequest = {
@@ -24,33 +41,35 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
         //match到缓存
         if (fetchInfo !== undefined) {
             postData.imageType = ImageType.Exists
-            imgDistURL = fetchInfo.data
+            imgElement.src = fetchInfo.data
         }
     }
-    try {
-        console.log("[" + postData.progress + "]fetch " + postData.url + " .....");
-        let fetchImgResponse: ApiResponse = await requestAPI(apiEndpointInfo.imageApiURL, postData)
-        //console.log(fetchImgResponse)
-        if (fetchImgResponse.code !== 0) {
-            console.error("[" + postData.progress + "]fetch " + postData.url + " failed: " + fetchImgResponse.message);
-            return;
-        }
-        if (postData.imageType === ImageType.Common) {
-            imgDistURL = fetchImgResponse.data
-            //加入缓存
-            let imgInfo: FetchedImageInfo = {
-                url: imgSrcURL,
-                data: fetchImgResponse.data
+    //抓取图片的最大尝试次数
+    const maxTryCount = 4
+    let fetchErr: Error = null
+    let logPrefix = "[" + postData.progress + "]fetch " + postData.url
+    if (postData.imageType === ImageType.Common) {
+        console.log(logPrefix + " .....");
+    }
+    for (let tryCount = 1; tryCount <= maxTryCount; tryCount++) {
+        try {
+            await processFetchImage(apiEndpointInfo, postData, imgElement, imageFetchList)
+            break
+        } catch (ex) {
+            if (tryCount === maxTryCount) {
+                fetchErr = ex
+            } else {
+                console.error(logPrefix + " failed(#try" + tryCount + "): " + ex.message);
             }
-            imageFetchList.push(imgInfo)
-            console.log("[" + postData.progress + "]fetch " + postData.url + " success")
-        } else {
-            console.log("[" + postData.progress + "]fetch " + postData.url + " skip")
         }
-        if (imgDistURL !== "") {
-            imgElement.src = imgDistURL
-        }
-    } catch (e) {
-        console.error("[" + postData.progress + "]fetch " + postData.url + " failed: " + e.message)
+    }
+    if (fetchErr !== null) {
+        console.error(logPrefix + " failed: " + fetchErr.message);
+        return
+    }
+    if (postData.imageType === ImageType.Common) {
+        console.log(logPrefix + " success");
+    } else {
+        console.log(logPrefix + " skip");
     }
 }

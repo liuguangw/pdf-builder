@@ -24,6 +24,11 @@ export interface MenuApiRequest {
     menuList: any[]
 }
 
+export enum FetchStatus {
+    Ok,
+    HasError = 500
+}
+
 //保存网页内容的请求
 export interface ContentApiRequest {
     bookName: string,
@@ -31,7 +36,7 @@ export interface ContentApiRequest {
     filename: string,
     content: string,
     progress: string,
-    status: number,
+    status: FetchStatus,
     message: string
 }
 

@@ -2,12 +2,15 @@ import sleepAsync from "./sleep_async";
 import processPage from "./process_page";
 import requestAPI from "./request_api.js";
 import {
-    PageInfo,
     ApiResponse,
     ContentApiRequest,
     FetchedImageInfo,
+    FetchPageHandler,
+    FetchStatus,
     MenuApiRequest,
-    MenuInfo, FetchPageHandler, ReplaceURLHandler
+    MenuInfo,
+    PageInfo,
+    ReplaceURLHandler
 } from "./common";
 import ApiEndpoint from "./api_endpoint";
 import parsePageList from "./parse_page_list";
@@ -49,23 +52,39 @@ export default async function fetchAndSave(menuList: MenuInfo[], projectName: st
             filename: pageInfo.filename,
             content: "",
             progress: (pageIndex + 1) + "/" + allPageList.length,
-            status: 0,
+            status: FetchStatus.Ok,
             message: ""
         }
         //抓取页面
         let contentEl: HTMLElement = null;
-        try {
-            contentEl = await fetchPage(pageInfo.url);
-            console.log("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] success");
-        } catch (e) {
-            hasFetchError = true;
-            postData.status = 500;
-            postData.message = "fetch " + pageInfo.url + " failed: " + e.message;
-            console.error("[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "] failed: " + postData.message);
-            continue
+        //抓取页面的最大尝试次数
+        const maxTryCount = 5
+        let fetchErr: Error = null
+        let logPrefix = "[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "]"
+        for (let tryCount = 1; tryCount <= maxTryCount; tryCount++) {
+            try {
+                contentEl = await fetchPage(pageInfo.url);
+                break
+            } catch (ex) {
+                if (tryCount === maxTryCount) {
+                    fetchErr = ex
+                } else {
+                    console.error(logPrefix + " failed(#try" + tryCount + "): " + ex.message);
+                }
+            }
         }
-        await processPage(contentEl, pageInfo.url, pageInfo.deep, contextURL, replaceURLHandler, postData.progress, apiEndpointInfo, imageFetchList)
-        postData.content = contentEl.outerHTML;
+        if (fetchErr === null) {
+            console.log(logPrefix + " success");
+        } else {
+            hasFetchError = true;
+            postData.status = FetchStatus.HasError;
+            postData.message = "fetch " + pageInfo.url + " failed: " + fetchErr.message;
+            console.error(logPrefix + " failed: " + postData.message);
+        }
+        if (contentEl !== null) {
+            await processPage(contentEl, pageInfo.url, pageInfo.deep, contextURL, replaceURLHandler, postData.progress, apiEndpointInfo, imageFetchList)
+            postData.content = contentEl.outerHTML;
+        }
         //提交抓取结果给服务端
         try {
             await requestAPI(apiEndpointInfo.contentApiURL, postData)
