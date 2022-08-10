@@ -1,5 +1,4 @@
 import fetchAndSave from "../../fetch_lib/fetch_and_save";
-import replaceURL from "../../fetch_lib/replace_url";
 import fetchPageDocument from "../../fetch_lib/fetch_page_document";
 
 //项目定义
@@ -40,14 +39,12 @@ function parseMenuList(groupList, menuList) {
         let menuItem = {
             title: groupTitleElement.innerText,
             url: "",
-            filename: "",
             children: []
         }
         subMenuNodeList.forEach(subMenuEl => {
             let subMenuItem = {
                 title: subMenuEl.innerText,
                 url: subMenuEl.href,
-                filename: replaceURL(subMenuEl.href, contextURL),
                 children: []
             }
             menuItem.children.push(subMenuItem);

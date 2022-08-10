@@ -29,10 +29,16 @@ async function fetchPage(pageURL) {
             imgElement.parentElement.href = contextURL + "README"
         }
     });
-    //h3 id fix
+    //h3 id fix: 禁止id重复
+    let idList = []
     doc.querySelectorAll("h3").forEach(h3Element => {
-        if (h3Element.getAttribute("id") === "-") {
-            h3Element.removeAttribute("id")
+        let h3id = h3Element.getAttribute("id")
+        if (h3id !== null) {
+            if (idList.includes(h3id)) {
+                h3Element.removeAttribute("id")
+            } else {
+                idList.push(h3id)
+            }
         }
     });
     return doc.querySelector("div#content");
@@ -45,7 +51,6 @@ function parseMenuList(menuNodeList, menuList) {
         let menuItem = {
             title: linkElement.innerText,
             url: contextURL + hashText + ".md",
-            filename: hashText.replaceAll("/", "-") + ".html",
             children: []
         }
         menuList.push(menuItem);

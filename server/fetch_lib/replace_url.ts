@@ -26,9 +26,12 @@ export default function replaceURL(fullURL: string, contextURL: string): string 
         }
         pathname = itemURL.substring(contextURL.length)
     }
+    //去除尾部的/
     if (pathname.endsWith("/")) {
         pathname = pathname.substring(0, pathname.length - 1)
     }
+    //如果有后缀,则将后缀修改为html
+    pathname = pathname.replace(/\.[a-zA-Z]+$/, ".html")
     if (pathname === "") {
         pathname = "_index.html";
     } else if (!pathname.endsWith(".html")) {

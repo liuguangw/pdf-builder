@@ -6,19 +6,19 @@
     color: #000
 }
 
-.hljs-comment,.hljs-quote,.hljs-variable {
+.hljs-comment, .hljs-quote, .hljs-variable {
     color: green
 }
 
-.hljs-keyword,.hljs-selector-tag,.hljs-built_in,.hljs-name,.hljs-tag {
+.hljs-keyword, .hljs-selector-tag, .hljs-built_in, .hljs-name, .hljs-tag {
     color: #00f
 }
 
-.hljs-string,.hljs-title,.hljs-section,.hljs-attribute,.hljs-literal,.hljs-template-tag,.hljs-template-variable,.hljs-type,.hljs-addition {
+.hljs-string, .hljs-title, .hljs-section, .hljs-attribute, .hljs-literal, .hljs-template-tag, .hljs-template-variable, .hljs-type, .hljs-addition {
     color: #a31515
 }
 
-.hljs-deletion,.hljs-selector-attr,.hljs-selector-pseudo,.hljs-meta {
+.hljs-deletion, .hljs-selector-attr, .hljs-selector-pseudo, .hljs-meta {
     color: #2b91af
 }
 
@@ -30,7 +30,7 @@
     color: red
 }
 
-.hljs-symbol,.hljs-bullet,.hljs-link {
+.hljs-symbol, .hljs-bullet, .hljs-link {
     color: #00b0e8
 }
 

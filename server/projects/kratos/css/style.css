@@ -76,6 +76,11 @@
     margin: 0 0 16px 0;
 }
 
+.main-book-content .markdown h2 {
+    font-size: 32px;
+    margin: 40px 0 20px 0;
+}
+
 .main-book-content .markdown h3 {
     font-size: 24px;
     margin: 30px 0 20px 0;
@@ -100,13 +105,6 @@
     text-decoration: none;
 }
 
-.main-book-content .markdown code {
-    background: #f6f7f8;
-    border: 1px solid rgba(0, 0, 0, .1);
-    font-size: 90%;
-    padding: 2px;
-}
-
 .main-book-content .markdown img {
     max-width: 100%;
 }
@@ -114,18 +112,29 @@
 .main-book-content .markdown pre {
     margin: 0;
     padding: 0;
-    font-size: 90%;
-    word-break: break-all;
-    white-space: break-spaces;
     overflow: hidden;
+    background: #f6f8fa;
+    font: 90%/1.45 SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
 }
 
-.main-book-content .markdown pre code {
+.main-book-content .codeBlockContainer_Ckt0 {
+    margin-bottom: 20px;
+}
+
+.main-book-content .markdown pre > code {
     border: none;
     float: left;
+    font: inherit;
     min-width: 100%;
     padding: 16px;
     box-sizing: border-box;
+}
+
+.main-book-content .markdown :not(pre) > code {
+    background: #f6f7f8;
+    border: 1px solid rgba(0, 0, 0, .1);
+    font-size: 90%;
+    padding: 2px;
 }
 
 .main-book-content .markdown .buttonGroup__atx {

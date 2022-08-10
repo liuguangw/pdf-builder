@@ -1,4 +1,3 @@
-import replaceURL from "../../fetch_lib/replace_url";
 import fetchAndSave from "../../fetch_lib/fetch_and_save";
 import fetchPageDocument from "../../fetch_lib/fetch_page_document";
 
@@ -39,7 +38,6 @@ function parseMenuList(liElementList, menuList) {
         let menuItem = {
             title: menuLink.innerText,
             url: menuLink.href,
-            filename: replaceURL(menuLink.href, contextURL),
             children: []
         }
         let nextElement = liElement.nextElementSibling;

@@ -17,6 +17,8 @@ export default async function fetchAndSave(menuList: MenuInfo[], projectName: st
                                            sleepDuration: number, contextURL: string,
                                            fetchPage: FetchPageHandler, replaceURLHandler: ReplaceURLHandler = replaceURL): Promise<void> {
     let apiEndpointInfo = new ApiEndpoint(projectName);
+    //解析出allPageList(计算filename属性)
+    let allPageList: PageInfo[] = parsePageList(menuList, 1, contextURL, replaceURLHandler)
     //保存menu信息
     try {
         let menuInfoRequest: MenuApiRequest = {
@@ -36,7 +38,6 @@ export default async function fetchAndSave(menuList: MenuInfo[], projectName: st
     }
     let hasFetchError = false;
     let imageFetchList: FetchedImageInfo[] = [];
-    let allPageList: PageInfo[] = parsePageList(menuList, 1)
     for (let pageIndex = 0; pageIndex < allPageList.length; pageIndex++) {
         let pageInfo = allPageList[pageIndex];
         if (pageIndex > 0) {

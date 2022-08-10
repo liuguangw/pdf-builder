@@ -57,7 +57,6 @@ function parseMenuList(groupNodeList, menuList) {
         let menuItem = {
             title: groupTitle,
             url: "",
-            filename: "",
             children: []
         }
         subMenuNodeList.forEach(subMenuEl => {
@@ -65,7 +64,6 @@ function parseMenuList(groupNodeList, menuList) {
             let subMenuItem = {
                 title: subMenuChildNodes.item(0).textContent.trim(),
                 url: subMenuEl.href,
-                filename: myReplaceURL(subMenuEl.href, contextURL),
                 children: []
             };
             menuItem.children.push(subMenuItem);

@@ -5,6 +5,6 @@ export default function () {
         docURL,
         title: "Rust 程序设计语言",
         projectName,
-        styles: ["css/highlightjs.css","css/style.css"]
+        styles: ["css/highlightjs.css", "css/style.css"]
     };
 }

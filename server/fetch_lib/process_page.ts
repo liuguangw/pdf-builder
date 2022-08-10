@@ -7,7 +7,7 @@ import ApiEndpoint from "./api_endpoint";
  * 抓取到网页内容后的一些通用处理过程
  */
 export default async function processPage(contentEl: HTMLElement, pageURL: string, pageDeep: number,
-                                          contextURL: string,replaceURLHandler: ReplaceURLHandler,
+                                          contextURL: string, replaceURLHandler: ReplaceURLHandler,
                                           progress: string, apiEndpointInfo: ApiEndpoint,
                                           imageFetchList: FetchedImageInfo[]): Promise<void> {
     //a标签链接替换

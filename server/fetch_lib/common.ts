@@ -8,7 +8,7 @@ export interface PageInfo {
 export interface MenuInfo {
     title: string,
     url: string,
-    filename: string,
+    filename?: string,
     children: MenuInfo[]
 }
 

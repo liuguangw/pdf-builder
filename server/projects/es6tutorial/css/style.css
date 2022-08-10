@@ -92,16 +92,19 @@
     padding: 6px 13px;
     border: 1px solid #ddd
 }
+
 .main-book-content ul {
     display: block;
     list-style-type: none;
     padding-top: 15px;
     padding-bottom: 15px;
 }
+
 .main-book-content ul li,
 .main-book-content ol li {
     text-indent: -5px;
 }
+
 .main-book-content ul li:before {
     content: "-";
     position: relative;

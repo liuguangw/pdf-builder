@@ -41,3 +41,7 @@ test('encodeURI', () => {
     let fullURL = "https://www.a.com/aaaaa/doc/category-%E7%AE%80%E4%BB%8B.html";
     expect(replaceURL(fullURL, contextURL)).toBe("category-E7AE80E4BB8B.html");
 });
+test('replace with .html', () => {
+    let fullURL = "https://www.a.com/aaaaa/doc/path/to/p.php#m3";
+    expect(replaceURL(fullURL, contextURL)).toBe("path-to-p.html#m3");
+});

@@ -22,13 +22,17 @@
     font-size: 24px;
 }
 
+.main-book-content pre,
+.main-book-content code {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
 .main-book-content :not(pre) > code {
     border-radius: 4px;
     padding: 3px 6px;
     color: #476582;
     background-color: #f1f1f1;
     font-size: 14px;
-    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
 }
 
 .main-book-content h2 > code {
@@ -176,9 +180,7 @@
 
 .main-book-content [class*=language-] pre, .main-book-content [class*=language-] code {
     text-align: left;
-    white-space: pre;
     word-spacing: normal;
-    word-break: normal;
     word-wrap: normal;
     tab-size: 4;
     hyphens: none;
@@ -210,9 +212,15 @@
     padding-top: 16px;
     width: 100%;
     line-height: 1.7;
-    font-size: 14px;
+    font-size: 0.875em;
     user-select: none;
     overflow: hidden;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.main-book-content .highlight-lines .highlighted {
+    background: rgba(0, 0, 0, .5);
+    transition: background-color .5s;
 }
 
 .main-book-content .svg-image-root {

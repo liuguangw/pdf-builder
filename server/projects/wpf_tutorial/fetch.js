@@ -1,4 +1,3 @@
-import replaceURL from "../../fetch_lib/replace_url";
 import fetchAndSave from "../../fetch_lib/fetch_and_save";
 import fetchPageDocument from "../../fetch_lib/fetch_page_document";
 
@@ -48,14 +47,12 @@ function parseMenuList(groupNodeList, menuList) {
         let menuItem = {
             title: groupTitleElement.innerText,
             url: "",
-            filename: "",
             children: []
         }
         subMenuNodeList.forEach(subMenuEl => {
             let subMenuItem = {
                 title: subMenuEl.innerText,
                 url: subMenuEl.href,
-                filename: replaceURL(subMenuEl.href, contextURL),
                 children: []
             };
             menuItem.children.push(subMenuItem);
