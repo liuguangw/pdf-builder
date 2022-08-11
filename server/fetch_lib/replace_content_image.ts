@@ -24,11 +24,22 @@ async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageAp
  * 替换抓取的网页节点中的图片
  */
 export default async function replaceContentImage(imgElement: HTMLImageElement, imgIndex: number, imgTotalCount: number,
+                                                  pageURL: string,
                                                   progress: string, apiEndpointInfo: ApiEndpoint,
                                                   imageFetchList: FetchedImageInfo[]): Promise<void> {
-    let imgSrcURL: string = imgElement.src
+    let imgSrcURL: string = imgElement.getAttribute("src")
+    if (imgSrcURL === null || imgSrcURL === "") {
+        return
+    }
     //data URL不需要服务端fetch
-    let isDataURL: boolean = (imgSrcURL.substring(0, 5) === "data:")
+    let isDataURL: boolean = imgSrcURL.startsWith("data:")
+    if (!isDataURL) {
+        //处理相对路径的图片地址
+        if (!(imgSrcURL.startsWith("http://") || imgSrcURL.startsWith("https://"))) {
+            let imgURLInfo = new URL(imgSrcURL, pageURL)
+            imgSrcURL = imgURLInfo.toString()
+        }
+    }
     let postData: ImageApiRequest = {
         bookName: apiEndpointInfo.projectName,
         progress: progress + " img(" + (imgIndex + 1) + "/" + imgTotalCount + ")",

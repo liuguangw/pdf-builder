@@ -95,6 +95,11 @@ async function downloadImage(saveDir, imageURL, imageExt, referer) {
     let imgFilePath = saveDir + "/" + filename
     let tmpFilePath = saveDir + "/" + tmpFilename
     let streamReader = fetchResult.data
+    let streamFn = new Promise((resolve, reject) => {
+        streamReader.on('end', resolve);
+        // This is here incase any errors occur
+        streamReader.on('error', reject);
+    });
     /**
      *
      * @type {FileHandle}
@@ -102,20 +107,11 @@ async function downloadImage(saveDir, imageURL, imageExt, referer) {
     const fd = await open(tmpFilePath, "w");
     let streamWriter = fd.createWriteStream()
     streamReader.pipe(streamWriter)
-    let streamFn = new Promise((resolve, reject) => {
-        streamReader.on('end', () => {
-            streamReader.destroy()
-            resolve()
-        });
-        // This is here incase any errors occur
-        streamReader.on('error', reject);
-    });
     try {
         await streamFn;
     } catch (err) {
+        streamWriter.end()
         throw err
-    } finally {
-        streamWriter.destroy()
     }
     //下载成功后执行rename
     await rename(tmpFilePath, imgFilePath)
