@@ -2,9 +2,6 @@ import fetchAndSave from "../../fetch_lib/fetch_and_save";
 import fetchPageContent from "../../fetch_lib/fetch_page_content";
 import {parseAsDocument} from "../../fetch_lib/fetch_page_document.js";
 
-//项目定义
-let projectName = "es6tutorial";
-const contextURL = "https://es6.ruanyifeng.com/";
 //抓取页面的间隔时间(ms)
 const sleepDuration = 2300;
 
@@ -63,5 +60,5 @@ function parseMenuList(menuNodeList, menuList) {
     parseMenuList(menuNodeList, menuList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList,null,"\t"))
-    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
+    await fetchAndSave(menuList, sleepDuration, fetchPage);
 })();

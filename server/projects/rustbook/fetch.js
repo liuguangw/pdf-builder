@@ -1,9 +1,6 @@
 import fetchAndSave from "../../fetch_lib/fetch_and_save";
 import fetchPageDocument from "../../fetch_lib/fetch_page_document";
 
-//项目定义
-let projectName = "rustbook";
-const contextURL = "https://kaisery.github.io/trpl-zh-cn/";
 //抓取页面的间隔时间(ms)
 const sleepDuration = 2300;
 
@@ -195,5 +192,5 @@ function processFerrises(doc) {
     parseMenuList(liElementList, menuList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList,null,"\t"))
-    await fetchAndSave(menuList, projectName, sleepDuration, contextURL, fetchPage);
+    await fetchAndSave(menuList, sleepDuration, fetchPage);
 })();

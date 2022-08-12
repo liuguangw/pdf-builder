@@ -5,11 +5,19 @@ import esbuild from "esbuild";
 //附加fetchScript属性
 export async function addFetchScript(bookInfo, serverURL) {
     let fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
+    let sBookInfo = {
+        docURL: bookInfo.docURL,
+        contextURL: bookInfo.contextURL === undefined ? bookInfo.docURL : bookInfo.contextURL,
+        projectName: bookInfo.projectName
+    }
     try {
         let buildResult = await esbuild.build({
             entryPoints: [fetchJsPath],
             bundle: true,
-            define: {VITE_SERVER_URL: JSON.stringify(serverURL)},
+            define: {
+                VITE_SERVER_URL: JSON.stringify(serverURL),
+                BOOK_PROJECT_INFO: JSON.stringify(sBookInfo)
+            },
             //minify: true,
             write: false,
             target: ["chrome87", "firefox78"]

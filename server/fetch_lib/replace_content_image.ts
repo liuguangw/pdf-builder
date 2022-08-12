@@ -23,9 +23,8 @@ async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageAp
 /**
  * 替换抓取的网页节点中的图片
  */
-export default async function replaceContentImage(imgElement: HTMLImageElement, imgIndex: number, imgTotalCount: number,
-                                                  pageURL: string,
-                                                  progress: string, apiEndpointInfo: ApiEndpoint,
+export default async function replaceContentImage(imgElement: HTMLImageElement, imgProgress: string,
+                                                  pageURL: string, apiEndpointInfo: ApiEndpoint,
                                                   imageFetchList: FetchedImageInfo[]): Promise<void> {
     let imgSrcURL: string = imgElement.getAttribute("src")
     if (imgSrcURL === null || imgSrcURL === "") {
@@ -42,7 +41,7 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
     }
     let postData: ImageApiRequest = {
         bookName: apiEndpointInfo.projectName,
-        progress: progress + " img(" + (imgIndex + 1) + "/" + imgTotalCount + ")",
+        progress: imgProgress,
         url: isDataURL ? "<data URL>" : imgSrcURL,
         imageType: isDataURL ? ImageType.DataURL : ImageType.Common
     }

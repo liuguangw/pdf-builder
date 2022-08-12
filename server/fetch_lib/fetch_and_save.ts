@@ -1,5 +1,5 @@
 import sleepAsync from "./sleep_async";
-import processPage from "./process_page";
+import {processPageImages, processPageLinks, processPageToc} from "./process_page";
 import requestAPI from "./request_api.js";
 import {
     ApiResponse,
@@ -10,16 +10,21 @@ import {
     MenuApiRequest,
     MenuInfo,
     PageInfo,
+    ProjectInfo,
     ReplaceURLHandler
 } from "./common";
 import ApiEndpoint from "./api_endpoint";
 import parsePageList from "./parse_page_list";
 import replaceURL from "./replace_url";
 
-export default async function fetchAndSave(menuList: MenuInfo[], projectName: string,
-                                           sleepDuration: number, contextURL: string,
-                                           fetchPage: FetchPageHandler, replaceURLHandler: ReplaceURLHandler = replaceURL): Promise<void> {
-    let apiEndpointInfo = new ApiEndpoint(projectName);
+export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: number,
+                                           fetchPage: FetchPageHandler,
+                                           replaceURLHandler: ReplaceURLHandler = replaceURL): Promise<void> {
+    // @ts-ignore 这里会被替换
+    const projectInfo: ProjectInfo = BOOK_PROJECT_INFO;
+    const projectName = projectInfo.projectName;
+    const contextURL = projectInfo.contextURL;
+    const apiEndpointInfo = new ApiEndpoint(projectName);
     //解析出allPageList(计算filename属性)
     let allPageList: PageInfo[] = parsePageList(menuList, 1, contextURL, replaceURLHandler)
     //保存menu信息
@@ -81,8 +86,11 @@ export default async function fetchAndSave(menuList: MenuInfo[], projectName: st
             postData.message = "fetch " + pageInfo.url + " failed: " + fetchErr.message;
             console.error(logPrefix + " failed: " + postData.message);
         }
+        //处理
         if (contentEl !== null) {
-            await processPage(contentEl, pageInfo.url, pageInfo.deep, contextURL, replaceURLHandler, postData.progress, apiEndpointInfo, imageFetchList)
+            processPageLinks(contentEl, replaceURLHandler, pageInfo.url, contextURL)
+            processPageToc(contentEl, pageInfo.deep)
+            await processPageImages(contentEl, postData.progress, pageInfo.url, apiEndpointInfo, imageFetchList)
             postData.content = contentEl.outerHTML;
         }
         //提交抓取结果给服务端

@@ -65,5 +65,11 @@ export interface FetchedImageInfo {
     data: string
 }
 
+export interface ProjectInfo {
+    docURL: string,
+    contextURL: string,
+    projectName: string
+}
+
 export type FetchPageHandler = (pageURL: string) => Promise<HTMLElement>
 export type ReplaceURLHandler = (fullURL: string, contextURL: string) => string
