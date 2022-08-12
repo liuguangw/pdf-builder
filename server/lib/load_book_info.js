@@ -34,6 +34,9 @@ function addMetaInfo(bookInfo) {
     if (!("authors" in bookInfo)) {
         bookInfo.authors = "流光";
     }
+    if (!("cover" in bookInfo)) {
+        bookInfo.cover = "";
+    }
     if (!("comments" in bookInfo)) {
         bookInfo.comments = "此文档由流光整理制作 by https://github.com/liuguangw/pdf-builder";
     }

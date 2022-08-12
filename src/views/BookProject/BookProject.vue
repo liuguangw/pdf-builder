@@ -84,6 +84,7 @@ export default {
       if (!this.canBuild) {
         return
       }
+      this.canBuild = false
       try {
         let buildResult = await axios.post("/api/book-build", {
           bookName: this.projectName
@@ -93,14 +94,14 @@ export default {
           this.message = buildResponse.message;
           this.messageType = 2;
           this.showMessage = true;
+          this.canBuild = true
           console.error(buildResponse.message)
-        } else {
-          this.canBuild = false
         }
       } catch (e) {
         this.message = e.message;
         this.messageType = 2;
         this.showMessage = true;
+        this.canBuild = true
         console.error(e)
       }
     }

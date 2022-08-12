@@ -3,6 +3,14 @@ import {stat} from 'fs/promises';
 import {spawn} from "child_process";
 import loadBookInfo from "../lib/load_book_info.js";
 import writeJson from "../lib/write_json.js";
+import {saveBookImage} from "./save_book_image.js";
+
+//下载封面图
+async function downloadCover(bookInfo) {
+    let bookDistDir = projectDistDir(bookInfo.projectName);
+    let saveFileName = await saveBookImage(bookDistDir, bookInfo.cover, bookInfo.docURL);
+    return bookDistDir + "/" + saveFileName
+}
 
 async function buildBook(io, bookInfo, inputPath, outputPath) {
     io.emit("build-stdout", bookInfo.projectName, "build project " + bookInfo.projectName);
@@ -33,6 +41,19 @@ async function buildBook(io, bookInfo, inputPath, outputPath) {
         "--pdf-header-template=" + bookInfo.headerTpl,
         "--pdf-footer-template=" + bookInfo.footerTpl
     ];
+    //添加封面
+    if (bookInfo.cover !== "") {
+        //下载封面图
+        io.emit("build-stdout", bookInfo.projectName, "download cover [" + bookInfo.cover + "] ....")
+        try {
+            let imagePath = await downloadCover(bookInfo)
+            params.push("--cover=" + imagePath)
+            io.emit("build-stdout", bookInfo.projectName, "download cover success")
+        } catch (e) {
+            io.emit("build-failed", bookInfo.projectName, "download cover [" + bookInfo.cover + "] failed: " + e.message);
+            return
+        }
+    }
     //console.log(params);
     let convert = spawn('ebook-convert', params);
     convert.stdout.on('data', (data) => {
@@ -58,7 +79,7 @@ async function buildBook(io, bookInfo, inputPath, outputPath) {
  * 构建pdf文档
  *
  */
-export default function buildBookHandler(io) {
+export default function bookBuildHandler(io) {
     return async function (req, resp) {
         let bookName = req.body.bookName;
         let bookInfo = loadBookInfo(bookName, true)

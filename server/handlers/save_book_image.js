@@ -125,7 +125,7 @@ async function downloadImage(saveDir, imageURL, imageExt, referer) {
  * @param {string} referer
  * @return {Promise<string>}
  */
-async function saveBookImage(bookDistDir, imageURL, referer) {
+export async function saveBookImage(bookDistDir, imageURL, referer) {
     let imgDirName = "images"
     let saveDir = bookDistDir + "/" + imgDirName
     //如果目录不存在,创建目录

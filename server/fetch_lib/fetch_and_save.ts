@@ -66,24 +66,31 @@ export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: 
         const maxTryCount = 5
         let fetchErr: Error = null
         let logPrefix = "[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "]"
-        for (let tryCount = 1; tryCount <= maxTryCount; tryCount++) {
+        let tryCount = 1
+        while (tryCount <= maxTryCount) {
             try {
                 contentEl = await fetchPage(pageInfo.url);
                 break
             } catch (ex) {
                 if (tryCount === maxTryCount) {
                     fetchErr = ex
+                    break
                 } else {
                     console.error(logPrefix + " failed(#try" + tryCount + "): " + ex.message);
+                    tryCount++
                 }
             }
         }
         if (fetchErr === null) {
-            console.log(logPrefix + " success");
+            let message = logPrefix + " success"
+            if (tryCount > 1) {
+                message += "(#try" + tryCount + ")"
+            }
+            console.log(message);
         } else {
             hasFetchError = true;
             postData.status = FetchStatus.HasError;
-            postData.message = "fetch " + pageInfo.url + " failed: " + fetchErr.message;
+            postData.message = "fetch " + pageInfo.url + " failed(#try" + tryCount + "): " + fetchErr.message;
             console.error(logPrefix + " failed: " + postData.message);
         }
         //处理

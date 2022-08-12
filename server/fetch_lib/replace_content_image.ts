@@ -61,24 +61,31 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
     if (postData.imageType === ImageType.Common) {
         console.log(logPrefix + " .....");
     }
-    for (let tryCount = 1; tryCount <= maxTryCount; tryCount++) {
+    let tryCount = 1
+    while (tryCount <= maxTryCount) {
         try {
             await processFetchImage(apiEndpointInfo, postData, imgElement, imageFetchList)
             break
         } catch (ex) {
             if (tryCount === maxTryCount) {
                 fetchErr = ex
+                break
             } else {
                 console.error(logPrefix + " failed(#try" + tryCount + "): " + ex.message);
+                tryCount++
             }
         }
     }
     if (fetchErr !== null) {
-        console.error(logPrefix + " failed: " + fetchErr.message);
+        console.error(logPrefix + " failed(#try" + tryCount + "): " + fetchErr.message);
         return
     }
     if (postData.imageType === ImageType.Common) {
-        console.log(logPrefix + " success");
+        let message = logPrefix + " success"
+        if (tryCount > 1) {
+            message += "(#try" + tryCount + ")"
+        }
+        console.log(message);
     } else {
         console.log(logPrefix + " skip");
     }

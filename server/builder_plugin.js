@@ -1,11 +1,11 @@
 import bodyParser from "body-parser"
+import {Server} from "socket.io";
 import bookListHandler from "./handlers/book_list.js";
 import bookInfoHandler from "./handlers/book_info.js";
-import {Server} from "socket.io";
+import bookBuildHandler from "./handlers/book_build.js";
 import saveBookMenuHandler from "./handlers/save_book_menu.js";
 import saveBookContentHandler from "./handlers/save_book_content.js";
 import saveBookImageHandler from "./handlers/save_book_image.js";
-import buildBookHandler from "./handlers/build_book.js";
 import notifyCanBuildHandler from "./handlers/notify_can_build.js";
 
 /**
@@ -36,7 +36,7 @@ function loadRoutes(middlewares, io) {
     useHttpHandler(middlewares, "POST", "/api/book-menu-info", saveBookMenuHandler(io))
     useHttpHandler(middlewares, "POST", "/api/book-content", saveBookContentHandler(io))
     useHttpHandler(middlewares, "POST", "/api/book-images", saveBookImageHandler(io))
-    useHttpHandler(middlewares, "POST", "/api/book-build", buildBookHandler(io))
+    useHttpHandler(middlewares, "POST", "/api/book-build", bookBuildHandler(io))
     useHttpHandler(middlewares, "POST", "/api/book-can-build", notifyCanBuildHandler(io))
 }
 

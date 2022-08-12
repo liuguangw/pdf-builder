@@ -4,6 +4,7 @@ import viteBook from "../projects/vite/main.js";
 import laravel from "../projects/laravel/main.js";
 import es6Tutorial from "../projects/es6tutorial/main.js";
 import wpfTutorial from "../projects/wpf_tutorial/main.js";
+import goplBook from "../projects/gopl/main.js"
 
 
 /**
@@ -14,6 +15,6 @@ import wpfTutorial from "../projects/wpf_tutorial/main.js";
 export default function loadBookList() {
     return [
         kratos(), rustbook(), viteBook(), laravel(),
-        es6Tutorial(), wpfTutorial()
+        es6Tutorial(), wpfTutorial(), goplBook()
     ]
 }
