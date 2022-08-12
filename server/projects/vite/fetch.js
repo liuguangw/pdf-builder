@@ -59,7 +59,7 @@ function parseMenuList(groupList, menuList) {
         groupList.push(groupNode);
     })
     //配置文档
-    let configDoc = await fetchPageDocument(contextURL + "config/")
+    let configDoc = await fetchPageDocument(location.origin + "/config/")
     groupList.push(configDoc.querySelector("nav>div.group"));
     parseMenuList(groupList, menuList);
     //console.log(menuList)

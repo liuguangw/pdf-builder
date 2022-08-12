@@ -22,7 +22,7 @@ async function fetchPage(pageURL) {
     //图片链接fix
     doc.querySelectorAll("img").forEach(imgElement => {
         if (imgElement.parentElement.tagName.toLowerCase() === "a") {
-            imgElement.parentElement.href = contextURL + "README"
+            imgElement.parentElement.href = location.origin + "/README"
         }
     });
     //h3 id fix: 禁止id重复
@@ -46,7 +46,7 @@ function parseMenuList(menuNodeList, menuList) {
         let hashText = linkElement.hash.substring(1)
         let menuItem = {
             title: linkElement.innerText,
-            url: contextURL + hashText + ".md",
+            url: location.origin + "/" + hashText + ".md",
             children: []
         }
         menuList.push(menuItem);
