@@ -3,7 +3,7 @@
     <div class="dialog animate__animated animate__backInUp">
       <div class="dialog-header">
         <span class="dialog-title">抓取脚本</span>
-        <button type="button" title="关闭" @click="$emit('dialog-close')">x</button>
+        <a href="#" class="close-btn" title="关闭" @click="$emit('dialog-close')">x</a>
       </div>
       <div class="dialog-body">
         <div class="alert-info">
@@ -21,8 +21,7 @@
           </div>
         </div>
         <div class="dialog-textarea">
-          <textarea readonly="readonly" autocomplete="off" rows="15" placeholder="请输入内容"
-                    v-model="sourceContent"></textarea>
+          <highlight-js language="js" :code="sourceContent"/>
         </div>
       </div>
     </div>
@@ -34,10 +33,19 @@
 
 <script>
 import axios from "axios";
+import 'highlight.js/styles/stackoverflow-light.css'
+import hljs from 'highlight.js/lib/core';
+import javascript from 'highlight.js/lib/languages/javascript';
+import hljsVuePlugin from "@highlightjs/vue-plugin";
+
+hljs.registerLanguage('javascript', javascript);
 
 export default {
   name: "SourceDialog",
   emits: ["dialog-close", "copy-success"],
+  components: {
+    HighlightJs: hljsVuePlugin.component
+  },
   props: {
     projectName: {
       type: String,
@@ -100,7 +108,6 @@ export default {
   z-index: 201;
 
   .dialog {
-    position: relative;
     margin: 15vh auto 50px auto;
     background: #fff;
     border-radius: 2px;
@@ -110,8 +117,9 @@ export default {
     --animate-duration: 300ms;
 
     .dialog-header {
-      padding: 20px 20px 10px;
+      padding: 20px;
       text-align: center;
+      position: relative;
 
       .dialog-title {
         line-height: 24px;
@@ -119,29 +127,33 @@ export default {
         color: #303133;
       }
 
-      button {
+      .close-btn {
         position: absolute;
-        top: 20px;
-        right: 20px;
-        padding: 0;
-        background: 0 0;
-        border: none;
+        top: 8px;
+        right: 8px;
+        padding: 5px;
         outline: 0;
         cursor: pointer;
-        font-size: 16px;
-        color: #909399;
-        width: 16px;
-        height: 16px;
-        line-height: 16px;
+        font-size: 14px;
+        color: #FFFFFF;
+        background-color: #f56c6c;
+        width: 20px;
+        height: 20px;
+        line-height: 20px;
+        border-radius: 50%;
+        border: 1px solid #ccc;
+        display: block;
+        text-decoration: none;
 
         &:hover {
-          color: #409eff;
+          background-color: #f78989;
+          border-color: #f78989;
         }
       }
     }
 
     .dialog-body {
-      padding: 30px 20px;
+      padding: 10px 20px 20px 20px;
       color: #606266;
       font-size: 14px;
       word-break: break-all;
@@ -260,30 +272,19 @@ export default {
 
       .dialog-textarea {
         margin-top: 15px;
-        position: relative;
-        display: inline-block;
         width: 100%;
-        vertical-align: bottom;
-        font-size: 14px;
+        font-size: 16px;
+        border: 1px solid #d5cdcd;
+        border-radius: 8px;
+        overflow: hidden;
 
-        textarea {
-          min-height: 33px;
-          display: block;
-          resize: vertical;
-          padding: 5px 15px;
-          line-height: 1.5;
-          box-sizing: border-box;
-          width: 100%;
-          font-size: inherit;
-          color: #606266;
-          background-color: #fff;
-          border: 1px solid #dcdfe6;
-          border-radius: 4px;
-          transition: border-color .2s cubic-bezier(.645, .045, .355, 1);
+        &:deep(pre) {
+          margin: 0;
+          white-space: pre-wrap;
 
-          &:focus {
-            outline: 0;
-            border-color: #409eff;
+          code {
+            height: 450px;
+            overflow: auto;
           }
         }
       }

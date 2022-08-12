@@ -80,26 +80,30 @@ export default {
 
     .card-body {
       padding: 12px 28px;
-      table{
+
+      table {
         border: 0;
         margin-bottom: 8px;
       }
 
       .book-info-node {
-        td{
+        td {
           height: 25px;
           line-height: 25px;
+
           span.title {
             color: #13f4ff;
             font-weight: bold;
           }
-          span.slink{
+
+          span.slink {
             height: 25px;
             max-width: 300px;
             display: block;
             overflow: hidden;
             text-overflow: ellipsis;
           }
+
           a {
             color: #9eafff;
             text-decoration: none;

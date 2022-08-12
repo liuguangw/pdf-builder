@@ -30,15 +30,18 @@ import {onMounted, onUnmounted, ref} from "vue";
 import {io} from "socket.io-client";
 import "xterm/css/xterm.css";
 import 'animate.css';
+import initTerminal from "./terminal_handler.js"
 import useFetchBookInfo from "./fetch_book_info.js";
 import MessageTip from "../../components/MessageTip.vue";
 import SourceDialog from "../../components/SourceDialog.vue";
 import axios from "axios";
-import useTerminalHandler from "./terminal_handler.js";
 
 export default {
   name: "BookProject",
-  components: {SourceDialog, MessageTip},
+  components: {
+    SourceDialog,
+    MessageTip
+  },
   setup() {
     const projectName = ref("")
     const route = useRoute()
@@ -48,20 +51,17 @@ export default {
     const showSourceDialog = ref(false);
     const xterm = ref(null);
     const socketClient = io();
+    const canBuild = ref(false);
     const {
       docURL, fetchScript, title,
       fetchBookInfo
     } = useFetchBookInfo(showMessage, messageType, message)
-    const {
-      canBuild,
-      initTerminal
-    } = useTerminalHandler()
     onMounted(async () => {
       //获取project信息
       projectName.value = route.params.projectName;
-      await fetchBookInfo(projectName.value);
       //初始化 terminal
-      initTerminal(xterm, projectName, socketClient, showMessage, messageType, message)
+      initTerminal(xterm, projectName, socketClient, showMessage, messageType, message, canBuild)
+      await fetchBookInfo(projectName.value);
     });
     onUnmounted(() => {
       socketClient.close();
@@ -85,8 +85,8 @@ export default {
         return
       }
       try {
-        let buildResult = await axios.post("/api/book-build",{
-          bookName:this.projectName
+        let buildResult = await axios.post("/api/book-build", {
+          bookName: this.projectName
         })
         let buildResponse = buildResult.data
         if (buildResponse.code !== 0) {

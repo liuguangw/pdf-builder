@@ -97,24 +97,17 @@ function handleEvents(socketClient, terminal, projectName, canBuild, showMessage
     });
 }
 
-export default function useTerminalHandler() {
-    const canBuild = ref(false);
-    const initTerminal = function (xterm, projectName, socketClient, showMessage, messageType, message) {
-        //Terminal
-        const terminal = new Terminal({
-            disableStdin: true
-        });
-        const fitAddon = new FitAddon();
-        terminal.loadAddon(fitAddon);
-        //初始化 terminal
-        terminal.open(xterm.value);
-        fitAddon.fit();
-        //terminal.writeln("Hello world");
-        socketClient.emit("terminal-ready");
-        handleEvents(socketClient, terminal, projectName, canBuild, showMessage, messageType, message);
-    }
-    return {
-        canBuild,
-        initTerminal
-    }
+export default function initTerminal(xterm, projectName, socketClient, showMessage, messageType, message, canBuild) {
+    //Terminal
+    const terminal = new Terminal({
+        disableStdin: true
+    });
+    const fitAddon = new FitAddon();
+    terminal.loadAddon(fitAddon);
+    //初始化 terminal
+    terminal.open(xterm.value);
+    fitAddon.fit();
+    //terminal.writeln("Hello world");
+    socketClient.emit("terminal-ready");
+    handleEvents(socketClient, terminal, projectName, canBuild, showMessage, messageType, message);
 }
