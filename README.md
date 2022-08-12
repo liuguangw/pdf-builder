@@ -2,11 +2,11 @@
 
 # pdf-builder
 
-用于将网页文档转换为 PDF文档的工具。
+用于将网页在线文档转换为 PDF文档的工具。
 
 ## 环境要求
 
-- node.js环境(建议最新版本)
+- node.js环境(`v16.16.0` 或者更高版本)
 - ebook-convert工具
 
 > ebook-convert工具安装方法:
@@ -14,6 +14,8 @@
 > 加入系统 `path` 环境变量即可。
 
 ## 使用方法
+
+详细使用说明请参考wiki: [使用说明](https://github.com/liuguangw/pdf-builder/wiki/usage#使用说明)
 
 ```bash
 # 以pnpm工具运行命令example
@@ -39,4 +41,6 @@ pnpm run dev
 `main.js` 文档相关信息。
 
 `fetch.js` 为在浏览器控制台下执行的抓取脚本。
+
+详细介绍请参考wiki：[添加自定义文档](https://github.com/liuguangw/pdf-builder/wiki/add_book#添加自定义文档)
 
