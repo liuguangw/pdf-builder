@@ -18,6 +18,9 @@
 详细使用说明请参考wiki: [使用说明](https://github.com/liuguangw/pdf-builder/wiki/usage#使用说明)
 
 ```bash
+# clone项目到本地
+git clone https://github.com/liuguangw/pdf-builder.git
+cd pdf-builder
 # 以pnpm工具运行命令example
 # 安装项目依赖(只需要在安装时执行)
 pnpm install
