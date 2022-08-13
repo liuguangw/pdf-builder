@@ -6,6 +6,10 @@ import ApiEndpoint from "./api_endpoint";
 export function processPageLinks(contentEl: HTMLElement, replaceURLHandler: ReplaceURLHandler,
                                  pageURL: string, contextURL: string) {
     contentEl.querySelectorAll("a").forEach(linkElement => {
+        //已标记为非内部链接
+        if (linkElement.classList.contains("pdf-no-inner-link")) {
+            return;
+        }
         let hrefValue = linkElement.getAttribute("href")
         if (hrefValue === null) {
             return

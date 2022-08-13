@@ -1,5 +1,6 @@
 import fetchAndSave from "../../fetch_lib/fetch_and_save";
 import fetchPageDocument from "../../fetch_lib/fetch_page_document";
+import {parseMdBookMenuList} from "../../fetch_lib/parse_md_book_menu_list.js";
 
 //抓取页面的间隔时间(ms)
 const sleepDuration = 2300;
@@ -23,29 +24,6 @@ async function fetchPage(pageURL) {
         }
     })
     return doc.querySelector("#content main");
-}
-
-function parseMenuList(liElementList, menuList) {
-    liElementList.forEach(liElement => {
-        /**
-         *
-         * @type {HTMLAnchorElement}
-         */
-        let menuLink = liElement.querySelector("a");
-        let menuItem = {
-            title: menuLink.innerText,
-            url: menuLink.href,
-            children: []
-        }
-        let nextElement = liElement.nextElementSibling;
-        if (nextElement !== null) {
-            let subOlElement = nextElement.querySelector("ol");
-            if (subOlElement !== null) {
-                parseMenuList(Array.from(subOlElement.children), menuItem.children)
-            }
-        }
-        menuList.push(menuItem);
-    })
 }
 
 function docHighlight(doc) {
@@ -189,7 +167,7 @@ function processFerrises(doc) {
     //获取menu list
     let menuList = [];
     let liElementList = document.querySelectorAll("ol.chapter>li.chapter-item");
-    parseMenuList(liElementList, menuList);
+    parseMdBookMenuList(liElementList, menuList);
     //console.log(menuList)
     //console.log(JSON.stringify(menuList,null,"\t"))
     await fetchAndSave(menuList, sleepDuration, fetchPage);

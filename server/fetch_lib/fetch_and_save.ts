@@ -17,6 +17,7 @@ import ApiEndpoint from "./api_endpoint";
 import parsePageList from "./parse_page_list";
 import replaceURL from "./replace_url";
 
+//抓取并保存网页
 export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: number,
                                            fetchPage: FetchPageHandler,
                                            replaceURLHandler: ReplaceURLHandler = replaceURL): Promise<void> {
