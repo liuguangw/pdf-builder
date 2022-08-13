@@ -7,6 +7,7 @@ import saveBookMenuHandler from "./handlers/save_book_menu.js";
 import saveBookContentHandler from "./handlers/save_book_content.js";
 import saveBookImageHandler from "./handlers/save_book_image.js";
 import notifyCanBuildHandler from "./handlers/notify_can_build.js";
+import path from "path";
 
 /**
  *
@@ -54,10 +55,39 @@ function configureServer(server) {
     loadRoutes(server.middlewares, io)
 }
 
+/**
+ *
+ * @param {HmrContext} ctx
+ */
+async function handleHotUpdate(ctx) {
+    const fPath = ctx.file
+    if (!fPath.endsWith("config.yml")) {
+        return
+    }
+    //console.log(fPath)
+    //console.log(ctx.modules)
+    const {config} = ctx.server;
+    const projectsDir = path.join(config.root, "server", "projects").replace(/\\/g, "/")
+    //console.log(projectsDir)
+    if (!fPath.startsWith(projectsDir)) {
+        return
+    }
+    config.logger.info(`${path.relative(process.cwd(), fPath)} changed, restarting server...`, {
+        clear: true,
+        timestamp: true
+    });
+    try {
+        await ctx.server.restart();
+    } catch (e) {
+        config.logger.error(e)
+    }
+}
+
 export default function builderPlugin() {
     return {
         name: "pdf-builder-plugin",
         configureServer,
-        configurePreviewServer: configureServer
+        configurePreviewServer: configureServer,
+        //handleHotUpdate
     };
 }

@@ -6,7 +6,7 @@ import loadBookList from "../lib/load_book_list.js";
  * @param {Connect.IncomingMessage} req
  * @param {ServerResponse} resp
  */
-export default function bookListHandler(req, resp) {
-    let items = loadBookList()
+export default async function bookListHandler(req, resp) {
+    let items = await loadBookList()
     writeJson(resp, items)
 }

@@ -1,0 +1,6 @@
+title: Vite 官方中文文档
+docURL: https://cn.vitejs.dev/guide/
+contextURL: https://cn.vitejs.dev/
+styles:
+  - css/style.css
+order: 1

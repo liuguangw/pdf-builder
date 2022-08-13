@@ -153,7 +153,7 @@ export async function saveBookImage(bookDistDir, imageURL, referer) {
 export default function saveBookImageHandler(io) {
     return async function (req, resp) {
         let bookName = req.body.bookName;
-        let bookInfo = loadBookInfo(bookName)
+        let bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
             writeJson(resp, {
                 code: 4000,

@@ -1,10 +1,18 @@
 /**
  *
+ * @return {string}
+ */
+export function projectListDir() {
+    return "./server/projects";
+}
+
+/**
+ *
  * @param {string} projectName
  * @return {string}
  */
 export function projectDir(projectName) {
-    return "./server/projects/" + projectName;
+    return projectListDir() + "/" + projectName;
 }
 
 /**

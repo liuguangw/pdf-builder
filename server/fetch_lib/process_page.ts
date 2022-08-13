@@ -31,6 +31,10 @@ export function processPageToc(contentEl: HTMLElement, pageDeep: number) {
     let currentDeep = pageDeep
     //找出h1 - h6
     for (let i = 1; i < 7; i++) {
+        //最多3层
+        if (currentDeep > 3) {
+            break
+        }
         let tagName = "h" + i
         //排除.pdf-no-toc
         let hNodeList = contentEl.querySelectorAll(tagName + ":not(.pdf-no-toc)")

@@ -5,9 +5,9 @@ import loadBookInfo from "../lib/load_book_info.js";
  * 处理can build通知
  */
 export default function notifyCanBuildHandler(io) {
-    return function (req, resp) {
+    return async function (req, resp) {
         let bookName = req.body.bookName;
-        let bookInfo = loadBookInfo(bookName)
+        let bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
             writeJson(resp, {
                 code: 4000,
