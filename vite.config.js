@@ -7,7 +7,11 @@ export default defineConfig({
     plugins: [vue(), builderPlugin()],
     server: {
         watch: {
-            ignored: ['**/server/projects/**/dist']
+            ignored: [
+                '**/server/projects/**/dist',
+                '**/output',
+                '**/.idea'
+            ]
         }
     }
 })

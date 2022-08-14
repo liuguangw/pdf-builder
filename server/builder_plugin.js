@@ -8,6 +8,8 @@ import saveBookContentHandler from "./handlers/save_book_content.js";
 import saveBookImageHandler from "./handlers/save_book_image.js";
 import notifyCanBuildHandler from "./handlers/notify_can_build.js";
 import path from "path";
+import {normalizePath} from "vite";
+import {clearBookInfoCache} from "./lib/load_book_info.js";
 
 /**
  *
@@ -59,28 +61,48 @@ function configureServer(server) {
  *
  * @param {HmrContext} ctx
  */
-async function handleHotUpdate(ctx) {
+function handleHotUpdate(ctx) {
     const fPath = ctx.file
-    if (!fPath.endsWith("config.yml")) {
-        return
-    }
     //console.log(fPath)
     //console.log(ctx.modules)
-    const {config} = ctx.server;
-    const projectsDir = path.join(config.root, "server", "projects").replace(/\\/g, "/")
+    const configFilename = "config.yml"
+    if (!fPath.endsWith(configFilename)) {
+        return
+    }
+    const {ws, config} = ctx.server;
+    const projectsDir = normalizePath(path.join(config.root, "server", "projects"))
     //console.log(projectsDir)
     if (!fPath.startsWith(projectsDir)) {
         return
     }
-    config.logger.info(`${path.relative(process.cwd(), fPath)} changed, restarting server...`, {
+    const posA = projectsDir.length + 1
+    const posB = fPath.length - configFilename.length - 1
+    if (posB <= posA) {
+        return
+    }
+    const projectName = fPath.substring(posA, posB)
+    //console.log(projectName)
+    const logMessage = `${path.relative(process.cwd(), fPath)} changed, clear cache...`;
+    config.logger.info(logMessage, {
         clear: true,
         timestamp: true
     });
-    try {
-        await ctx.server.restart();
-    } catch (e) {
-        config.logger.error(e)
-    }
+    clearBookInfoCache(projectName)
+    //hmr 通知前端刷新页面
+    const updates = [];
+    ["BookList", "BookProject"].forEach((dirName) => {
+        let vuePath = `/src/views/${dirName}/${dirName}.vue`
+        updates.push({
+            type: "js-update",
+            path: vuePath,
+            acceptedPath: vuePath,
+            timestamp: ctx.timestamp
+        })
+    });
+    ws.send({
+        type: 'update',
+        updates
+    })
 }
 
 export default function builderPlugin() {
@@ -88,6 +110,6 @@ export default function builderPlugin() {
         name: "pdf-builder-plugin",
         configureServer,
         configurePreviewServer: configureServer,
-        //handleHotUpdate
+        handleHotUpdate
     };
 }
