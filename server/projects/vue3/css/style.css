@@ -1,0 +1,387 @@
+.main-book-content {
+    color: #213547;
+    letter-spacing: .2px;
+    font-size: 16px;
+    line-height: 1.7;
+    font-synthesis: none;
+    text-rendering: optimizeLegibility;
+    position: relative;
+    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+}
+
+.main-book-content *, :before, :after {
+    box-sizing: border-box;
+}
+
+blockquote, dl, dd, h1, h2, h3, h4, h5, h6, hr, figure, p, pre {
+    margin: 0;
+}
+
+img, svg, video, canvas, audio, iframe, embed, object {
+    display: block;
+    vertical-align: middle;
+}
+
+button, input, optgroup, select, textarea {
+    border: 0;
+    padding: 0;
+    line-height: inherit;
+    color: inherit;
+}
+
+button, [role=button] {
+    cursor: pointer;
+}
+
+img {
+    border: none;
+}
+
+ol, ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.main-book-content blockquote {
+    margin: 1rem 0;
+    border-left: .2rem solid rgba(60, 60, 60, .29);
+    padding-left: 16px;
+}
+
+.main-book-content blockquote > p {
+    margin: 0;
+    font-size: 16px;
+    color: rgba(60, 60, 60, .7);
+}
+
+.main-book-content figure {
+    margin: 0
+}
+
+.main-book-content h1, .main-book-content h2, .main-book-content h3,
+.main-book-content h4, .main-book-content h5, .main-book-content h6 {
+    position: relative;
+    font-weight: 600;
+    line-height: 1.5;
+    outline: none;
+}
+
+.main-book-content a {
+    font-weight: 500;
+    color: #42b883;
+    text-decoration-style: dotted;
+    text-decoration: inherit;
+}
+
+.main-book-content a:hover {
+    color: #33a06f;
+}
+
+.main-book-content p, .main-book-content ul, .main-book-content ol, .main-book-content summary {
+    margin-bottom: 19px;
+}
+
+.main-book-content p > img {
+    margin: 28px auto;
+}
+
+.main-book-content strong {
+    font-weight: 600;
+}
+
+.main-book-content ul {
+    margin-bottom: 17px;
+    padding-left: 20px;
+}
+
+.main-book-content li {
+    position: relative;
+    margin: 1px 0;
+}
+
+.main-book-content ul > li:before {
+    content: "";
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background-color: rgba(60, 60, 60, 0.33);
+    left: -20px;
+    top: 12px;
+}
+
+.main-book-content table {
+    display: block;
+    border-collapse: collapse;
+    margin: 1rem 0;
+    overflow-x: auto
+}
+
+.main-book-content tr {
+    border-top: 1px solid rgba(60, 60, 60, .29);
+    transition: background-color .5s
+}
+
+.main-book-content tr:nth-child(2n) {
+    background-color: #f9f9f9;
+}
+
+.main-book-content th, .main-book-content td {
+    border: 1px solid rgba(60, 60, 60, .29);
+    padding: .6em 1em
+}
+
+.main-book-content h1 {
+    margin: 0 0 48px 0;
+    font-size: 38px;
+    line-height: 1.4;
+    letter-spacing: -.02em;
+    position: relative;
+    font-weight: 600;
+}
+
+.main-book-content h2 {
+    margin: 64px 0 29px 0;
+    border-top: 1px solid rgba(60, 60, 60, 0.12);
+    padding-top: 29px;
+    font-size: 24px;
+    letter-spacing: -.02em;
+}
+
+.main-book-content h3 {
+    font-size: 19px;
+    letter-spacing: -.01em;
+    margin: 48px 0 20px 0
+}
+
+.main-book-content h2 + h3 {
+    margin-top: 0
+}
+
+.main-book-content h4 {
+    font-size: 17px;
+    margin: 29px 0 16px 0;
+}
+
+.main-book-content .custom-block {
+    margin: 28px 0;
+    padding: 20px 24px 4px 42px;
+    border-radius: 8px;
+    overflow-x: auto;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 500;
+    color: #0000008c;
+    background-color: #f9f9f9;
+}
+
+.main-book-content .custom-block:before {
+    content: "\24d8";
+    position: absolute;
+    font-weight: 600;
+    font-size: 15px;
+    top: 20px;
+    left: 17px;
+}
+
+.main-book-content .custom-block .custom-block-title {
+    margin-bottom: 8px;
+    font-size: 15px;
+    font-weight: 500;
+    color: #213547;
+}
+
+.main-book-content .custom-block ul li:before {
+    top: 9px;
+}
+
+.main-book-content .custom-block.tip {
+    border: 1px solid #42b883;
+}
+
+.main-book-content .custom-block.tip:before {
+    color: #42b883;
+}
+
+.main-book-content .custom-block.warning {
+    border: 1px solid #ffc517;
+}
+
+.main-book-content .custom-block.warning:before {
+    color: #ffc517;
+}
+
+.main-book-content .custom-block.danger {
+    border: 1px solid #ed3c50;
+}
+
+.main-book-content .custom-block.danger .custom-block-title, .main-book-content .custom-block.danger:before {
+    color: #ed3c50;
+}
+
+.main-book-content .vue-mastery-link {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 8px 16px 8px 8px;
+    transition: color .5s, background-color .5s;
+}
+
+.main-book-content .vue-mastery-link a {
+    display: flex;
+    align-items: center;
+}
+
+.main-book-content .vue-mastery-link .description {
+    flex: 1;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 20px;
+    color: #213547;
+    margin: 0 0 0 16px;
+}
+
+.main-book-content .vue-mastery-link .description span {
+    color: #42b883;
+}
+
+.main-book-content .vue-mastery-link .logo-wrapper {
+    position: relative;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background-color: #FFFFFF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-book-content .logo-wrapper img {
+    width: 25px;
+    object-fit: contain;
+}
+
+.main-book-content .vue-mastery-link .banner {
+    background-color: #f9f9f9;
+    border-radius: 4px;
+    width: 96px;
+    height: 56px;
+    object-fit: cover;
+}
+
+.main-book-content .demo {
+    padding: 22px 24px;
+    border-radius: 8px;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, .07), 0 1px 4px rgba(0, 0, 0, .07);
+    margin-bottom: 19px;
+}
+
+.main-book-content .demo button {
+    background-color: #f1f1f1;
+    padding: 5px 12px;
+    border: 1px solid rgba(60, 60, 60, 0.29);
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.main-book-content a[href^="https://sfc.vuejs.org"]:before {
+    content: "\25b6";
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    border-radius: 10px;
+    vertical-align: middle;
+    position: relative;
+    top: -2px;
+    color: rgb(66, 184, 131);
+    border: 2px solid rgb(66, 184, 131);
+    margin-right: 8px;
+    margin-left: 4px;
+    line-height: 15px;
+    padding-left: 4.5px;
+    font-size: 11px;
+}
+
+.main-book-content .vt-box-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.main-book-content .next-steps {
+    margin-top: 48px;
+}
+
+.main-book-content .next-steps .vt-box {
+    border: 1px solid #f9f9f9;
+}
+
+.main-book-content .next-steps .vt-box:hover {
+    border-color: #42d392;
+    transition: border-color .3s cubic-bezier(.25, .8, .25, 1);
+}
+
+.main-book-content .vt-box-container .vt-box {
+    background-color: #f9f9f9;
+    transition: color .5s, background-color .5s;
+    padding: 28px 36px;
+    border-radius: 8px;
+    flex: 0 32%;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.main-book-content .next-steps-link {
+    font-size: 20px;
+    line-height: 1.4;
+    letter-spacing: -.02em;
+    margin-bottom: 15px;
+    display: block;
+    color: #42b883;
+}
+
+.main-book-content .next-steps-caption {
+    margin-bottom: 0;
+    color: rgba(60, 60, 60, 0.7);
+    transition: color .5s;
+}
+
+.main-book-content .composition-api, .sfc,
+.main-book-content .prefer-composition .options-api,
+.main-book-content .prefer-sfc .html {
+    display: none;
+}
+
+.main-book-content .prefer-composition .composition-api,
+.main-book-content .prefer-sfc .sfc {
+    display: initial;
+}
+
+.main-book-content .vt-badge {
+    display: inline-block;
+    border-radius: 6px;
+    font-size: 12px;
+    line-height: 1;
+    font-weight: 600;
+    padding: .35em .4em .3em;
+    position: relative;
+    top: -.65em;
+    margin-left: .5em;
+    color: #FFFFFF;
+    transition: color .5s;
+    background-color: #42b883;
+}
+
+.main-book-content .vt-badge.warning {
+    color: #213547;
+    background-color: #ffc517;
+}
+.main-book-content .vt-badge.ts {
+    background-color: #3178c6
+}
+
+.main-book-content .vt-badge.ts:before {
+    content: "TS"
+}

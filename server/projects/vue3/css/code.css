@@ -1,0 +1,130 @@
+.main-book-content pre,
+.main-book-content code,
+.main-book-content kbd,
+.main-book-content samp {
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+}
+
+.main-book-content div[class*=language-] {
+    position: relative;
+    background-color: #292d3e;
+    overflow-x: auto;
+    margin: 28px 0;
+    border-radius: 8px;
+}
+
+.main-book-content [class*=language-]:before {
+    position: absolute;
+    top: 4px;
+    right: 10px;
+    z-index: 2;
+    font-size: 12px;
+    font-weight: 500;
+    color: rgba(235, 235, 235, 0.38);
+}
+
+.main-book-content [class~=language-vue]:before {
+    content: "vue"
+}
+
+.main-book-content [class~=language-html]:before {
+    content: "html"
+}
+
+.main-book-content [class~=language-vue-html]:before {
+    content: "template"
+}
+
+.main-book-content [class~=language-css]:before {
+    content: "css"
+}
+
+.main-book-content [class~=language-js]:before {
+    content: "js"
+}
+
+.main-book-content [class~=language-jsx]:before {
+    content: "jsx"
+}
+
+.main-book-content [class~=language-ts]:before {
+    content: "ts"
+}
+
+.main-book-content [class~=language-tsx]:before {
+    content: "tsx"
+}
+
+.main-book-content [class~=language-json]:before {
+    content: "json"
+}
+
+.main-book-content [class~=language-sh]:before, .main-book-content [class~=language-bash]:before {
+    content: "sh"
+}
+
+.main-book-content div[class*=language-] + div[class*=language-],
+.main-book-content div[class$=-api] + div[class*=language-],
+.main-book-content div[class*=language-] + div[class$=-api] > div[class*=language-]:first-child {
+    margin-top: -16px
+}
+
+.main-book-content [class*=language-] pre, .main-book-content [class*=language-] code {
+    text-align: left;
+    white-space: pre;
+    word-spacing: normal;
+    word-break: normal;
+    word-wrap: normal;
+    tab-size: 4;
+    hyphens: none
+}
+
+.main-book-content [class*=language-] pre {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 14px 24px;
+    background: transparent;
+    overflow-x: auto
+}
+
+.main-book-content [class*=language-] code {
+    display: inline-block;
+    padding: 0;
+    line-height: 1.5;
+    font-size: 14px;
+    color: #a6accd;
+}
+
+.main-book-content :not(pre) > code {
+    background-color: #f1f1f1;
+    padding: 2px 7px;
+    border-radius: 4px;
+    color: #476582;
+}
+
+.main-book-content :not(pre,h1,h2,h3,h4,h5,h6) > code {
+    font-size: 14px;
+}
+
+.main-book-content a > code {
+    color: #33a06f;
+}
+
+.main-book-content .highlight-lines {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    padding: 13px 0 11px;
+    width: 100%;
+    font-family: Menlo, Monaco, Consolas, "Courier New", monospace;
+    line-height: 1.5;
+    font-size: 14px;
+    user-select: none;
+    overflow: hidden;
+}
+
+.main-book-content .highlight-lines .highlighted {
+    background-color: #1d1f2b;
+}
