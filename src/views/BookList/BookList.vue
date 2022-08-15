@@ -28,21 +28,13 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import useFetchBookList from "./fetch_book_list.js";
 import MessageTip from "../../components/MessageTip.vue";
+import {defaultMessageState} from "../../common/message.js";
 
-export default {
-  name: "BookList",
-  components: {MessageTip},
-  setup() {
-    const {bookList, showMessage, messageType, message} = useFetchBookList();
-    return {
-      bookList,
-      showMessage, messageType, message
-    }
-  }
-}
+const {messageType, message, showMessage} = defaultMessageState()
+const bookList = useFetchBookList({messageType, message, showMessage});
 </script>
 
 <style lang="scss" scoped>

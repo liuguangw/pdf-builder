@@ -17,7 +17,7 @@
                                                                       target="_blank">{{ docUrl }}</a>
           </p></div>
           <div class="dialog-row-col dialog-row-col-4">
-            <button class="btn btn-danger" type="button" @click="buildBook"><span>强制构建</span></button>
+            <button class="btn btn-danger" type="button" @click="$emit('build-book')"><span>强制构建</span></button>
           </div>
         </div>
         <div class="dialog-textarea">
@@ -31,57 +31,38 @@
   </teleport>
 </template>
 
-<script>
-import axios from "axios";
+<script setup>
 import 'highlight.js/styles/stackoverflow-light.css'
 import hljs from 'highlight.js/lib/core';
 import javascript from 'highlight.js/lib/languages/javascript';
 import hljsVuePlugin from "@highlightjs/vue-plugin";
 
-hljs.registerLanguage('javascript', javascript);
-
-export default {
-  name: "SourceDialog",
-  emits: ["dialog-close", "copy-success"],
-  components: {
-    HighlightJs: hljsVuePlugin.component
+hljs.registerLanguage('javascript', javascript)
+const HighlightJs = hljsVuePlugin.component
+const emit = defineEmits(["dialog-close", "copy-success","copy-error", "build-book"])
+const props = defineProps({
+  projectName: {
+    type: String,
+    required: true
   },
-  props: {
-    projectName: {
-      type: String,
-      required: true
-    },
-    docUrl: {
-      type: String,
-      required: true
-    },
-    sourceContent: {
-      type: String,
-      required: true
-    }
+  docUrl: {
+    type: String,
+    required: true
   },
-  methods: {
-    async copyCode() {
-      await navigator.clipboard.writeText(this.sourceContent);
-      this.$emit("copy-success");
-    },
-    async buildBook() {
-      try {
-        let buildResult = await axios.post("/api/book-build", {
-          bookName: this.projectName
-        })
-        let buildResponse = buildResult.data
-        if (buildResponse.code !== 0) {
-          console.error(buildResponse.message)
-        } else {
-          console.log("send build command ok")
-        }
-        this.$emit("dialog-close")
-      } catch (e) {
-        console.error(e)
-      }
-    }
+  sourceContent: {
+    type: String,
+    required: true
   }
+})
+
+async function copyCode() {
+  try{
+    await navigator.clipboard.writeText(props.sourceContent);
+  }catch (e) {
+    emit("copy-error",e.message)
+    return
+  }
+  emit("copy-success")
 }
 </script>
 

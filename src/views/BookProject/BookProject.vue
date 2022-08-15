@@ -20,92 +20,93 @@
     </div>
     <source-dialog v-if="showSourceDialog" @dialog-close="showSourceDialog = false"
                    @copy-success="showCopySuccessMessage"
+                   @copy-error="showErrorMessage"
+                   @build-book="forceBuildBook"
                    :project-name="projectName" :doc-url="docURL" :source-content="fetchScript"/>
   </div>
 </template>
 
-<script>
+<script setup>
 import {useRoute} from 'vue-router'
 import {onMounted, onUnmounted, ref} from "vue";
 import {io} from "socket.io-client";
 import "xterm/css/xterm.css";
 import 'animate.css';
-import initTerminal from "./terminal_handler.js"
 import useFetchBookInfo from "./fetch_book_info.js";
 import MessageTip from "../../components/MessageTip.vue";
 import SourceDialog from "../../components/SourceDialog.vue";
-import axios from "axios";
+import {defaultMessageState, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS} from "../../common/message.js";
+import useTerminalHandler from "./terminal_handler.js";
+import requestServerAPI from "../../common/request_server_api.js";
 
-export default {
-  name: "BookProject",
-  components: {
-    SourceDialog,
-    MessageTip
-  },
-  setup() {
-    const projectName = ref("")
-    const route = useRoute()
-    const showMessage = ref(false)
-    const messageType = ref(0)
-    const message = ref("")
-    const showSourceDialog = ref(false);
-    const xterm = ref(null);
-    const socketClient = io();
-    const canBuild = ref(false);
-    const {
-      docURL, fetchScript, title,
-      fetchBookInfo
-    } = useFetchBookInfo(showMessage, messageType, message)
-    onMounted(async () => {
-      //获取project信息
-      projectName.value = route.params.projectName;
-      //初始化 terminal
-      initTerminal(xterm, projectName, socketClient, showMessage, messageType, message, canBuild)
-      await fetchBookInfo(projectName.value);
-    });
-    onUnmounted(() => {
-      socketClient.close();
+
+const route = useRoute()
+const projectName = ref(route.params.projectName)
+const {messageType, message, showMessage} = defaultMessageState()
+const showSourceDialog = ref(false);
+const xterm = ref(null);
+const socketClient = io();
+
+function showSuccessMessage(msgContent) {
+  message.value = msgContent
+  messageType.value = MESSAGE_TYPE_SUCCESS
+  showMessage.value = true
+}
+
+function showErrorMessage(msgContent) {
+  message.value = msgContent
+  messageType.value = MESSAGE_TYPE_ERROR
+  showMessage.value = true
+}
+
+function showCopySuccessMessage() {
+  showSuccessMessage("复制代码成功")
+}
+
+const {
+  docURL, fetchScript, title
+} = useFetchBookInfo(projectName.value, showSuccessMessage, showErrorMessage)
+const {
+  canBuild,
+  initTerminal
+} = useTerminalHandler(showSuccessMessage, showErrorMessage)
+onMounted(async () => {
+  //初始化 terminal
+  initTerminal(xterm, projectName.value, socketClient)
+});
+onUnmounted(() => {
+  socketClient.close();
+})
+
+async function processBuildBook() {
+  canBuild.value = false
+  try {
+    let buildResult = await requestServerAPI("/api/book-build", {
+      bookName: projectName.value
     })
-    return {
-      projectName,
-      docURL, fetchScript, title,
-      showMessage, messageType, message,
-      showSourceDialog, xterm,
-      canBuild
+    let buildResponse = buildResult.data
+    if (buildResponse.code !== 0) {
+      showErrorMessage(buildResponse.message)
+      canBuild.value = true
+      console.error(buildResponse.message)
     }
-  },
-  methods: {
-    showCopySuccessMessage() {
-      this.message = "复制代码成功";
-      this.messageType = 1;
-      this.showMessage = true;
-    },
-    async buildBook() {
-      if (!this.canBuild) {
-        return
-      }
-      this.canBuild = false
-      try {
-        let buildResult = await axios.post("/api/book-build", {
-          bookName: this.projectName
-        })
-        let buildResponse = buildResult.data
-        if (buildResponse.code !== 0) {
-          this.message = buildResponse.message;
-          this.messageType = 2;
-          this.showMessage = true;
-          this.canBuild = true
-          console.error(buildResponse.message)
-        }
-      } catch (e) {
-        this.message = e.message;
-        this.messageType = 2;
-        this.showMessage = true;
-        this.canBuild = true
-        console.error(e)
-      }
-    }
+  } catch (e) {
+    showErrorMessage(e.message)
+    canBuild.value = true
+    console.error(e)
   }
+}
+
+async function buildBook() {
+  if (!canBuild.value) {
+    return
+  }
+  await processBuildBook()
+}
+
+async function forceBuildBook() {
+  showSourceDialog.value = false
+  await processBuildBook()
 }
 </script>
 

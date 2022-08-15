@@ -1,39 +1,41 @@
 <template>
-  <div :class="['message-card','animate__animated' ,'animate__zoomIn',{
-    'with-success':messageType === 1,
-    'with-error':messageType === 2
-  }]">
+  <div class="message-card animate__animated animate__zoomIn" :class="{
+    'with-success':messageType === MESSAGE_TYPE_SUCCESS,
+    'with-error':messageType === MESSAGE_TYPE_ERROR
+  }">
     <div class="card-content">{{ message }}</div>
   </div>
 </template>
 
-<script>
+<script setup>
 import {onMounted} from "vue";
+import {MESSAGE_TYPE_COMMON, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS} from "../common/message.js";
 
-export default {
-  name: "MessageTip",
-  emits: ['dialog-close'],
-  props: {
-    message: {
-      type: String,
-      required: true
-    },
-    /*0普通消息 1成功消息 2失败消息*/
-    messageType: {
-      type: Number,
-      default() {
-        return 0;
-      }
-    }
+const emit = defineEmits(['dialog-close'])
+const props = defineProps({
+  message: {
+    type: String,
+    required: true
   },
-  setup(props, context) {
-    onMounted(() => {
-      setTimeout(() => {
-        context.emit("dialog-close")
-      }, 2200)
-    });
+  /*0普通消息 1成功消息 2失败消息*/
+  messageType: {
+    type: Number,
+    default: MESSAGE_TYPE_COMMON,
+    validator(value) {
+      // The value must match one of these strings
+      return [
+        MESSAGE_TYPE_COMMON,
+        MESSAGE_TYPE_SUCCESS,
+        MESSAGE_TYPE_ERROR
+      ].includes(value)
+    }
   }
-}
+})
+onMounted(() => {
+  setTimeout(() => {
+    emit("dialog-close")
+  }, 2200)
+})
 </script>
 
 <style lang="scss" scoped>

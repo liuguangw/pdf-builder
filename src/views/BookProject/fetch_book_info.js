@@ -1,36 +1,33 @@
-import {ref} from "vue";
-import axios from "axios";
+import {onMounted, ref} from "vue";
+import requestServerAPI from "../../common/request_server_api.js";
 
-export default function (showMessage, messageType, message) {
+export default function useFetchBookInfo(projectName, showSuccessMessage, showErrorMessage) {
     const docURL = ref("")
     const fetchScript = ref("")
     const title = ref("")
 
-    const fetchBookInfo = async (projectName) => {
+    async function fetchBookInfo() {
         try {
-            let fetchResult = await axios.post("/api/book-info", {
+            let fetchResult = await requestServerAPI("/api/book-info", {
                 bookName: projectName
             })
             let bookInfoResponse = fetchResult.data
             if (bookInfoResponse.code !== 0) {
-                messageType.value = 2
-                message.value = bookInfoResponse.message
-                showMessage.value = true
-                console.error(message.value)
+                showErrorMessage(bookInfoResponse.message)
+                console.error(bookInfoResponse.message)
             } else {
                 docURL.value = bookInfoResponse.data.docURL
                 fetchScript.value = bookInfoResponse.data.fetchScript
                 title.value = bookInfoResponse.data.title
             }
         } catch (e) {
-            messageType.value = 2
-            message.value = e.message
-            showMessage.value = true
-            console.error(message.value)
+            showErrorMessage(e.message)
+            console.error(e)
         }
     }
+
+    onMounted(fetchBookInfo)
     return {
-        docURL, fetchScript, title,
-        fetchBookInfo
+        docURL, fetchScript, title
     }
 }
