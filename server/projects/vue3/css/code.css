@@ -71,9 +71,7 @@
 
 .main-book-content [class*=language-] pre, .main-book-content [class*=language-] code {
     text-align: left;
-    white-space: pre;
     word-spacing: normal;
-    word-break: normal;
     word-wrap: normal;
     tab-size: 4;
     hyphens: none

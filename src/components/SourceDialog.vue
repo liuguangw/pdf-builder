@@ -39,7 +39,7 @@ import hljsVuePlugin from "@highlightjs/vue-plugin";
 
 hljs.registerLanguage('javascript', javascript)
 const HighlightJs = hljsVuePlugin.component
-const emit = defineEmits(["dialog-close", "copy-success","copy-error", "build-book"])
+const emit = defineEmits(["dialog-close", "copy-success", "copy-error", "build-book"])
 const props = defineProps({
   projectName: {
     type: String,
@@ -56,10 +56,10 @@ const props = defineProps({
 })
 
 async function copyCode() {
-  try{
+  try {
     await navigator.clipboard.writeText(props.sourceContent);
-  }catch (e) {
-    emit("copy-error",e.message)
+  } catch (e) {
+    emit("copy-error", e.message)
     return
   }
   emit("copy-success")

@@ -1,0 +1,8 @@
+title: Vue 3 API文档
+docURL: https://cn.vuejs.org/api/application.html
+contextURL: https://cn.vuejs.org/api/
+# 共享样式
+styles:
+  - ../vue3/css/code.css
+  - ../vue3/css/style.css
+order: 2

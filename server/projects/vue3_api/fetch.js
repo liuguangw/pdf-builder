@@ -22,18 +22,6 @@ async function fetchPage(pageURL) {
     aNodeList.forEach(aEl => {
         aEl.parentElement.removeChild(aEl);
     })
-    //处理pdf生成器无法识别的css变量
-    divElement.querySelectorAll("pre>code span").forEach((spanElement) => {
-        if (spanElement.style.color === "var(--vt-c-green)") {
-            spanElement.style.color = "#42b883";
-        }
-    });
-    //demo不需要加入pdf目录
-    doc.querySelectorAll("h1").forEach(hElement => {
-        if (hElement.innerText === "Vue is awesome!") {
-            hElement.classList.add("pdf-no-toc")
-        }
-    })
     //组合式api
     divElement.className = "prefer-sfc prefer-composition";
     return divElement;
