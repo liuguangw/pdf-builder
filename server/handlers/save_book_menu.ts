@@ -1,10 +1,16 @@
-import {writeFile, stat, mkdir} from 'fs/promises';
-import formatMenuList from "../lib/format_menu_list.js";
-import {projectDistDir} from "../lib/path_helper.js";
-import writeJson from "../lib/write_json.js";
-import loadBookInfo from "../lib/load_book_info.js";
+import {mkdir, stat, writeFile} from 'fs/promises';
+import formatMenuList from "../lib/format_menu_list";
+import {projectDistDir} from "../lib/path_helper";
+import loadBookInfo from "../lib/load_book_info";
+import {Server as SocketIoServer} from "socket.io";
+import {Connect} from "vite";
+import {IncomingMessage, ServerResponse} from "node:http";
+import {readJson, writeErrorResponse, writeSuccessResponse} from "../lib/json_tools";
+import {MenuApiRequest} from "../common/request";
+import {ServerMenuInfo} from "../common/menu_info";
+import {BookInfo} from "../lib/common";
 
-function formatMenuHtml(projectName, bookTitle, menuList) {
+function formatMenuHtml(projectName: string, bookTitle: string, menuList: ServerMenuInfo[]) {
     let menuListHtml = formatMenuList(menuList, 1)
     return `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -26,7 +32,7 @@ function formatMenuHtml(projectName, bookTitle, menuList) {
 </html>`;
 }
 
-async function saveBookMenu(bookInfo, menuList) {
+async function saveBookMenu(bookInfo: BookInfo, menuList: ServerMenuInfo[]) {
     let projectName = bookInfo.projectName;
     let menuHtml = formatMenuHtml(projectName, bookInfo.title, menuList)
     //如果dist目录不存在,自动创建
@@ -43,33 +49,22 @@ async function saveBookMenu(bookInfo, menuList) {
 /**
  * 保存menu信息
  */
-export default function saveBookMenuHandler(io) {
-    return async function (req, resp) {
-        let bookName = req.body.bookName;
+export default function saveBookMenuHandler(io: SocketIoServer): Connect.SimpleHandleFunction {
+    return async function (req: IncomingMessage, resp: ServerResponse) {
+        let reqBody: MenuApiRequest = await readJson(req);
+        let bookName = reqBody.bookName;
         let bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
-            writeJson(resp, {
-                code: 4000,
-                data: null,
-                message: "book " + bookName + " not found"
-            });
+            writeErrorResponse(resp, "book " + bookName + " not found");
             return;
         }
         try {
-            await saveBookMenu(bookInfo, req.body.menuList);
+            await saveBookMenu(bookInfo, reqBody.menuList);
             io.emit("save-menu-success", bookName)
         } catch (e) {
-            writeJson(resp, {
-                code: 4000,
-                data: null,
-                message: e.message
-            });
+            writeErrorResponse(resp, e.message);
             return;
         }
-        writeJson(resp, {
-            code: 0,
-            data: null,
-            message: ""
-        });
+        writeSuccessResponse(resp);
     }
 }

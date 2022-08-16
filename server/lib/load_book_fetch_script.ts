@@ -1,13 +1,11 @@
-import {projectDir} from "./path_helper.js";
+import {projectDir} from "./path_helper";
 import esbuild from "esbuild";
+import {BookInfo} from "./common";
 
 /**
  * 加载完整抓取脚本
- * @param {Object} bookInfo book info
- * @param {string} serverURL server origin address
- * @return {Promise<string>}
  */
-export default async function loadBookFetchScript(bookInfo, serverURL) {
+export default async function loadBookFetchScript(bookInfo: BookInfo, serverURL: string): Promise<string> {
     let fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
     let sBookInfo = {
         projectName: bookInfo.projectName,

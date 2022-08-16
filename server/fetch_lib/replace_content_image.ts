@@ -1,6 +1,8 @@
 import requestAPI from "./request_api";
-import {ApiResponse, FetchedImageInfo, ImageApiRequest, ImageType} from "./common";
+import {FetchedImageInfo} from "./common";
 import ApiEndpoint from "./api_endpoint";
+import {ImageApiRequest, ImageType} from "../common/request";
+import {ApiResponse} from "../common/response";
 
 async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageApiRequest,
                                  imgElement: HTMLImageElement, imageFetchList: FetchedImageInfo[]) {

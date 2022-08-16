@@ -1,27 +1,24 @@
-import {projectDir} from "./path_helper.js";
+import {projectDir} from "./path_helper";
 import {readFile} from 'fs/promises';
 import yaml from "js-yaml";
+import {BookInfo} from "./common";
 
-const ymlContentMap = new Map();
+const ymlContentMap = new Map<string, BookInfo>();
 
 /**
  * 清理book信息缓存
- *
- * @param {string} bookName
- * @return {void}
+ * @param bookName
  */
-export function clearBookInfoCache(bookName) {
+export function clearBookInfoCache(bookName: string) {
     ymlContentMap.delete(bookName)
 }
 
 /**
  * 获取book信息
- *
- * @param {string} bookName
- * @return {Promise<Object>}
+ * @param bookName
  */
-export default async function loadBookInfo(bookName) {
-    let bookInfo = null;
+export default async function loadBookInfo(bookName: string): Promise<BookInfo> {
+    let bookInfo: BookInfo = null;
     if (ymlContentMap.has(bookName)) {
         //console.log("match " + bookName)
         bookInfo = ymlContentMap.get(bookName)

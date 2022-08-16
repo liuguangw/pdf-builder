@@ -1,19 +1,25 @@
-import {projectDistDir, projectPdfPath} from "../lib/path_helper.js";
+import {projectDistDir, projectPdfPath} from "../lib/path_helper";
 import {stat} from 'fs/promises';
 import {spawn} from "child_process";
-import loadBookInfo from "../lib/load_book_info.js";
-import writeJson from "../lib/write_json.js";
-import {saveBookImage} from "./save_book_image.js";
-import loadBookMetaInfo from "../lib/load_book_meta_info.js";
+import loadBookInfo from "../lib/load_book_info";
+import {saveBookImage} from "./save_book_image";
+import loadBookMetaInfo from "../lib/load_book_meta_info";
+import {Server as SocketIoServer} from "socket.io";
+import {Connect} from "vite";
+import {IncomingMessage, ServerResponse} from "node:http";
+import {ApiRequest} from "../common/request";
+import {readJson, writeErrorResponse, writeSuccessResponse} from "../lib/json_tools";
+import {BookMetaInfo} from "../lib/common";
 
 //下载封面图
-async function downloadCover(projectName, coverURL, referer) {
+async function downloadCover(projectName: string, coverURL: string, referer: string) {
     let bookDistDir = projectDistDir(projectName);
     let saveFileName = await saveBookImage(bookDistDir, coverURL, referer);
     return bookDistDir + "/" + saveFileName
 }
 
-async function buildBook(io, projectName, docURL, bookMetaInfo, inputPath, outputPath) {
+async function buildBook(io: SocketIoServer, projectName: string, docURL: string,
+                         bookMetaInfo: BookMetaInfo, inputPath: string, outputPath: string) {
     io.emit("build-stdout", projectName, "build project " + projectName);
     await stat(inputPath);
     //console.log(bookInfo)
@@ -81,16 +87,13 @@ async function buildBook(io, projectName, docURL, bookMetaInfo, inputPath, outpu
  * 构建pdf文档
  *
  */
-export default function bookBuildHandler(io) {
-    return async function (req, resp) {
-        let bookName = req.body.bookName;
+export default function bookBuildHandler(io: SocketIoServer): Connect.SimpleHandleFunction {
+    return async function (req: IncomingMessage, resp: ServerResponse) {
+        let reqBody: ApiRequest = await readJson(req);
+        let bookName = reqBody.bookName;
         let bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
-            writeJson(resp, {
-                code: 4000,
-                data: null,
-                message: "book " + bookName + " not found"
-            });
+            writeErrorResponse(resp, "book " + bookName + " not found");
             return;
         }
         let bookMetaInfo = await loadBookMetaInfo(bookInfo)
@@ -99,18 +102,10 @@ export default function bookBuildHandler(io) {
         try {
             await buildBook(io, bookName, bookInfo.docURL, bookMetaInfo, inputPath, outputPath);
         } catch (e) {
-            writeJson(resp, {
-                code: 4000,
-                data: null,
-                message: e.message
-            });
+            writeErrorResponse(resp, e.message);
             io.emit("build-failed", bookName, e.message)
             return;
         }
-        writeJson(resp, {
-            code: 0,
-            data: null,
-            message: ""
-        });
+        writeSuccessResponse(resp);
     }
 }

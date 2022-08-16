@@ -1,24 +1,16 @@
-import bodyParser from "body-parser"
-import {Server} from "socket.io";
-import bookListHandler from "./handlers/book_list.js";
-import bookInfoHandler from "./handlers/book_info.js";
-import bookBuildHandler from "./handlers/book_build.js";
-import saveBookMenuHandler from "./handlers/save_book_menu.js";
-import saveBookContentHandler from "./handlers/save_book_content.js";
-import saveBookImageHandler from "./handlers/save_book_image.js";
-import notifyCanBuildHandler from "./handlers/notify_can_build.js";
-import path from "path";
-import {normalizePath} from "vite";
-import {clearBookInfoCache} from "./lib/load_book_info.js";
+import {Server as SocketIoServer} from "socket.io";
+import bookListHandler from "./handlers/book_list";
+import bookInfoHandler from "./handlers/book_info";
+import bookBuildHandler from "./handlers/book_build";
+import saveBookMenuHandler from "./handlers/save_book_menu";
+import saveBookContentHandler from "./handlers/save_book_content";
+import saveBookImageHandler from "./handlers/save_book_image";
+import notifyCanBuildHandler from "./handlers/notify_can_build";
+import {Connect, HmrContext, normalizePath, Plugin, Update, ViteDevServer} from "vite";
+import {clearBookInfoCache} from "./lib/load_book_info";
+import * as path from "path";
 
-/**
- *
- * @param {Connect.Server} middlewares
- * @param {string} method
- * @param {string} path
- * @param {SimpleHandleFunction} handler
- */
-function useHttpHandler(middlewares, method, path, handler) {
+function useHttpHandler(middlewares: Connect.Server, method: string, path: string, handler: Connect.SimpleHandleFunction) {
     middlewares.use(path, (req, res, next) => {
         if (req.method !== method) {
             next();
@@ -33,7 +25,7 @@ function useHttpHandler(middlewares, method, path, handler) {
     })
 }
 
-function loadRoutes(middlewares, io) {
+function loadRoutes(middlewares: Connect.Server, io: SocketIoServer) {
     useHttpHandler(middlewares, "GET", "/api/books", bookListHandler)
     useHttpHandler(middlewares, "POST", "/api/book-info", bookInfoHandler)
     useHttpHandler(middlewares, "POST", "/api/book-menu-info", saveBookMenuHandler(io))
@@ -43,25 +35,17 @@ function loadRoutes(middlewares, io) {
     useHttpHandler(middlewares, "POST", "/api/book-can-build", notifyCanBuildHandler(io))
 }
 
-function configureServer(server) {
-    const io = new Server(server.httpServer, { /* options */});
+function configureServer(server: ViteDevServer) {
+    const io = new SocketIoServer(server.httpServer, { /* options */});
     io.on("connection", (socket) => {
         socket.on("terminal-ready", () => {
             socket.emit("hello-message", "hello from socket.io server");
         });
     });
-    //
-    server.middlewares.use(bodyParser.json({
-        limit: "2MB"
-    }))
     loadRoutes(server.middlewares, io)
 }
 
-/**
- *
- * @param {HmrContext} ctx
- */
-function handleHotUpdate(ctx) {
+function handleHotUpdate(ctx: HmrContext) {
     const fPath = ctx.file
     //console.log(fPath)
     //console.log(ctx.modules)
@@ -89,7 +73,7 @@ function handleHotUpdate(ctx) {
     });
     clearBookInfoCache(projectName)
     //hmr 通知前端刷新页面
-    const updates = [];
+    const updates: Update[] = [];
     ["BookList", "BookProject"].forEach((dirName) => {
         let vuePath = `/src/views/${dirName}/${dirName}.vue`
         updates.push({
@@ -105,7 +89,7 @@ function handleHotUpdate(ctx) {
     })
 }
 
-export default function builderPlugin() {
+export default function builderPlugin(): Plugin {
     return {
         name: "pdf-builder-plugin",
         configureServer,

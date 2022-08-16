@@ -1,21 +1,23 @@
-import loadBookInfo from "../lib/load_book_info.js";
-import {projectDistDir} from "../lib/path_helper.js";
-import {mkdir, stat, open, rename} from "fs/promises";
+import loadBookInfo from "../lib/load_book_info";
+import {projectDistDir} from "../lib/path_helper";
+import {mkdir, open, rename, stat} from "node:fs/promises";
 import axios from "axios";
 import md5 from 'crypto-js/md5.js';
-import writeJson from "../lib/write_json.js";
+import {Server as SocketIoServer} from "socket.io";
+import {Connect} from "vite";
+import {IncomingMessage, ServerResponse} from "node:http";
+import {ImageApiRequest} from "../common/request";
+import {readJson, writeErrorResponse, writeSuccessResponse} from "../lib/json_tools";
 
-function formatImageFileName(srcURL, imageExt) {
+function formatImageFileName(srcURL: string, imageExt: string) {
     return md5(srcURL) + "." + imageExt
 }
 
 /**
  * 从图片url中获取图片文件后缀,如果获取失败,则返回空字符串
- *
- * @param {string} imageURL
- * @return {string}
+ * @param imageURL
  */
-function getImageExtFromUrl(imageURL) {
+function getImageExtFromUrl(imageURL: string): string {
     const commonExtList = ["png", "jpg", "jpeg", "gif", "bmp", "svg", "webp"]
     let imageURLInfo = new URL(imageURL)
     let imageExt = ""
@@ -28,7 +30,11 @@ function getImageExtFromUrl(imageURL) {
     return imageExt
 }
 
-function getImageExt(contentType) {
+/**
+ *
+ * @param contentType
+ */
+function getImageExt(contentType: string): string {
     let imageExt = "png"
     let pos = contentType.indexOf("/")
     if (pos !== -1) {
@@ -44,11 +50,10 @@ function getImageExt(contentType) {
 
 /**
  * 判断图片url对应的本地文件是否已经存在
- * @param {string} filename
- * @param {string} saveDir
- * @return {Promise<boolean>}
+ * @param filename
+ * @param saveDir
  */
-async function isImageCacheExists(filename, saveDir) {
+async function isImageCacheExists(filename: string, saveDir: string): Promise<boolean> {
     let imgFilePathExists = false
     let imgFilePath = saveDir + "/" + filename
     //判断图片文件是否已经存在
@@ -62,15 +67,9 @@ async function isImageCacheExists(filename, saveDir) {
 
 /**
  * 下载图片,并返回文件名
- *
- * @param {string} saveDir
- * @param {string} imageURL
- * @param {string} imageExt
- * @param {string} referer
- * @return {Promise<string>}
  */
-async function downloadImage(saveDir, imageURL, imageExt, referer) {
-    let fetchResult = await axios.get(imageURL, {
+async function downloadImage(saveDir: string, imageURL: string, imageExt: string, referer: string): Promise<string> {
+    let fetchResult = await axios.default.get(imageURL, {
         responseType: "stream",
         headers: {
             "Referer": referer
@@ -94,16 +93,12 @@ async function downloadImage(saveDir, imageURL, imageExt, referer) {
     let tmpFilename = "tmp." + imageExt
     let imgFilePath = saveDir + "/" + filename
     let tmpFilePath = saveDir + "/" + tmpFilename
-    let streamReader = fetchResult.data
+    let streamReader: IncomingMessage = fetchResult.data
     let streamFn = new Promise((resolve, reject) => {
         streamReader.on('end', resolve);
         // This is here incase any errors occur
         streamReader.on('error', reject);
     });
-    /**
-     *
-     * @type {FileHandle}
-     */
     const fd = await open(tmpFilePath, "w");
     let streamWriter = fd.createWriteStream()
     streamReader.pipe(streamWriter)
@@ -120,12 +115,8 @@ async function downloadImage(saveDir, imageURL, imageExt, referer) {
 
 /**
  *
- * @param {string} bookDistDir
- * @param {string} imageURL
- * @param {string} referer
- * @return {Promise<string>}
  */
-export async function saveBookImage(bookDistDir, imageURL, referer) {
+export async function saveBookImage(bookDistDir: string, imageURL: string, referer: string): Promise<string> {
     let imgDirName = "images"
     let saveDir = bookDistDir + "/" + imgDirName
     //如果目录不存在,创建目录
@@ -150,28 +141,21 @@ export async function saveBookImage(bookDistDir, imageURL, referer) {
 /**
  * 保存网页图片
  */
-export default function saveBookImageHandler(io) {
-    return async function (req, resp) {
-        let bookName = req.body.bookName;
+export default function saveBookImageHandler(io: SocketIoServer): Connect.SimpleHandleFunction {
+    return async function (req: IncomingMessage, resp: ServerResponse) {
+        let reqBody: ImageApiRequest = await readJson(req);
+        let bookName = reqBody.bookName;
         let bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
-            writeJson(resp, {
-                code: 4000,
-                data: null,
-                message: "book " + bookName + " not found"
-            });
+            writeErrorResponse(resp, "book " + bookName + " not found");
             return;
         }
-        let imageURL = req.body.url;
-        let imageType = req.body.imageType;
+        let imageURL = reqBody.url;
+        let imageType = reqBody.imageType;
         //不需要fetch的图片,例如data url、重复的图片url
         if (imageType !== 0) {
-            writeJson(resp, {
-                code: 0,
-                data: imageURL,
-                message: ""
-            });
-            io.emit("fetch-img-skip", bookName, req.body.progress, imageURL);
+            writeSuccessResponse(resp, imageURL)
+            io.emit("fetch-img-skip", bookName, reqBody.progress, imageURL);
             return;
         }
         let bookDistDir = projectDistDir(bookName);
@@ -179,19 +163,11 @@ export default function saveBookImageHandler(io) {
         try {
             saveFileName = await saveBookImage(bookDistDir, imageURL, bookInfo.docURL)
         } catch (e) {
-            io.emit("fetch-img-error", bookName, req.body.progress, imageURL, e.message);
-            writeJson(resp, {
-                code: 4000,
-                data: null,
-                message: e.message
-            });
+            io.emit("fetch-img-error", bookName, reqBody.progress, imageURL, e.message);
+            writeErrorResponse(resp, e.message);
             return
         }
-        io.emit("fetch-img-success", bookName, req.body.progress, imageURL);
-        writeJson(resp, {
-            code: 0,
-            data: saveFileName,
-            message: ""
-        });
+        io.emit("fetch-img-success", bookName, reqBody.progress, imageURL);
+        writeSuccessResponse(resp, saveFileName);
     }
 }

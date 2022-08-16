@@ -1,30 +1,45 @@
-import {MenuInfo, PageInfo, ReplaceURLHandler} from "./common";
+import {PageInfo, ParsePageListResult, ReplaceURLHandler} from "./common";
+import {MenuInfo, ServerMenuInfo} from "../common/menu_info";
 
 export default function parsePageList(menuList: MenuInfo[], deep: number,
-                                      contextURL: string, replaceURLHandler: ReplaceURLHandler): PageInfo[] {
+                                      contextURL: string, replaceURLHandler: ReplaceURLHandler): ParsePageListResult {
     let pageList: PageInfo[] = []
-    menuList.forEach(menuInfo => {
+    let serverMenuList: ServerMenuInfo[] = []
+    menuList.forEach((menuInfo) => {
         let childDeep: number = deep + 1
+        let serverMenuInfo: ServerMenuInfo = {
+            title: menuInfo.title,
+            filename: "",
+            children: [],
+        }
+        let pageInfo: PageInfo = {
+            title: menuInfo.title,
+            url: menuInfo.url,
+            filename: "",
+            deep: deep
+        }
         if (menuInfo.url !== "") {
             //计算filename
-            menuInfo.filename = replaceURLHandler(menuInfo.url, contextURL)
-            let pageInfo: PageInfo = {
-                title: menuInfo.title,
-                url: menuInfo.url,
-                filename: menuInfo.filename,
-                deep: deep
-            }
+            serverMenuInfo.filename = replaceURLHandler(menuInfo.url, contextURL)
+            pageInfo.filename = serverMenuInfo.filename
             pageList.push(pageInfo)
         } else {
-            menuInfo.filename = ""
+            //无URL的不需要抓取
             childDeep = deep
         }
         if (menuInfo.children.length > 0) {
-            let childPageList: PageInfo[] = parsePageList(menuInfo.children, childDeep, contextURL, replaceURLHandler)
-            childPageList.forEach(pageInfo => {
-                pageList.push(pageInfo)
+            let subResult = parsePageList(menuInfo.children, childDeep, contextURL, replaceURLHandler)
+            subResult.pageList.forEach((itemInfo) => {
+                pageList.push(itemInfo)
+            })
+            subResult.menuList.forEach((itemInfo) => {
+                serverMenuInfo.children.push(itemInfo)
             })
         }
+        serverMenuList.push(serverMenuInfo)
     })
-    return pageList
+    return {
+        menuList: serverMenuList,
+        pageList
+    }
 }

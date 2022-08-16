@@ -1,21 +1,13 @@
 import sleepAsync from "./sleep_async";
 import {processPageImages, processPageLinks, processPageToc} from "./process_page";
 import requestAPI from "./request_api.js";
-import {
-    ApiResponse,
-    ContentApiRequest,
-    FetchedImageInfo,
-    FetchPageHandler,
-    FetchStatus,
-    MenuApiRequest,
-    MenuInfo,
-    PageInfo,
-    ProjectInfo,
-    ReplaceURLHandler
-} from "./common";
+import {FetchedImageInfo, FetchPageHandler, ProjectInfo, ReplaceURLHandler} from "./common";
 import ApiEndpoint from "./api_endpoint";
 import parsePageList from "./parse_page_list";
 import replaceURL from "./replace_url";
+import {MenuInfo} from "../common/menu_info";
+import {ContentApiRequest, FetchStatus, MenuApiRequest} from "../common/request";
+import {ApiResponse} from "../common/response";
 
 //抓取并保存网页
 export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: number,
@@ -27,12 +19,15 @@ export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: 
     const contextURL = projectInfo.contextURL;
     const apiEndpointInfo = new ApiEndpoint(projectName);
     //解析出allPageList(计算filename属性)
-    let allPageList: PageInfo[] = parsePageList(menuList, 1, contextURL, replaceURLHandler)
+    let {
+        menuList: serverMenuList,
+        pageList: allPageList
+    } = parsePageList(menuList, 1, contextURL, replaceURLHandler)
     //保存menu信息
     try {
         let menuInfoRequest: MenuApiRequest = {
             bookName: projectName,
-            menuList
+            menuList: serverMenuList
         };
         let saveMenuResponse: ApiResponse = await requestAPI(apiEndpointInfo.menuApiURL, menuInfoRequest)
         if (saveMenuResponse.code !== 0) {

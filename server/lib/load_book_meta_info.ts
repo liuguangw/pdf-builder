@@ -1,10 +1,12 @@
+import {BookInfo, BookMetaInfo} from "./common";
+
 /**
  * 加载meta信息
- * @param {Object} bookInfo
- * @return {Object}
+ *
+ * @param bookInfo
  */
-export default function loadBookMetaInfo(bookInfo) {
-    const metaInfo = {
+export default function loadBookMetaInfo(bookInfo: BookInfo): BookMetaInfo {
+    const metaInfo: BookMetaInfo = {
         title: "未命名书籍",
         authors: "流光",
         cover: "",

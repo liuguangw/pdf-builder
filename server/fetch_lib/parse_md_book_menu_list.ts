@@ -1,6 +1,10 @@
-import {MenuInfo} from "./common";
+import {MenuInfo} from "../common/menu_info";
 
-//mdBook专用菜单解析
+/**
+ * mdBook专用菜单解析
+ * @param liElementList
+ * @param menuList
+ */
 export function parseMdBookMenuList(liElementList: NodeListOf<Element> | Element[], menuList: MenuInfo[]) {
     liElementList.forEach((liElement: Element) => {
         let menuLink: HTMLAnchorElement = liElement.querySelector("a");

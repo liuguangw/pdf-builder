@@ -1,15 +1,16 @@
-import {readdir} from 'fs/promises';
-import loadBookInfo from "./load_book_info.js";
-import {projectListDir} from "./path_helper.js";
+import {readdir} from 'node:fs/promises';
+import loadBookInfo from "./load_book_info";
+import {projectListDir} from "./path_helper";
+import {BookInfo} from "./common";
 
 /**
  * 加载基本的book信息列表
  *
  * @return {Promise<Object[]>}
  */
-export default async function loadBookList() {
+export default async function loadBookList(): Promise<BookInfo[]> {
     const projectsDir = projectListDir()
-    const bookList = [];
+    const bookList: BookInfo[] = [];
     try {
         //扫描目录
         const files = await readdir(projectsDir);

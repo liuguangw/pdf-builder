@@ -8,7 +8,7 @@ export default function useFetchBookList({messageType, message, showMessage}) {
         try {
             let fetchResult = await requestServerGetAPI("/api/books")
             if (fetchResult.headers["content-type"].indexOf("application/json") !== -1) {
-                bookList.value = fetchResult.data
+                bookList.value = fetchResult.data.data
             }
         } catch (e) {
             messageType.value = MESSAGE_TYPE_ERROR

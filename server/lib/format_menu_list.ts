@@ -1,4 +1,6 @@
-export default function formatMenuList(menuList, depth) {
+import {ServerMenuInfo} from "../common/menu_info";
+
+export default function formatMenuList(menuList: ServerMenuInfo[], depth: number) {
     let contextPrefix = "\n" + "\t".repeat(depth * 2 + 1);
     let ulCode = contextPrefix + "<ul>"
     for (let menuInfo of menuList) {
