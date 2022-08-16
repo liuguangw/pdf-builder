@@ -35,33 +35,33 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { useRoute } from 'vue-router'
-import { onMounted, onUnmounted, ref } from 'vue'
-import { io } from 'socket.io-client'
+import { onMounted, onUnmounted, Ref, ref } from 'vue'
+import { io, Socket } from 'socket.io-client'
 import 'xterm/css/xterm.css'
 import 'animate.css'
-import useFetchBookInfo from './fetch_book_info.js'
+import useFetchBookInfo from './fetch_book_info'
 import MessageTip from '../../components/MessageTip.vue'
 import SourceDialog from '../../components/SourceDialog.vue'
-import { defaultMessageState, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS } from '../../common/message.js'
-import useTerminalHandler from './terminal_handler.js'
-import requestServerAPI from '../../common/request_server_api.js'
+import { defaultMessageState, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS } from '../../common/message'
+import useTerminalHandler from './terminal_handler'
+import requestServerAPI from '../../common/request_server_api'
 
 const route = useRoute()
-const projectName = ref(route.params.projectName)
+const projectName = ref(route.params.projectName as string)
 const { messageType, message, showMessage } = defaultMessageState()
 const showSourceDialog = ref(false)
-const xterm = ref(null)
-const socketClient = io()
+const xterm: Ref<HTMLElement | null> = ref(null)
+const socketClient: Socket = io()
 
-function showSuccessMessage(msgContent) {
+function showSuccessMessage(msgContent: string) {
   message.value = msgContent
   messageType.value = MESSAGE_TYPE_SUCCESS
   showMessage.value = true
 }
 
-function showErrorMessage(msgContent) {
+function showErrorMessage(msgContent: string) {
   message.value = msgContent
   messageType.value = MESSAGE_TYPE_ERROR
   showMessage.value = true
@@ -75,7 +75,7 @@ const { docURL, fetchScript, title } = useFetchBookInfo(projectName.value, showS
 const { canBuild, initTerminal } = useTerminalHandler(showSuccessMessage, showErrorMessage)
 onMounted(async () => {
   //初始化 terminal
-  initTerminal(xterm, projectName.value, socketClient)
+  initTerminal(xterm.value, projectName.value, socketClient)
 })
 onUnmounted(() => {
   socketClient.close()

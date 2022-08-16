@@ -40,7 +40,7 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import useFetchBookList from './fetch_book_list.js'
 import MessageTip from '../../components/MessageTip.vue'
 import { defaultMessageState } from '../../common/message.js'

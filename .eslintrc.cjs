@@ -8,7 +8,9 @@ module.exports = {
     node: true
   },
   rules: {
-    'no-empty': ['error', { allowEmptyCatch: true }]
+    'no-empty': ['error', { allowEmptyCatch: true }],
+    'no-extra-semi': 'off',
+    '@typescript-eslint/no-extra-semi': 'off'
   },
   ignorePatterns: ['dist/assets/*']
 }
