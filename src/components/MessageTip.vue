@@ -10,9 +10,9 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted } from 'vue'
-import { MESSAGE_TYPE_COMMON, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS } from '../common/message.js'
+import { MESSAGE_TYPE_COMMON, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS } from '../common/message'
 
 const emit = defineEmits(['dialog-close'])
 const props = defineProps({
@@ -24,7 +24,7 @@ const props = defineProps({
   messageType: {
     type: Number,
     default: MESSAGE_TYPE_COMMON,
-    validator(value) {
+    validator(value: number) {
       // The value must match one of these strings
       return [MESSAGE_TYPE_COMMON, MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_ERROR].includes(value)
     }

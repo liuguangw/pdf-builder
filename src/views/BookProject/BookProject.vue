@@ -75,7 +75,7 @@ const { docURL, fetchScript, title } = useFetchBookInfo(projectName.value, showS
 const { canBuild, initTerminal } = useTerminalHandler(showSuccessMessage, showErrorMessage)
 onMounted(async () => {
   //初始化 terminal
-  initTerminal(xterm.value, projectName.value, socketClient)
+  initTerminal(xterm.value as HTMLElement, projectName.value, socketClient)
 })
 onUnmounted(() => {
   socketClient.close()
@@ -93,10 +93,11 @@ async function processBuildBook() {
       canBuild.value = true
       console.error(buildResponse.message)
     }
-  } catch (e) {
-    showErrorMessage(e.message)
+  } catch (err) {
+    const typedError = err as Error
+    showErrorMessage(typedError.message)
     canBuild.value = true
-    console.error(e)
+    console.error(err)
   }
 }
 

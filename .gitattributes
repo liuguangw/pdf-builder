@@ -3,3 +3,4 @@
 *.html text eol=lf
 *.ts text eol=lf
 *.vue text eol=lf
+server/projects/** -linguist-detectable

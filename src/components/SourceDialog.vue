@@ -37,7 +37,7 @@
   </teleport>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import 'highlight.js/styles/stackoverflow-light.css'
 import hljs from 'highlight.js/lib/core'
 import javascript from 'highlight.js/lib/languages/javascript'
@@ -64,8 +64,9 @@ const props = defineProps({
 async function copyCode() {
   try {
     await navigator.clipboard.writeText(props.sourceContent)
-  } catch (e) {
-    emit('copy-error', e.message)
+  } catch (err) {
+    const typedError = err as Error
+    emit('copy-error', typedError.message)
     return
   }
   emit('copy-success')
