@@ -1,149 +1,149 @@
 .main-book-content a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 .main-book-content header h1 {
-    margin: 0 0 25px 0;
-    font-size: 48px;
-    line-height: 60px;
+  margin: 0 0 25px 0;
+  font-size: 48px;
+  line-height: 60px;
 }
 
 .main-book-content .margin-top--lg {
-    margin-top: 32px;
+  margin-top: 32px;
 }
 
 .main-book-content .margin-bottom--lg {
-    margin-bottom: 32px;
+  margin-bottom: 32px;
 }
 
 .main-book-content .row {
-    display: flex;
-    flex-wrap: wrap;
-    margin: 0 16px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 16px;
 }
 
 .main-book-content .row .col {
-    max-width: 50%;
-    padding: 0 16px;
-    flex: 0 0 50%;
-    box-sizing: border-box;
+  max-width: 50%;
+  padding: 0 16px;
+  flex: 0 0 50%;
+  box-sizing: border-box;
 }
 
 .main-book-content .card {
-    border-radius: 12px;
-    padding: 32px;
-    box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
-    display: flex;
-    flex-direction: column;
-    overflow: hidden;
-    color: #444950;
-    border: 1px solid #ebe8e8;
+  border-radius: 12px;
+  padding: 32px;
+  box-shadow: 0 1.5px 3px 0 rgb(0 0 0 / 15%);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  color: #444950;
+  border: 1px solid #ebe8e8;
 }
 
 .main-book-content .text--truncate {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: break-spaces;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: break-spaces;
 }
 
 .main-book-content .card h2 {
-    font-size: 19px;
-    line-height: 1.25;
-    font-weight: 700;
-    margin-bottom: 16px;
-    margin-top: 0;
+  font-size: 19px;
+  line-height: 1.25;
+  font-weight: 700;
+  margin-bottom: 16px;
+  margin-top: 0;
 }
 
 .main-book-content .card p {
-    font-size: 13px;
-    height: 42px;
-    line-height: 21px;
-    margin: 0;
+  font-size: 13px;
+  height: 42px;
+  line-height: 21px;
+  margin: 0;
 }
 
 .main-book-content .markdown {
-    color: #1c1e21;
+  color: #1c1e21;
 }
 
 .main-book-content .markdown p {
-    margin: 0 0 20px 0;
+  margin: 0 0 20px 0;
 }
 
 .main-book-content .markdown blockquote {
-    border-left: 2px solid #dadde1;
-    color: #444950;
-    padding: 0 16px;
-    margin: 0 0 16px 0;
+  border-left: 2px solid #dadde1;
+  color: #444950;
+  padding: 0 16px;
+  margin: 0 0 16px 0;
 }
 
 .main-book-content .markdown h2 {
-    font-size: 32px;
-    margin: 40px 0 20px 0;
+  font-size: 32px;
+  margin: 40px 0 20px 0;
 }
 
 .main-book-content .markdown h3 {
-    font-size: 24px;
-    margin: 30px 0 20px 0;
+  font-size: 24px;
+  margin: 30px 0 20px 0;
 }
 
 .main-book-content .markdown h4 {
-    font-size: 16px;
-    margin: 25px 0 20px 0;
+  font-size: 16px;
+  margin: 25px 0 20px 0;
 }
 
 .main-book-content .markdown ul {
-    margin: 0 0 20px 0;
-    padding-left: 32px;
+  margin: 0 0 20px 0;
+  padding-left: 32px;
 }
 
 .main-book-content .markdown strong {
-    font-weight: 700;
+  font-weight: 700;
 }
 
 .main-book-content .markdown a {
-    color: #57c6fa;
-    text-decoration: none;
+  color: #57c6fa;
+  text-decoration: none;
 }
 
 .main-book-content .markdown img {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .main-book-content .markdown pre {
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background: #f6f8fa;
-    font: 90%/1.45 SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #f6f8fa;
+  font: 90%/1.45 SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;
 }
 
 .main-book-content .codeBlockContainer_Ckt0 {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .main-book-content .markdown pre > code {
-    border: none;
-    float: left;
-    font: inherit;
-    min-width: 100%;
-    padding: 16px;
-    box-sizing: border-box;
+  border: none;
+  float: left;
+  font: inherit;
+  min-width: 100%;
+  padding: 16px;
+  box-sizing: border-box;
 }
 
 .main-book-content .markdown :not(pre) > code {
-    background: #f6f7f8;
-    border: 1px solid rgba(0, 0, 0, .1);
-    font-size: 90%;
-    padding: 2px;
+  background: #f6f7f8;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  font-size: 90%;
+  padding: 2px;
 }
 
 .main-book-content .markdown .buttonGroup__atx {
-    display: none;
+  display: none;
 }
 
 .main-book-content .markdown hr {
-    background: #bec3c9;
-    border: none;
-    height: 1px;
-    margin: 24px 0;
+  background: #bec3c9;
+  border: none;
+  height: 1px;
+  margin: 24px 0;
 }

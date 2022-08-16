@@ -1,15 +1,18 @@
 <template>
-  <div class="message-card animate__animated animate__zoomIn" :class="{
-    'with-success':messageType === MESSAGE_TYPE_SUCCESS,
-    'with-error':messageType === MESSAGE_TYPE_ERROR
-  }">
+  <div
+    class="message-card animate__animated animate__zoomIn"
+    :class="{
+      'with-success': messageType === MESSAGE_TYPE_SUCCESS,
+      'with-error': messageType === MESSAGE_TYPE_ERROR
+    }"
+  >
     <div class="card-content">{{ message }}</div>
   </div>
 </template>
 
 <script setup>
-import {onMounted} from "vue";
-import {MESSAGE_TYPE_COMMON, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS} from "../common/message.js";
+import { onMounted } from 'vue'
+import { MESSAGE_TYPE_COMMON, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS } from '../common/message.js'
 
 const emit = defineEmits(['dialog-close'])
 const props = defineProps({
@@ -23,17 +26,13 @@ const props = defineProps({
     default: MESSAGE_TYPE_COMMON,
     validator(value) {
       // The value must match one of these strings
-      return [
-        MESSAGE_TYPE_COMMON,
-        MESSAGE_TYPE_SUCCESS,
-        MESSAGE_TYPE_ERROR
-      ].includes(value)
+      return [MESSAGE_TYPE_COMMON, MESSAGE_TYPE_SUCCESS, MESSAGE_TYPE_ERROR].includes(value)
     }
   }
 })
 onMounted(() => {
   setTimeout(() => {
-    emit("dialog-close")
+    emit('dialog-close')
   }, 2200)
 })
 </script>

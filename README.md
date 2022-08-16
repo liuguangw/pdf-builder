@@ -1,21 +1,19 @@
-
-
 # pdf-builder
 
-用于将网页在线文档转换为 PDF文档的工具。
+用于将网页在线文档转换为 PDF 文档的工具。
 
 ## 环境要求
 
-- node.js环境(`v16.16.0` 或者更高版本)
-- ebook-convert工具
+- node.js 环境(`v16.16.0` 或者更高版本)
+- ebook-convert 工具
 
-> ebook-convert工具安装方法:
+> ebook-convert 工具安装方法:
 > 安装[calibre](https://www.calibre-ebook.com/download) 其安装目录下, 有一个 `ebook-convert.exe`，把此文件所在的目录
 > 加入系统 `path` 环境变量即可。
 
 ## 使用方法
 
-详细使用说明请参考wiki: [使用说明](https://github.com/liuguangw/pdf-builder/wiki/usage#使用说明)
+详细使用说明请参考 wiki: [使用说明](https://github.com/liuguangw/pdf-builder/wiki/usage#使用说明)
 
 ```bash
 # clone项目到本地
@@ -32,10 +30,10 @@ pnpm run dev
 
 ## 目录结构说明
 
-- src  vue3 + vite前端源码
+- src vue3 + vite 前端源码
 - dist 前端编译处理后的目录
 - server 后端代码(http + socket.io)
-- output 制作的pdf文档输出目录
+- output 制作的 pdf 文档输出目录
 
 ## 扩展方式
 
@@ -45,5 +43,4 @@ pnpm run dev
 
 `fetch.js` 为在浏览器控制台下执行的抓取脚本。
 
-详细介绍请参考wiki：[添加自定义文档](https://github.com/liuguangw/pdf-builder/wiki/add_book#添加自定义文档)
-
+详细介绍请参考 wiki：[添加自定义文档](https://github.com/liuguangw/pdf-builder/wiki/add_book#添加自定义文档)

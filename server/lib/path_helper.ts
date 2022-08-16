@@ -2,7 +2,7 @@
  *
  */
 export function projectListDir(): string {
-    return "./server/projects";
+  return './server/projects'
 }
 
 /**
@@ -10,7 +10,7 @@ export function projectListDir(): string {
  * @param projectName
  */
 export function projectDir(projectName: string): string {
-    return projectListDir() + "/" + projectName;
+  return projectListDir() + '/' + projectName
 }
 
 /**
@@ -18,7 +18,7 @@ export function projectDir(projectName: string): string {
  * @param projectName
  */
 export function projectDistDir(projectName: string): string {
-    return projectDir(projectName) + "/dist";
+  return projectDir(projectName) + '/dist'
 }
 
 /**
@@ -26,5 +26,5 @@ export function projectDistDir(projectName: string): string {
  * @param projectName
  */
 export function projectPdfPath(projectName: string): string {
-    return "./output/" + projectName + ".pdf";
+  return './output/' + projectName + '.pdf'
 }

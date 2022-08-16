@@ -11,17 +11,23 @@
         </div>
         <div class="dialog-row">
           <div class="dialog-row-col dialog-row-col-4">
-            <button class="btn btn-primary" type="button" @click="copyCode"><span>复制代码</span></button>
+            <button class="btn btn-primary" type="button" @click="copyCode">
+              <span>复制代码</span>
+            </button>
           </div>
-          <div class="dialog-row-col dialog-row-col-16"><p>目标文档地址: <a :href="docUrl"
-                                                                      target="_blank">{{ docUrl }}</a>
-          </p></div>
+          <div class="dialog-row-col dialog-row-col-16">
+            <p>
+              目标文档地址: <a :href="docUrl" target="_blank">{{ docUrl }}</a>
+            </p>
+          </div>
           <div class="dialog-row-col dialog-row-col-4">
-            <button class="btn btn-danger" type="button" @click="$emit('build-book')"><span>强制构建</span></button>
+            <button class="btn btn-danger" type="button" @click="$emit('build-book')">
+              <span>强制构建</span>
+            </button>
           </div>
         </div>
         <div class="dialog-textarea">
-          <highlight-js language="js" :code="sourceContent"/>
+          <highlight-js language="js" :code="sourceContent" />
         </div>
       </div>
     </div>
@@ -33,13 +39,13 @@
 
 <script setup>
 import 'highlight.js/styles/stackoverflow-light.css'
-import hljs from 'highlight.js/lib/core';
-import javascript from 'highlight.js/lib/languages/javascript';
-import hljsVuePlugin from "@highlightjs/vue-plugin";
+import hljs from 'highlight.js/lib/core'
+import javascript from 'highlight.js/lib/languages/javascript'
+import hljsVuePlugin from '@highlightjs/vue-plugin'
 
 hljs.registerLanguage('javascript', javascript)
 const HighlightJs = hljsVuePlugin.component
-const emit = defineEmits(["dialog-close", "copy-success", "copy-error", "build-book"])
+const emit = defineEmits(['dialog-close', 'copy-success', 'copy-error', 'build-book'])
 const props = defineProps({
   projectName: {
     type: String,
@@ -57,12 +63,12 @@ const props = defineProps({
 
 async function copyCode() {
   try {
-    await navigator.clipboard.writeText(props.sourceContent);
+    await navigator.clipboard.writeText(props.sourceContent)
   } catch (e) {
-    emit("copy-error", e.message)
+    emit('copy-error', e.message)
     return
   }
-  emit("copy-success")
+  emit('copy-success')
 }
 </script>
 
@@ -73,7 +79,7 @@ async function copyCode() {
   top: 0;
   width: 100%;
   height: 100%;
-  opacity: .5;
+  opacity: 0.5;
   background: #000;
   z-index: 200;
 }
@@ -116,7 +122,7 @@ async function copyCode() {
         outline: 0;
         cursor: pointer;
         font-size: 14px;
-        color: #FFFFFF;
+        color: #ffffff;
         background-color: #f56c6c;
         width: 20px;
         height: 20px;
@@ -152,7 +158,7 @@ async function copyCode() {
         opacity: 1;
         display: flex;
         align-items: center;
-        transition: opacity .2s;
+        transition: opacity 0.2s;
       }
 
       .dialog-row {
@@ -160,7 +166,7 @@ async function copyCode() {
         position: relative;
 
         &:after {
-          content: "";
+          content: '';
           display: table;
           clear: both;
         }
@@ -190,7 +196,7 @@ async function copyCode() {
           box-sizing: border-box;
           outline: 0;
           margin: 0;
-          transition: .1s;
+          transition: 0.1s;
           font-weight: 500;
           font-size: 14px;
           border-radius: 20px;

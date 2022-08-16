@@ -1,10 +1,14 @@
 <template>
   <div class="project-container">
-    <message-tip v-if="showMessage" :message-type="messageType" :message="message"
-                 @dialog-close="showMessage = false"/>
+    <message-tip
+      v-if="showMessage"
+      :message-type="messageType"
+      :message="message"
+      @dialog-close="showMessage = false"
+    />
     <div class="header">
       <div class="nav">
-        <router-link :to="{name:'index'}">首页</router-link>
+        <router-link :to="{ name: 'index' }">首页</router-link>
         <span class="sep">/</span>
         <span class="title">{{ title }}</span>
       </div>
@@ -18,34 +22,38 @@
     <div class="build-btn-area">
       <button type="button" :disabled="!canBuild" @click="buildBook">构建pdf</button>
     </div>
-    <source-dialog v-if="showSourceDialog" @dialog-close="showSourceDialog = false"
-                   @copy-success="showCopySuccessMessage"
-                   @copy-error="showErrorMessage"
-                   @build-book="forceBuildBook"
-                   :project-name="projectName" :doc-url="docURL" :source-content="fetchScript"/>
+    <source-dialog
+      v-if="showSourceDialog"
+      @dialog-close="showSourceDialog = false"
+      @copy-success="showCopySuccessMessage"
+      @copy-error="showErrorMessage"
+      @build-book="forceBuildBook"
+      :project-name="projectName"
+      :doc-url="docURL"
+      :source-content="fetchScript"
+    />
   </div>
 </template>
 
 <script setup>
-import {useRoute} from 'vue-router'
-import {onMounted, onUnmounted, ref} from "vue";
-import {io} from "socket.io-client";
-import "xterm/css/xterm.css";
-import 'animate.css';
-import useFetchBookInfo from "./fetch_book_info.js";
-import MessageTip from "../../components/MessageTip.vue";
-import SourceDialog from "../../components/SourceDialog.vue";
-import {defaultMessageState, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS} from "../../common/message.js";
-import useTerminalHandler from "./terminal_handler.js";
-import requestServerAPI from "../../common/request_server_api.js";
-
+import { useRoute } from 'vue-router'
+import { onMounted, onUnmounted, ref } from 'vue'
+import { io } from 'socket.io-client'
+import 'xterm/css/xterm.css'
+import 'animate.css'
+import useFetchBookInfo from './fetch_book_info.js'
+import MessageTip from '../../components/MessageTip.vue'
+import SourceDialog from '../../components/SourceDialog.vue'
+import { defaultMessageState, MESSAGE_TYPE_ERROR, MESSAGE_TYPE_SUCCESS } from '../../common/message.js'
+import useTerminalHandler from './terminal_handler.js'
+import requestServerAPI from '../../common/request_server_api.js'
 
 const route = useRoute()
 const projectName = ref(route.params.projectName)
-const {messageType, message, showMessage} = defaultMessageState()
-const showSourceDialog = ref(false);
-const xterm = ref(null);
-const socketClient = io();
+const { messageType, message, showMessage } = defaultMessageState()
+const showSourceDialog = ref(false)
+const xterm = ref(null)
+const socketClient = io()
 
 function showSuccessMessage(msgContent) {
   message.value = msgContent
@@ -60,28 +68,23 @@ function showErrorMessage(msgContent) {
 }
 
 function showCopySuccessMessage() {
-  showSuccessMessage("复制代码成功")
+  showSuccessMessage('复制代码成功')
 }
 
-const {
-  docURL, fetchScript, title
-} = useFetchBookInfo(projectName.value, showSuccessMessage, showErrorMessage)
-const {
-  canBuild,
-  initTerminal
-} = useTerminalHandler(showSuccessMessage, showErrorMessage)
+const { docURL, fetchScript, title } = useFetchBookInfo(projectName.value, showSuccessMessage, showErrorMessage)
+const { canBuild, initTerminal } = useTerminalHandler(showSuccessMessage, showErrorMessage)
 onMounted(async () => {
   //初始化 terminal
   initTerminal(xterm, projectName.value, socketClient)
-});
+})
 onUnmounted(() => {
-  socketClient.close();
+  socketClient.close()
 })
 
 async function processBuildBook() {
   canBuild.value = false
   try {
-    let buildResult = await requestServerAPI("/api/book-build", {
+    let buildResult = await requestServerAPI('/api/book-build', {
       bookName: projectName.value
     })
     let buildResponse = buildResult.data
@@ -120,7 +123,7 @@ async function forceBuildBook() {
     border-bottom: 1px solid #cccccc;
 
     &:after {
-      content: "020";
+      content: '020';
       display: block;
       height: 0;
       clear: both;

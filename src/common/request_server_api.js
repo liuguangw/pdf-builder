@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from 'axios'
 
 /**
  * POST请求
@@ -8,7 +8,7 @@ import axios from "axios";
  * @return {Promise<AxiosResponse<Object>>}
  */
 export default function requestServerAPI(apiPath, postData) {
-    return axios.post(apiPath, postData)
+  return axios.post(apiPath, postData)
 }
 
 /**
@@ -18,5 +18,5 @@ export default function requestServerAPI(apiPath, postData) {
  * @return {Promise<AxiosResponse<Object>>}
  */
 export function requestServerGetAPI(apiPath) {
-    return axios.get(apiPath)
+  return axios.get(apiPath)
 }

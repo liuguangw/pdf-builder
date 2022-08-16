@@ -1,7 +1,11 @@
 <template>
   <div class="books-container">
-    <message-tip v-show="showMessage" :message-type="messageType" :message="message"
-                 @dialog-close="showMessage = false"/>
+    <message-tip
+      v-show="showMessage"
+      :message-type="messageType"
+      :message="message"
+      @dialog-close="showMessage = false"
+    />
     <div class="book-info-card" v-for="bookInfo in bookList">
       <div class="card-header">
         <h4>{{ bookInfo.title }}</h4>
@@ -14,14 +18,22 @@
           </tr>
           <tr class="book-info-node">
             <td><span class="title">URL：</span></td>
-            <td><span class="slink"><a :href="bookInfo.docURL" target="_blank">{{
-                bookInfo.docURL
-              }}</a></span></td>
+            <td>
+              <span class="slink"
+                ><a :href="bookInfo.docURL" target="_blank">{{ bookInfo.docURL }}</a></span
+              >
+            </td>
           </tr>
         </table>
-        <router-link :to="{name:'bookProject',params:{
-          projectName:bookInfo.projectName
-        }}" class="card-btn">查看项目
+        <router-link
+          :to="{
+            name: 'bookProject',
+            params: {
+              projectName: bookInfo.projectName
+            }
+          }"
+          class="card-btn"
+          >查看项目
         </router-link>
       </div>
     </div>
@@ -29,12 +41,12 @@
 </template>
 
 <script setup>
-import useFetchBookList from "./fetch_book_list.js";
-import MessageTip from "../../components/MessageTip.vue";
-import {defaultMessageState} from "../../common/message.js";
+import useFetchBookList from './fetch_book_list.js'
+import MessageTip from '../../components/MessageTip.vue'
+import { defaultMessageState } from '../../common/message.js'
 
-const {messageType, message, showMessage} = defaultMessageState()
-const bookList = useFetchBookList({messageType, message, showMessage});
+const { messageType, message, showMessage } = defaultMessageState()
+const bookList = useFetchBookList({ messageType, message, showMessage })
 </script>
 
 <style lang="scss" scoped>
@@ -42,7 +54,7 @@ const bookList = useFetchBookList({messageType, message, showMessage});
   margin: 12px;
 
   &:after {
-    content: "020";
+    content: '020';
     display: block;
     height: 0;
     clear: both;

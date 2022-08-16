@@ -1,4 +1,4 @@
-import {reactive, toRefs} from "vue";
+import { reactive, toRefs } from 'vue'
 
 //普通消息
 export const MESSAGE_TYPE_COMMON = 1
@@ -14,10 +14,10 @@ export const MESSAGE_TYPE_ERROR = 3
  * @return {Object}
  */
 export function defaultMessageState() {
-    const messageState = reactive({
-        messageType: MESSAGE_TYPE_COMMON,
-        message: "",
-        showMessage: false
-    })
-    return toRefs(messageState)
+  const messageState = reactive({
+    messageType: MESSAGE_TYPE_COMMON,
+    message: '',
+    showMessage: false
+  })
+  return toRefs(messageState)
 }

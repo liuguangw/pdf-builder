@@ -1,21 +1,22 @@
-html, body {
-    margin: 0;
-    padding: 0;
+html,
+body {
+  margin: 0;
+  padding: 0;
 }
 
 .main-book-content {
-    margin: 0 auto;
-    font-size: 16px;
-    max-width: 750px;
-    background: #ffffff;
-    word-break: break-all;
+  margin: 0 auto;
+  font-size: 16px;
+  max-width: 750px;
+  background: #ffffff;
+  word-break: break-all;
 }
 
 .main-book-content pre,
 .main-book-content code {
-    white-space: pre-wrap;
+  white-space: pre-wrap;
 }
 
 .main-book-content img {
-    max-width: 100%;
+  max-width: 100%;
 }

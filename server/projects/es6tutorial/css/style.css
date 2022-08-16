@@ -1,112 +1,116 @@
 .main-book-content {
-    color: rgb(13, 20, 30);
-    font-family: Verdana, Arial;
-    font-size: 15px;
-    line-height: 25px;
-    min-height: 100vh;
+  color: rgb(13, 20, 30);
+  font-family: Verdana, Arial;
+  font-size: 15px;
+  line-height: 25px;
+  min-height: 100vh;
 }
 
 .main-book-content h1 {
-    font-size: 2em;
-    padding: 0.67em 0 0 0;
-    margin: 0 0 0.67em 0;
+  font-size: 2em;
+  padding: 0.67em 0 0 0;
+  margin: 0 0 0.67em 0;
 }
 
 .main-book-content h2 {
-    margin-top: 50px;
-    margin-bottom: 0;
-    padding-top: 20px;
-    padding-bottom: 0;
-    font-size: 18px;
-    text-align: left;
-    border-top: 2px solid #666;
-    counter-increment: section;
+  margin-top: 50px;
+  margin-bottom: 0;
+  padding-top: 20px;
+  padding-bottom: 0;
+  font-size: 18px;
+  text-align: left;
+  border-top: 2px solid #666;
+  counter-increment: section;
 }
 
 .main-book-content h3 {
-    margin-top: 50px;
-    margin-bottom: 0;
-    padding-top: 20px;
-    padding-bottom: 0;
-    text-align: left;
-    border-top: 1px dotted #777;
+  margin-top: 50px;
+  margin-bottom: 0;
+  padding-top: 20px;
+  padding-bottom: 0;
+  text-align: left;
+  border-top: 1px dotted #777;
 }
 
 .main-book-content code {
-    color: #a6e22e;
-    font-size: 0.7rem;
-    font-weight: normal;
-    font-family: Consolas, "Courier New", Courier, FreeMono, monospace;
-    background: #111;
-    border-radius: 2px;
+  color: #a6e22e;
+  font-size: 0.7rem;
+  font-weight: normal;
+  font-family: Consolas, 'Courier New', Courier, FreeMono, monospace;
+  background: #111;
+  border-radius: 2px;
 }
 
-.main-book-content p code, .main-book-content li > code, .main-book-content h2 > code, .main-book-content h3 > code {
-    padding-left: 3px;
-    padding-right: 3px;
-    color: #c7254e;
-    background: #f9f2f4;
+.main-book-content p code,
+.main-book-content li > code,
+.main-book-content h2 > code,
+.main-book-content h3 > code {
+  padding-left: 3px;
+  padding-right: 3px;
+  color: #c7254e;
+  background: #f9f2f4;
 }
 
 .main-book-content pre {
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 10px;
-    padding-bottom: 10px;
-    padding-left: 0.7rem;
-    line-height: 1.2;
-    color: #FFF;
-    background: #111;
-    border-radius: 5px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 0.7rem;
+  line-height: 1.2;
+  color: #fff;
+  background: #111;
+  border-radius: 5px;
 }
 
-.main-book-content a:link, .main-book-content a:visited {
-    color: #4682BE;
-    text-decoration: none;
+.main-book-content a:link,
+.main-book-content a:visited {
+  color: #4682be;
+  text-decoration: none;
 }
 
 .main-book-content table {
-    border-collapse: collapse;
-    border-spacing: 0;
-    display: block;
-    width: 100%;
-    overflow: auto;
-    word-break: keep-all;
+  border-collapse: collapse;
+  border-spacing: 0;
+  display: block;
+  width: 100%;
+  overflow: auto;
+  word-break: keep-all;
 }
 
 .main-book-content table tr {
-    background-color: #fff;
-    border-top: 1px solid #ccc;
+  background-color: #fff;
+  border-top: 1px solid #ccc;
 }
 
 .main-book-content table tr:nth-child(2n) {
-    background-color: #f8f8f8
+  background-color: #f8f8f8;
 }
 
 .main-book-content table th {
-    font-weight: bold
+  font-weight: bold;
 }
 
 .main-book-content table th,
 .main-book-content table td {
-    padding: 6px 13px;
-    border: 1px solid #ddd
+  padding: 6px 13px;
+  border: 1px solid #ddd;
 }
 
 .main-book-content ul {
-    display: block;
-    list-style-type: none;
-    padding-top: 15px;
-    padding-bottom: 15px;
+  display: block;
+  list-style-type: none;
+  padding-top: 15px;
+  padding-bottom: 15px;
 }
 
 .main-book-content ul li,
 .main-book-content ol li {
-    text-indent: -5px;
+  text-indent: -5px;
 }
 
 .main-book-content ul li:before {
-    content: "-";
-    position: relative;
-    left: -5px;
+  content: '-';
+  position: relative;
+  left: -5px;
 }

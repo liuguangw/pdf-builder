@@ -1,17 +1,13 @@
-import {defineConfig} from 'vite'
+import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
-import builderPlugin from "./server/builder_plugin";
+import builderPlugin from './server/builder_plugin'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-    plugins: [vue(), builderPlugin()],
-    server: {
-        watch: {
-            ignored: [
-                '**/server/projects/**/dist',
-                '**/output',
-                '**/.idea'
-            ]
-        }
+  plugins: [vue(), builderPlugin()],
+  server: {
+    watch: {
+      ignored: ['**/server/projects/**/dist', '**/output', '**/.idea']
     }
+  }
 })
