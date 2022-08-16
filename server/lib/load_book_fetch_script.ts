@@ -6,15 +6,15 @@ import {BookInfo} from "./common";
  * 加载完整抓取脚本
  */
 export default async function loadBookFetchScript(bookInfo: BookInfo, serverURL: string): Promise<string> {
-    let fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
-    let sBookInfo = {
+    const fetchJsPath = projectDir(bookInfo.projectName) + "/fetch.js";
+    const sBookInfo = {
         projectName: bookInfo.projectName,
         docURL: bookInfo.docURL,
         contextURL: bookInfo.contextURL === undefined ? bookInfo.docURL : bookInfo.contextURL
     }
     let scriptContent;
     try {
-        let buildResult = await esbuild.build({
+        const buildResult = await esbuild.build({
             entryPoints: [fetchJsPath],
             bundle: true,
             define: {
@@ -25,7 +25,7 @@ export default async function loadBookFetchScript(bookInfo: BookInfo, serverURL:
             write: false,
             target: ["chrome87", "firefox78"]
         })
-        let buildItemResult = buildResult.outputFiles.pop();
+        const buildItemResult = buildResult.outputFiles.pop();
         scriptContent = buildItemResult.text;
     } catch (e) {
         scriptContent = "[ERROR] " + e.message;

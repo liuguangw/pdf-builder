@@ -28,7 +28,6 @@ async function fetchPage(pageURL) {
 
 function docHighlight(doc) {
     let hljs = window.hljs;
-    let hiding_character = "#";
     // Syntax highlighting Configuration
     hljs.configure({
         tabReplace: '    ', // 4 spaces
@@ -79,7 +78,7 @@ function docHighlight(doc) {
             clipButton.className = 'fa fa-copy clip-button';
             clipButton.title = 'Copy to clipboard';
             clipButton.setAttribute('aria-label', clipButton.title);
-            clipButton.innerHTML = '<i class=\"tooltiptext\"></i>';
+            clipButton.innerHTML = '<i class="tooltiptext"></i>';
 
             buttons.insertBefore(clipButton, buttons.firstChild);
         }

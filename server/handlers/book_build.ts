@@ -14,8 +14,8 @@ import moment from "moment";
 
 //下载封面图
 async function downloadCover(projectName: string, coverURL: string, referer: string) {
-    let bookDistDir = projectDistDir(projectName);
-    let saveFileName = await saveBookImage(bookDistDir, coverURL, referer);
+    const bookDistDir = projectDistDir(projectName);
+    const saveFileName = await saveBookImage(bookDistDir, coverURL, referer);
     return bookDistDir + "/" + saveFileName
 }
 
@@ -39,7 +39,7 @@ async function buildBook(io: SocketIoServer, projectName: string, docURL: string
     await replaceBuildTime(inputPath);
     //console.log(bookInfo)
     //
-    let params = [
+    const params = [
         inputPath,
         outputPath,
         "--verbose",
@@ -69,7 +69,7 @@ async function buildBook(io: SocketIoServer, projectName: string, docURL: string
         //下载封面图
         io.emit("build-stdout", projectName, "download cover [" + coverURL + "] ....")
         try {
-            let imagePath = await downloadCover(projectName, coverURL, docURL)
+            const imagePath = await downloadCover(projectName, coverURL, docURL)
             params.push("--cover=" + imagePath)
             io.emit("build-stdout", projectName, "download cover success")
         } catch (e) {
@@ -78,7 +78,7 @@ async function buildBook(io: SocketIoServer, projectName: string, docURL: string
         }
     }
     //console.log(params);
-    let convert = spawn('ebook-convert', params);
+    const convert = spawn('ebook-convert', params);
     convert.stdout.on('data', (data) => {
         io.emit("build-stdout", projectName, `${data}`);
     });
@@ -88,8 +88,8 @@ async function buildBook(io: SocketIoServer, projectName: string, docURL: string
     });
 
     convert.on('close', (code) => {
-        let codeResult = `${code}`;
-        let message = "build process exited with code " + codeResult;
+        const codeResult = `${code}`;
+        const message = "build process exited with code " + codeResult;
         if (codeResult === '0') {
             io.emit("build-success", projectName);
         } else {
@@ -104,16 +104,16 @@ async function buildBook(io: SocketIoServer, projectName: string, docURL: string
  */
 export default function bookBuildHandler(io: SocketIoServer): Connect.SimpleHandleFunction {
     return async function (req: IncomingMessage, resp: ServerResponse) {
-        let reqBody: ApiRequest = await readJson(req);
-        let bookName = reqBody.bookName;
-        let bookInfo = await loadBookInfo(bookName)
+        const reqBody: ApiRequest = await readJson(req);
+        const bookName = reqBody.bookName;
+        const bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
             writeErrorResponse(resp, "book " + bookName + " not found");
             return;
         }
-        let bookMetaInfo = await loadBookMetaInfo(bookInfo)
-        let inputPath = projectDistDir(bookName) + "/__entry.html";
-        let outputPath = projectPdfPath(bookName)
+        const bookMetaInfo = await loadBookMetaInfo(bookInfo)
+        const inputPath = projectDistDir(bookName) + "/__entry.html";
+        const outputPath = projectPdfPath(bookName)
         try {
             await buildBook(io, bookName, bookInfo.docURL, bookMetaInfo, inputPath, outputPath);
         } catch (e) {

@@ -75,7 +75,7 @@ function handleHotUpdate(ctx: HmrContext) {
     //hmr 通知前端刷新页面
     const updates: Update[] = [];
     ["BookList", "BookProject"].forEach((dirName) => {
-        let vuePath = `/src/views/${dirName}/${dirName}.vue`
+        const vuePath = `/src/views/${dirName}/${dirName}.vue`
         updates.push({
             type: "js-update",
             path: vuePath,

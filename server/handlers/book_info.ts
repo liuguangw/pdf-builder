@@ -8,8 +8,8 @@ import {ApiRequest} from "../common/request";
  * 书籍详情
  */
 export default async function bookInfoHandler(req: IncomingMessage, resp: ServerResponse) {
-    let reqBody: ApiRequest = await readJson(req);
-    let bookName = reqBody.bookName;
+    const reqBody: ApiRequest = await readJson(req);
+    const bookName = reqBody.bookName;
     const bookInfo = await loadBookInfo(bookName)
     if (bookInfo === null) {
         writeErrorResponse(resp, "book " + bookName + " not found");

@@ -10,7 +10,7 @@ export function processPageLinks(contentEl: HTMLElement, replaceURLHandler: Repl
         if (linkElement.classList.contains("pdf-no-inner-link")) {
             return;
         }
-        let hrefValue = linkElement.getAttribute("href")
+        const hrefValue = linkElement.getAttribute("href")
         if (hrefValue === null) {
             return
         }
@@ -21,7 +21,7 @@ export function processPageLinks(contentEl: HTMLElement, replaceURLHandler: Repl
             }
         }
         //计算完整URL
-        let linkURLInfo = new URL(hrefValue, pageURL)
+        const linkURLInfo = new URL(hrefValue, pageURL)
         linkElement.href = replaceURLHandler(linkURLInfo.href, contextURL)
     })
 }
@@ -35,12 +35,12 @@ export function processPageToc(contentEl: HTMLElement, pageDeep: number) {
         if (currentDeep > 3) {
             break
         }
-        let tagName = "h" + i
+        const tagName = "h" + i
         //排除.pdf-no-toc
-        let hNodeList = contentEl.querySelectorAll(tagName + ":not(.pdf-no-toc)")
+        const hNodeList = contentEl.querySelectorAll(tagName + ":not(.pdf-no-toc)")
         if (hNodeList.length > 0) {
             //添加标题class属性
-            let hClassName = "pdf-toc" + currentDeep
+            const hClassName = "pdf-toc" + currentDeep
             hNodeList.forEach(hNode => {
                 hNode.className = hClassName
             })
@@ -53,11 +53,11 @@ export function processPageToc(contentEl: HTMLElement, pageDeep: number) {
 export async function processPageImages(contentEl: HTMLElement, progress: string, pageURL: string,
                                         apiEndpointInfo: ApiEndpoint, imageFetchList: FetchedImageInfo[]): Promise<void> {
     //通知服务端下载内容中的图片
-    let imageNodeList = contentEl.querySelectorAll("img")
-    let imgTotalCount = imageNodeList.length
+    const imageNodeList = contentEl.querySelectorAll("img")
+    const imgTotalCount = imageNodeList.length
     for (let imgIndex = 0; imgIndex < imgTotalCount; imgIndex++) {
-        let imgElement = imageNodeList.item(imgIndex)
-        let imgProgress = progress + " img(" + (imgIndex + 1) + "/" + imgTotalCount + ")"
+        const imgElement = imageNodeList.item(imgIndex)
+        const imgProgress = progress + " img(" + (imgIndex + 1) + "/" + imgTotalCount + ")"
         await replaceContentImage(imgElement, imgProgress, pageURL, apiEndpointInfo, imageFetchList);
     }
 }

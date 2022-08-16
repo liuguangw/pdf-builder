@@ -13,23 +13,23 @@ import {ApiResponse} from "../common/response";
 export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: number,
                                            fetchPage: FetchPageHandler,
                                            replaceURLHandler: ReplaceURLHandler = replaceURL): Promise<void> {
-    // @ts-ignore 这里会被替换
+    //@ts-expect-error: 这里会被替换
     const projectInfo: ProjectInfo = BOOK_PROJECT_INFO;
     const projectName = projectInfo.projectName;
     const contextURL = projectInfo.contextURL;
     const apiEndpointInfo = new ApiEndpoint(projectName);
     //解析出allPageList(计算filename属性)
-    let {
+    const {
         menuList: serverMenuList,
         pageList: allPageList
     } = parsePageList(menuList, 1, contextURL, replaceURLHandler)
     //保存menu信息
     try {
-        let menuInfoRequest: MenuApiRequest = {
+        const menuInfoRequest: MenuApiRequest = {
             bookName: projectName,
             menuList: serverMenuList
         };
-        let saveMenuResponse: ApiResponse = await requestAPI(apiEndpointInfo.menuApiURL, menuInfoRequest)
+        const saveMenuResponse: ApiResponse<null> = await requestAPI(apiEndpointInfo.menuApiURL, menuInfoRequest)
         if (saveMenuResponse.code !== 0) {
             console.error(saveMenuResponse.message);
             return;
@@ -41,13 +41,13 @@ export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: 
         return;
     }
     let hasFetchError = false;
-    let imageFetchList: FetchedImageInfo[] = [];
+    const imageFetchList: FetchedImageInfo[] = [];
     for (let pageIndex = 0; pageIndex < allPageList.length; pageIndex++) {
-        let pageInfo = allPageList[pageIndex];
+        const pageInfo = allPageList[pageIndex];
         if (pageIndex > 0) {
             await sleepAsync(sleepDuration);
         }
-        let postData: ContentApiRequest = {
+        const postData: ContentApiRequest = {
             bookName: projectName,
             title: pageInfo.title,
             filename: pageInfo.filename,
@@ -61,7 +61,7 @@ export default async function fetchAndSave(menuList: MenuInfo[], sleepDuration: 
         //抓取页面的最大尝试次数
         const maxTryCount = 5
         let fetchErr: Error = null
-        let logPrefix = "[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "]"
+        const logPrefix = "[" + postData.progress + "]fetch [" + pageInfo.title + " - " + pageInfo.filename + "]"
         let tryCount = 1
         while (tryCount <= maxTryCount) {
             try {

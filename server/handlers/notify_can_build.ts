@@ -11,9 +11,9 @@ import {readJson, writeErrorResponse, writeSuccessResponse} from "../lib/json_to
  */
 export default function notifyCanBuildHandler(io: SocketIoServer): Connect.SimpleHandleFunction {
     return async function (req: IncomingMessage, resp: ServerResponse) {
-        let reqBody: ApiRequest = await readJson(req);
-        let bookName = reqBody.bookName;
-        let bookInfo = await loadBookInfo(bookName)
+        const reqBody: ApiRequest = await readJson(req);
+        const bookName = reqBody.bookName;
+        const bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
             writeErrorResponse(resp, "book " + bookName + " not found");
             return;

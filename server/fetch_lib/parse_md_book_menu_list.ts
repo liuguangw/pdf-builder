@@ -7,17 +7,17 @@ import {MenuInfo} from "../common/menu_info";
  */
 export function parseMdBookMenuList(liElementList: NodeListOf<Element> | Element[], menuList: MenuInfo[]) {
     liElementList.forEach((liElement: Element) => {
-        let menuLink: HTMLAnchorElement = liElement.querySelector("a");
-        let menuItem: MenuInfo = {
+        const menuLink: HTMLAnchorElement = liElement.querySelector("a");
+        const menuItem: MenuInfo = {
             title: menuLink.innerText,
             url: menuLink.href,
             children: []
         }
-        let nextElement = liElement.nextElementSibling;
+        const nextElement = liElement.nextElementSibling;
         if (nextElement !== null) {
-            let subOlElement: HTMLOListElement = nextElement.querySelector("ol");
+            const subOlElement: HTMLOListElement = nextElement.querySelector("ol");
             if (subOlElement !== null) {
-                let subElementList: Element[] = Array.from(subOlElement.children);
+                const subElementList: Element[] = Array.from(subOlElement.children);
                 parseMdBookMenuList(subElementList, menuItem.children)
             }
         }

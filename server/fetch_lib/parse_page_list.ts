@@ -3,16 +3,16 @@ import {MenuInfo, ServerMenuInfo} from "../common/menu_info";
 
 export default function parsePageList(menuList: MenuInfo[], deep: number,
                                       contextURL: string, replaceURLHandler: ReplaceURLHandler): ParsePageListResult {
-    let pageList: PageInfo[] = []
-    let serverMenuList: ServerMenuInfo[] = []
+    const pageList: PageInfo[] = []
+    const serverMenuList: ServerMenuInfo[] = []
     menuList.forEach((menuInfo) => {
         let childDeep: number = deep + 1
-        let serverMenuInfo: ServerMenuInfo = {
+        const serverMenuInfo: ServerMenuInfo = {
             title: menuInfo.title,
             filename: "",
             children: [],
         }
-        let pageInfo: PageInfo = {
+        const pageInfo: PageInfo = {
             title: menuInfo.title,
             url: menuInfo.url,
             filename: "",
@@ -28,7 +28,7 @@ export default function parsePageList(menuList: MenuInfo[], deep: number,
             childDeep = deep
         }
         if (menuInfo.children.length > 0) {
-            let subResult = parsePageList(menuInfo.children, childDeep, contextURL, replaceURLHandler)
+            const subResult = parsePageList(menuInfo.children, childDeep, contextURL, replaceURLHandler)
             subResult.pageList.forEach((itemInfo) => {
                 pageList.push(itemInfo)
             })

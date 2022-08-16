@@ -6,7 +6,7 @@ const parser: DOMParser = new DOMParser();
  * @param pageURL 网页url
  */
 export default async function fetchPageDocument(pageURL: string): Promise<Document> {
-    let contentHtml: string = await fetchPageContent(pageURL)
+    const contentHtml: string = await fetchPageContent(pageURL)
     return parseAsDocument(contentHtml)
 }
 

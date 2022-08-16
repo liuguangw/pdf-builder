@@ -24,7 +24,7 @@ export default async function loadBookInfo(bookName: string): Promise<BookInfo> 
         bookInfo = ymlContentMap.get(bookName)
     } else {
         //console.log("load " + bookName)
-        let configFilePath = projectDir(bookName) + "/config.yml";
+        const configFilePath = projectDir(bookName) + "/config.yml";
         try {
             const ymlContent = await readFile(configFilePath, {
                 encoding: "utf-8"

@@ -41,7 +41,7 @@ function formatContentHtml(title: string, styles: string[], content: string) {
  * @param content
  */
 async function saveBookContent(htmlPath: string, title: string, styles: string[], content: string) {
-    let contentHtml = formatContentHtml(title, styles, content);
+    const contentHtml = formatContentHtml(title, styles, content);
     await writeFile(htmlPath, contentHtml);
 }
 
@@ -50,21 +50,21 @@ async function saveBookContent(htmlPath: string, title: string, styles: string[]
  */
 export default function saveBookContentHandler(io: SocketIoServer): Connect.SimpleHandleFunction {
     return async function (req: IncomingMessage, resp: ServerResponse) {
-        let reqBody: ContentApiRequest = await readJson(req);
-        let bookName = reqBody.bookName;
-        let bookInfo = await loadBookInfo(bookName)
+        const reqBody: ContentApiRequest = await readJson(req);
+        const bookName = reqBody.bookName;
+        const bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
             writeErrorResponse(resp, "book " + bookName + " not found");
             return;
         }
-        let filename = reqBody.filename;
+        const filename = reqBody.filename;
         //抓取网页失败
         if (reqBody.status !== FetchStatus.Ok) {
             io.emit("fetch-content-error", bookName, reqBody.progress, filename, reqBody.title, reqBody.message);
             writeErrorResponse(resp, reqBody.message);
             return;
         }
-        let htmlPath = projectDistDir(bookName) + "/" + filename;
+        const htmlPath = projectDistDir(bookName) + "/" + filename;
         try {
             await saveBookContent(htmlPath, reqBody.title, bookInfo.styles, reqBody.content);
         } catch (e) {

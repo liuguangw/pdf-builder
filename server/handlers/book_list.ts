@@ -8,6 +8,6 @@ import {writeSuccessResponse} from "../lib/json_tools";
  * @param resp
  */
 export default async function bookListHandler(req: IncomingMessage, resp: ServerResponse) {
-    let items = await loadBookList()
+    const items = await loadBookList()
     writeSuccessResponse(resp, items)
 }

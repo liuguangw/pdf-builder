@@ -12,7 +12,7 @@ import {BookInfo} from "../lib/common";
 import moment from 'moment';
 
 function formatMenuHtml(projectName: string, bookTitle: string, menuList: ServerMenuInfo[]) {
-    let menuListHtml = formatMenuList(menuList, 1)
+    const menuListHtml = formatMenuList(menuList, 1)
     const buildTime = moment().format("Y-MM-DD HH:mm:ss(Z)")
     return `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -39,16 +39,16 @@ function formatMenuHtml(projectName: string, bookTitle: string, menuList: Server
 }
 
 async function saveBookMenu(bookInfo: BookInfo, menuList: ServerMenuInfo[]) {
-    let projectName = bookInfo.projectName;
-    let menuHtml = formatMenuHtml(projectName, bookInfo.title, menuList)
+    const projectName = bookInfo.projectName;
+    const menuHtml = formatMenuHtml(projectName, bookInfo.title, menuList)
     //如果dist目录不存在,自动创建
-    let saveDir = projectDistDir(projectName)
+    const saveDir = projectDistDir(projectName)
     try {
         await stat(saveDir)
     } catch (e) {
         await mkdir(saveDir)
     }
-    let savePath = saveDir + "/__entry.html"
+    const savePath = saveDir + "/__entry.html"
     await writeFile(savePath, menuHtml)
 }
 
@@ -57,9 +57,9 @@ async function saveBookMenu(bookInfo: BookInfo, menuList: ServerMenuInfo[]) {
  */
 export default function saveBookMenuHandler(io: SocketIoServer): Connect.SimpleHandleFunction {
     return async function (req: IncomingMessage, resp: ServerResponse) {
-        let reqBody: MenuApiRequest = await readJson(req);
-        let bookName = reqBody.bookName;
-        let bookInfo = await loadBookInfo(bookName)
+        const reqBody: MenuApiRequest = await readJson(req);
+        const bookName = reqBody.bookName;
+        const bookInfo = await loadBookInfo(bookName)
         if (bookInfo === null) {
             writeErrorResponse(resp, "book " + bookName + " not found");
             return;

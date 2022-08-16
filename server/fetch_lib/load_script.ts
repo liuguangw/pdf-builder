@@ -5,7 +5,7 @@
  */
 export default function loadScript(scriptURL) {
     return new Promise((resolve, reject) => {
-        let sc = document.createElement("script");
+        const sc = document.createElement("script");
         sc.type = "text/javascript";
         sc.src = scriptURL;
         sc.addEventListener("load", resolve);

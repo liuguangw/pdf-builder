@@ -6,7 +6,7 @@ import {ApiResponse} from "../common/response";
 
 async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageApiRequest,
                                  imgElement: HTMLImageElement, imageFetchList: FetchedImageInfo[]) {
-    let fetchImgResponse: ApiResponse = await requestAPI(apiEndpointInfo.imageApiURL, postData)
+    const fetchImgResponse: ApiResponse<string> = await requestAPI(apiEndpointInfo.imageApiURL, postData)
     //console.log(fetchImgResponse)
     if (fetchImgResponse.code !== 0) {
         throw new Error(fetchImgResponse.message)
@@ -14,7 +14,7 @@ async function processFetchImage(apiEndpointInfo: ApiEndpoint, postData: ImageAp
         //下载成功
         imgElement.src = fetchImgResponse.data
         //加入缓存
-        let imgInfo: FetchedImageInfo = {
+        const imgInfo: FetchedImageInfo = {
             url: postData.url,
             data: fetchImgResponse.data
         }
@@ -33,15 +33,15 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
         return
     }
     //data URL不需要服务端fetch
-    let isDataURL: boolean = imgSrcURL.startsWith("data:")
+    const isDataURL: boolean = imgSrcURL.startsWith("data:")
     if (!isDataURL) {
         //处理相对路径的图片地址
         if (!(imgSrcURL.startsWith("http://") || imgSrcURL.startsWith("https://"))) {
-            let imgURLInfo = new URL(imgSrcURL, pageURL)
+            const imgURLInfo = new URL(imgSrcURL, pageURL)
             imgSrcURL = imgURLInfo.toString()
         }
     }
-    let postData: ImageApiRequest = {
+    const postData: ImageApiRequest = {
         bookName: apiEndpointInfo.projectName,
         progress: imgProgress,
         url: isDataURL ? "<data URL>" : imgSrcURL,
@@ -49,7 +49,7 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
     }
     if (!isDataURL) {
         //判断是否已经抓取过了
-        let fetchInfo: FetchedImageInfo = imageFetchList.find(item => item.url === imgSrcURL)
+        const fetchInfo: FetchedImageInfo = imageFetchList.find(item => item.url === imgSrcURL)
         //match到缓存
         if (fetchInfo !== undefined) {
             postData.imageType = ImageType.Exists
@@ -59,7 +59,7 @@ export default async function replaceContentImage(imgElement: HTMLImageElement, 
     //抓取图片的最大尝试次数
     const maxTryCount = 4
     let fetchErr: Error = null
-    let logPrefix = "[" + postData.progress + "]fetch " + postData.url
+    const logPrefix = "[" + postData.progress + "]fetch " + postData.url
     if (postData.imageType === ImageType.Common) {
         console.log(logPrefix + " .....");
     }

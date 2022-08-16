@@ -1,4 +1,4 @@
-export interface ApiResponse<T=any> {
+export interface ApiResponse<T> {
     //响应码
     code: number;
     data: T;

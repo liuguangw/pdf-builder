@@ -2,7 +2,7 @@ export default class ApiEndpoint {
     private readonly apiPrefix: string;
 
     constructor(public readonly projectName: string) {
-        // @ts-ignore 这里会被替换
+        // @ts-expect-error: 这里会被替换
         this.apiPrefix = VITE_SERVER_URL;
     }
 

@@ -18,12 +18,12 @@ export function readJson<T>(req: IncomingMessage): Promise<T> {
     });
 }
 
-function writeJson(resp: ServerResponse, data: any) {
+function writeJson<T>(resp: ServerResponse, data: T) {
     resp.setHeader("content-type", "application/json")
     resp.end(JSON.stringify(data))
 }
 
-export function writeSuccessResponse(resp: ServerResponse, data: any = null) {
+export function writeSuccessResponse<T>(resp: ServerResponse, data: T = null) {
     const respData = {
         code: 0,
         data,
