@@ -1,5 +1,4 @@
 import {projectDistDir, projectPdfPath} from "../lib/path_helper";
-import {stat} from 'fs/promises';
 import {spawn} from "child_process";
 import loadBookInfo from "../lib/load_book_info";
 import {saveBookImage} from "./save_book_image";
@@ -7,9 +6,11 @@ import loadBookMetaInfo from "../lib/load_book_meta_info";
 import {Server as SocketIoServer} from "socket.io";
 import {Connect} from "vite";
 import {IncomingMessage, ServerResponse} from "node:http";
+import {readFile, writeFile} from 'node:fs/promises';
 import {ApiRequest} from "../common/request";
 import {readJson, writeErrorResponse, writeSuccessResponse} from "../lib/json_tools";
 import {BookMetaInfo} from "../lib/common";
+import moment from "moment";
 
 //下载封面图
 async function downloadCover(projectName: string, coverURL: string, referer: string) {
@@ -18,10 +19,24 @@ async function downloadCover(projectName: string, coverURL: string, referer: str
     return bookDistDir + "/" + saveFileName
 }
 
+/**
+ * 替换目录页的时间
+ * @param inputPath
+ */
+async function replaceBuildTime(inputPath: string) {
+    const buildTime = moment().format("Y-MM-DD HH:mm:ss(Z)")
+    let menuHtml: string = await readFile(inputPath, {
+        encoding: "utf-8"
+    })
+    menuHtml = menuHtml.replace(/<span\s+class="build-time">(.+?)<\/span>/,
+        `<span class="build-time">[${buildTime}]</span>`);
+    await writeFile(inputPath, menuHtml);
+}
+
 async function buildBook(io: SocketIoServer, projectName: string, docURL: string,
                          bookMetaInfo: BookMetaInfo, inputPath: string, outputPath: string) {
     io.emit("build-stdout", projectName, "build project " + projectName);
-    await stat(inputPath);
+    await replaceBuildTime(inputPath);
     //console.log(bookInfo)
     //
     let params = [

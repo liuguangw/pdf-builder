@@ -75,6 +75,10 @@ html, body {
 
 .menu-tip a {
     color: #0be881;
-    margin-left: 5px;
+    margin: 0 5px;
     text-decoration: none;
+}
+
+.menu-tip span.build-time {
+    color: #ccc;
 }
