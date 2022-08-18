@@ -36,8 +36,8 @@ export default async function replaceContentImage(
   apiEndpointInfo: ApiEndpoint,
   imageFetchList: FetchedImageInfo[]
 ): Promise<void> {
-  let imgSrcURL: string = imgElement.getAttribute('src')
-  if (imgSrcURL === null || imgSrcURL === '') {
+  let imgSrcURL: string = imgElement.getAttribute('src') ?? imgElement.getAttribute('data-src') ?? ''
+  if (imgSrcURL === '') {
     return
   }
   //data URL不需要服务端fetch
@@ -57,7 +57,7 @@ export default async function replaceContentImage(
   }
   if (!isDataURL) {
     //判断是否已经抓取过了
-    const fetchInfo: FetchedImageInfo = imageFetchList.find((item) => item.url === imgSrcURL)
+    const fetchInfo: FetchedImageInfo | undefined = imageFetchList.find((item) => item.url === imgSrcURL)
     //match到缓存
     if (fetchInfo !== undefined) {
       postData.imageType = ImageType.Exists
@@ -66,7 +66,7 @@ export default async function replaceContentImage(
   }
   //抓取图片的最大尝试次数
   const maxTryCount = 4
-  let fetchErr: Error = null
+  let fetchErr: Error | null = null
   const logPrefix = '[' + postData.progress + ']fetch ' + postData.url
   if (postData.imageType === ImageType.Common) {
     console.log(logPrefix + ' .....')
@@ -78,10 +78,10 @@ export default async function replaceContentImage(
       break
     } catch (ex) {
       if (tryCount === maxTryCount) {
-        fetchErr = ex
+        fetchErr = ex as Error
         break
       } else {
-        console.error(logPrefix + ' failed(#try' + tryCount + '): ' + ex.message)
+        console.error(logPrefix + ' failed(#try' + tryCount + '): ' + (ex as Error).message)
         tryCount++
       }
     }

@@ -3,7 +3,7 @@
  * @param scriptURL
  * @return {Promise<void>}
  */
-export default function loadScript(scriptURL) {
+export default function loadScript(scriptURL: string) {
   return new Promise((resolve, reject) => {
     const sc = document.createElement('script')
     sc.type = 'text/javascript'

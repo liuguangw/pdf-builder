@@ -57,10 +57,10 @@ export default async function fetchAndSave(
       message: ''
     }
     //抓取页面
-    let contentEl: HTMLElement = null
+    let contentEl: HTMLElement | null = null
     //抓取页面的最大尝试次数
     const maxTryCount = 5
-    let fetchErr: Error = null
+    let fetchErr: Error | null = null
     const logPrefix = '[' + postData.progress + ']fetch [' + pageInfo.title + ' - ' + pageInfo.filename + ']'
     let tryCount = 1
     while (tryCount <= maxTryCount) {
@@ -69,10 +69,10 @@ export default async function fetchAndSave(
         break
       } catch (ex) {
         if (tryCount === maxTryCount) {
-          fetchErr = ex
+          fetchErr = ex as Error
           break
         } else {
-          console.error(logPrefix + ' failed(#try' + tryCount + '): ' + ex.message)
+          console.error(logPrefix + ' failed(#try' + tryCount + '): ' + (ex as Error).message)
           tryCount++
         }
       }

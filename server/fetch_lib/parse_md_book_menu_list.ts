@@ -7,7 +7,10 @@ import { MenuInfo } from '../common/menu_info'
  */
 export function parseMdBookMenuList(liElementList: NodeListOf<Element> | Element[], menuList: MenuInfo[]) {
   liElementList.forEach((liElement: Element) => {
-    const menuLink: HTMLAnchorElement = liElement.querySelector('a')
+    const menuLink: HTMLAnchorElement | null = liElement.querySelector('a')
+    if (menuLink === null) {
+      return
+    }
     const menuItem: MenuInfo = {
       title: menuLink.innerText,
       url: menuLink.href,
@@ -15,7 +18,7 @@ export function parseMdBookMenuList(liElementList: NodeListOf<Element> | Element
     }
     const nextElement = liElement.nextElementSibling
     if (nextElement !== null) {
-      const subOlElement: HTMLOListElement = nextElement.querySelector('ol')
+      const subOlElement: HTMLOListElement | null = nextElement.querySelector('ol')
       if (subOlElement !== null) {
         const subElementList: Element[] = Array.from(subOlElement.children)
         parseMdBookMenuList(subElementList, menuItem.children)
