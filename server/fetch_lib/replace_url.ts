@@ -16,6 +16,10 @@ export default function replaceURL(fullURL: string, contextURL: string): string 
     itemHash = itemURL.substring(pos)
     itemURL = itemURL.substring(0, pos)
   }
+  pos = itemURL.indexOf('?')
+  if (pos !== -1) {
+    itemURL = itemURL.substring(0, pos)
+  }
   //额外的path部分
   let pathname = ''
   if (itemURL !== contextURL && itemURL + '/' !== contextURL) {

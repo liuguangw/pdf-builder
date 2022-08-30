@@ -5,6 +5,10 @@ test('common replace', () => {
   const fullURL = 'https://www.a.com/aaaaa/doc/path/to/p.html'
   expect(replaceURL(fullURL, contextURL)).toBe('path-to-p.html')
 })
+test('with query', () => {
+  const fullURL = 'https://www.a.com/aaaaa/doc/path/to/p.html?a=3&b=4'
+  expect(replaceURL(fullURL, contextURL)).toBe('path-to-p.html')
+})
 test('add .html 1', () => {
   const fullURL = 'https://www.a.com/aaaaa/doc/path/to/p'
   expect(replaceURL(fullURL, contextURL)).toBe('path-to-p.html')
@@ -27,6 +31,10 @@ test('other url3', () => {
 })
 test('hash', () => {
   const fullURL = 'https://www.a.com/aaaaa/doc/path/to/p.html#opt1'
+  expect(replaceURL(fullURL, contextURL)).toBe('path-to-p.html#opt1')
+})
+test('hash with query', () => {
+  const fullURL = 'https://www.a.com/aaaaa/doc/path/to/p.html?a=3&b=4#opt1'
   expect(replaceURL(fullURL, contextURL)).toBe('path-to-p.html#opt1')
 })
 test('root', () => {

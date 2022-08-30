@@ -68,7 +68,7 @@ async function isImageCacheExists(filename: string, saveDir: string): Promise<bo
  * 下载图片,并返回文件名
  */
 async function downloadImage(saveDir: string, imageURL: string, imageExt: string, referer: string): Promise<string> {
-  const fetchResult = await axios.default.get(imageURL, {
+  const fetchResult = await axios.get(imageURL, {
     responseType: 'stream',
     headers: {
       Referer: referer
