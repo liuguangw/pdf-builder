@@ -1,13 +1,14 @@
 import loadBookInfo from '../lib/load_book_info'
 import { projectDistDir } from '../lib/path_helper'
 import { mkdir, open, rename, stat } from 'node:fs/promises'
-import axios from 'axios'
 import md5 from 'crypto-js/md5.js'
 import { Server as SocketIoServer } from 'socket.io'
 import { Connect } from 'vite'
 import { IncomingMessage, ServerResponse } from 'node:http'
 import { ImageApiRequest } from '../common/request'
 import { readJson, writeErrorResponse, writeSuccessResponse } from '../lib/json_tools'
+import { HttpProxyAgent, HttpsProxyAgent } from 'hpagent'
+import fetch, { RequestInit, Response } from 'node-fetch'
 
 function formatImageFileName(srcURL: string, imageExt: string) {
   return md5(srcURL) + '.' + imageExt
@@ -68,16 +69,33 @@ async function isImageCacheExists(filename: string, saveDir: string): Promise<bo
  * 下载图片,并返回文件名
  */
 async function downloadImage(saveDir: string, imageURL: string, imageExt: string, referer: string): Promise<string> {
-  const fetchResult = await axios.get(imageURL, {
-    responseType: 'stream',
+  const opt: RequestInit = {
+    agent: undefined,
     headers: {
       Referer: referer
-    },
-    timeout: 60 * 1000
-  })
+    }
+  }
+  //console.log(process.env)
+  if ('http_proxy' in process.env) {
+    opt.agent = function (_parsedURL: URL) {
+      const proxyAgentOption = {
+        keepAlive: true,
+        keepAliveMsecs: 1000,
+        maxSockets: 256,
+        maxFreeSockets: 256,
+        proxy: process.env.http_proxy
+      }
+      if (_parsedURL.protocol == 'http:') {
+        return new HttpProxyAgent(proxyAgentOption)
+      } else {
+        return new HttpsProxyAgent(proxyAgentOption)
+      }
+    }
+  }
+  const response: Response = await fetch(imageURL, opt)
   let needCheckCache = false
   if (imageExt === '') {
-    imageExt = getImageExt(fetchResult.headers['content-type'])
+    imageExt = getImageExt(response.headers['content-type'])
     needCheckCache = true
   }
   const filename = formatImageFileName(imageURL, imageExt)
@@ -92,7 +110,7 @@ async function downloadImage(saveDir: string, imageURL: string, imageExt: string
   const tmpFilename = 'tmp.' + imageExt
   const imgFilePath = saveDir + '/' + filename
   const tmpFilePath = saveDir + '/' + tmpFilename
-  const streamReader: IncomingMessage = fetchResult.data
+  const streamReader = response.body
   const streamFn = new Promise((resolve, reject) => {
     streamReader.on('end', resolve)
     // This is here incase any errors occur
