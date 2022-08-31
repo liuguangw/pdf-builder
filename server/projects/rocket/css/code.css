@@ -1,0 +1,310 @@
+kbd,
+pre,
+samp {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+.code {
+  font-family: Consolas, 'Liberation Mono', Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace, serif;
+}
+.hl,
+.hl-dark {
+  color: #abb2bf;
+}
+table.code {
+  display: inline-block;
+  color: #a5abb8;
+  font-size: 14px;
+  text-shadow: none;
+  padding: 0;
+  border-spacing: 0;
+  box-shadow: 0 2px 5px 0 rgb(0 0 0 / 50%);
+  border-radius: 5px;
+  width: 100%;
+  overflow-x: auto;
+}
+table.code * {
+  font-family: Consolas, 'Liberation Mono', Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  line-height: 18px;
+  margin: 0;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+table.code td.linenos {
+  padding: 15px 10px 15px 20px;
+  color: #666;
+  text-align: right;
+  border-radius: 0;
+  border: 1px solid #414141;
+  border-right: none;
+  background-color: #323232;
+}
+
+table.code td.code {
+  width: 100%;
+  border-radius: 0;
+  border: 1px solid #414141;
+  border-left: none;
+  background-color: #323232;
+  padding-left: 10px;
+}
+.linenodiv pre {
+  white-space: pre;
+}
+:not(pre) > code {
+  display: inline-block;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 1px 4px;
+  font-size: 0.87em;
+  line-height: 1.4em;
+  border-radius: 5px;
+  font-family: Consolas, 'Liberation Mono', Menlo, Monaco, Lucida Console, Liberation Mono, DejaVu Sans Mono,
+    Bitstream Vera Sans Mono, Courier New, monospace, serif;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+.hl,
+.hl-dark {
+  color: #abb2bf;
+}
+
+.hl .c,
+.hl-dark .c {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hl .err,
+.hl-dark .err {
+  color: #960050;
+  background-color: #1e0010;
+}
+
+.hl .k,
+.hl-dark .k {
+  color: #c678dd;
+}
+
+.hl .l,
+.hl-dark .l {
+  color: #98c379;
+}
+
+.hl .n,
+.hl .o,
+.hl .p,
+.hl-dark .n,
+.hl-dark .o,
+.hl-dark .p {
+  color: #abb2bf;
+}
+
+.hl .cm,
+.hl-dark .cm {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hl .cp,
+.hl-dark .cp {
+  color: #61afef;
+}
+
+.hl .c1,
+.hl .cs,
+.hl-dark .c1,
+.hl-dark .cs {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.hl .ge,
+.hl-dark .ge {
+  font-style: italic;
+}
+
+.hl .gs,
+.hl-dark .gs {
+  font-weight: 700;
+}
+
+.hl .kc,
+.hl .kd,
+.hl .kn,
+.hl-dark .kc,
+.hl-dark .kd,
+.hl-dark .kn {
+  color: #c678dd;
+}
+
+.hl .kp,
+.hl-dark .kp {
+  color: #d19a66;
+}
+
+.hl .kr,
+.hl-dark .kr {
+  color: #c678dd;
+}
+
+.hl .kt,
+.hl-dark .kt {
+  color: #e06c75;
+}
+
+.hl .ld,
+.hl-dark .ld {
+  color: #98c379;
+}
+
+.hl .m,
+.hl-dark .m {
+  color: #d19a66;
+}
+
+.hl .s,
+.hl-dark .s {
+  color: #98c379;
+}
+
+.hl .na,
+.hl-dark .na {
+  color: #d19a66;
+}
+
+.hl .nb,
+.hl .nc,
+.hl .nd,
+.hl .ne,
+.hl .ni,
+.hl .no,
+.hl-dark .nb,
+.hl-dark .nc,
+.hl-dark .nd,
+.hl-dark .ne,
+.hl-dark .ni,
+.hl-dark .no {
+  color: #e5c07b;
+}
+
+.hl .nf,
+.hl-dark .nf {
+  color: #61afef;
+}
+
+.hl .nl,
+.hl-dark .nl {
+  color: #e5c07b;
+}
+
+.hl .nn,
+.hl .nx,
+.hl-dark .nn,
+.hl-dark .nx {
+  color: #abb2bf;
+}
+
+.hl .py,
+.hl-dark .py {
+  color: #e5c07b;
+}
+
+.hl .nt,
+.hl-dark .nt {
+  color: #e06c75;
+}
+
+.hl .nv,
+.hl-dark .nv {
+  color: #e5c07b;
+}
+
+.hl .ow,
+.hl-dark .ow {
+  font-weight: 700;
+}
+
+.hl .w,
+.hl-dark .w {
+  color: #f8f8f2;
+}
+
+.hl .mf,
+.hl .mh,
+.hl .mi,
+.hl .mo,
+.hl-dark .mf,
+.hl-dark .mh,
+.hl-dark .mi,
+.hl-dark .mo {
+  color: #d19a66;
+}
+
+.hl .s2,
+.hl .sb,
+.hl .sc,
+.hl .sd,
+.hl .se,
+.hl .sh,
+.hl .si,
+.hl .sx,
+.hl-dark .s2,
+.hl-dark .sb,
+.hl-dark .sc,
+.hl-dark .sd,
+.hl-dark .se,
+.hl-dark .sh,
+.hl-dark .si,
+.hl-dark .sx {
+  color: #98c379;
+}
+
+.hl .sr,
+.hl-dark .sr {
+  color: #56b6c2;
+}
+
+.hl .s1,
+.hl-dark .s1 {
+  color: #98c379;
+}
+
+.hl .ss,
+.hl-dark .ss {
+  color: #56b6c2;
+}
+
+.hl .bp,
+.hl .vc,
+.hl .vg,
+.hl-dark .bp,
+.hl-dark .vc,
+.hl-dark .vg {
+  color: #e5c07b;
+}
+
+.hl .vi,
+.hl-dark .vi {
+  color: #e06c75;
+}
+
+.hl .il,
+.hl-dark .il {
+  color: #d19a66;
+}
+
+.hl .gu,
+.hl-dark .gu {
+  color: #75715e;
+}
+
+.hl .gd,
+.hl-dark .gd {
+  color: #f92672;
+}
+
+.hl .gi,
+.hl-dark .gi {
+  color: #a6e22e;
+}

@@ -26,6 +26,10 @@ export default function parsePageList(
       //计算filename
       serverMenuInfo.filename = replaceURLHandler(menuInfo.url, contextURL)
       pageInfo.filename = serverMenuInfo.filename
+      const hashPos = serverMenuInfo.filename.indexOf('#')
+      if (hashPos > 0) {
+        pageInfo.filename = pageInfo.filename.substring(0, hashPos)
+      }
       pageList.push(pageInfo)
     } else {
       //无URL的不需要抓取,不在contextURL范围的不抓取

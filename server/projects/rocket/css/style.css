@@ -1,0 +1,180 @@
+.main-book-content {
+  color: #fff;
+  background-color: #272727;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 25%);
+  box-sizing: border-box;
+  padding: 15px 10px;
+  font-size: 16px;
+  font-family: Helvetica, Arial, 'Lucida Grande', sans-serif;
+  line-height: 24px;
+}
+.main-book-content table {
+  width: 100%;
+}
+.main-book-content hr {
+  box-sizing: content-box;
+  overflow: visible;
+  border: 0;
+  height: 1px;
+  background-color: rgba(255,255,255,.25);
+}
+.main-book-content a {
+  background-color: transparent;
+  text-decoration: none;
+  font-weight: 700;
+  color: #8ab4ff;
+}
+.main-book-content a:hover {
+  color: inherit;
+  border-bottom: none;
+  text-decoration: underline;
+  outline: 0;
+}
+.main-book-content a.headerlink {
+  font-size: 0.8em;
+  line-height: 1em;
+  margin-left: 5px;
+  display: none;
+}
+.main-book-content h1:hover a.headerlink,
+.main-book-content h2:hover a.headerlink,
+.main-book-content h3:hover a.headerlink,
+.main-book-content h4:hover a.headerlink {
+  display: inline;
+  text-decoration: underline;
+  color: #ccc;
+}
+.main-book-content h2,
+.main-book-content h3,
+.main-book-content h4,
+.main-book-content h5 {
+  font-family: 'Proza Libre', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  font-weight: 600;
+  text-align: left;
+}
+.main-book-content h2 {
+  padding: 20px 0 10px;
+  margin: 15px 0;
+  font-size: 30px;
+  line-height: 32px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+.main-book-content h2:first-child {
+  padding-top: 0;
+  margin-top: 0;
+}
+.main-book-content h3 {
+  padding: 10px 0;
+  margin: 20px 0 10px;
+  font-size: 22px;
+  line-height: 24px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+}
+.main-book-content p {
+  margin: 15px 0;
+}
+.main-book-content h2 + p {
+  margin-top: 0;
+}
+.main-book-content .grid {
+  display: flex;
+}
+.main-book-content .col {
+  box-sizing: border-box;
+  flex: 1;
+}
+.main-book-content .text-right {
+  text-align: right;
+}
+.main-book-content .admonition {
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.5);
+  margin: 15px 0;
+  padding: 0 20px;
+  border-radius: 5px;
+  overflow: auto;
+  position: relative;
+}
+
+.main-book-content .admonition .title {
+  display: block;
+  margin: 0 -20px;
+  padding: 10px 20px 6px 43px;
+  background-repeat: no-repeat;
+  background-position: 20px 55%;
+  background-size: 17px;
+}
+.main-book-content .admonition.note {
+  border-left: 8px solid #448aff;
+  background-color: rgba(68, 138, 255, 0.05);
+}
+
+.main-book-content .admonition.note .title {
+  background-color: rgba(68, 138, 255, 0.25);
+  border-bottom: 0.1rem solid rgba(68, 138, 255, 0.1);
+  background-position: 20px 50%;
+}
+
+.main-book-content .admonition.tip {
+  border-left: 8px solid #00bfa5;
+  background-color: rgba(0, 191, 165, 0.05);
+}
+
+.main-book-content .admonition.tip .title {
+  background-color: rgba(0, 191, 165, 0.25);
+  border-bottom: 0.1rem solid rgba(0, 191, 165, 0.1);
+}
+
+.main-book-content .admonition.warning {
+  border-left: 8px solid #ff9100;
+  background-color: rgba(255, 145, 0, 0.05);
+}
+
+.main-book-content .admonition.warning .title {
+  background-color: rgba(255, 145, 0, 0.25);
+  border-bottom: 0.1rem solid rgba(255, 145, 0, 0.1);
+}
+
+.main-book-content .admonition.note .title {
+  background-image: url(../images/pencil-icon.svg);
+}
+
+.main-book-content .admonition.tip .title {
+  background-image: url(../images/star-icon.svg);
+}
+
+.main-book-content .admonition.warning .title {
+  background-image: url(../images/warning-icon.svg);
+}
+.main-book-content .table-container {
+  overflow-x: auto;
+}
+.main-book-content table:not(.code) {
+  border-collapse: collapse;
+  border-spacing: 0;
+  font-family: 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif;
+  text-shadow: none;
+  box-shadow: 0 2px 2px rgb(0 0 0 / 25%);
+  border-bottom: 1px solid #111;
+  border-top: 1px solid #111;
+}
+.main-book-content table:not(.code) thead {
+  background-color: #131313;
+  text-align: left;
+  border-bottom: 1px solid #111;
+}
+.main-book-content table:not(.code) td,
+.main-book-content table:not(.code) th {
+  border-left: 1px solid #111;
+  padding: 0.5em 1.25em;
+}
+.main-book-content table:not(.code) tbody > tr {
+  background: #303133;
+}
+.main-book-content table:not(.code) tbody > tr:nth-child(2n) {
+  background: #202020;
+}
+.main-book-content table:not(.code) td,
+.main-book-content table:not(.code) th {
+  border-left: 1px solid #111;
+  padding: 0.5em 1.25em;
+}
