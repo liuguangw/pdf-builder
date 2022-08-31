@@ -22,13 +22,13 @@ export default function parsePageList(
       filename: '',
       deep: deep
     }
-    if (menuInfo.url !== '') {
+    if (menuInfo.url !== '' && menuInfo.url.startsWith(contextURL)) {
       //计算filename
       serverMenuInfo.filename = replaceURLHandler(menuInfo.url, contextURL)
       pageInfo.filename = serverMenuInfo.filename
       pageList.push(pageInfo)
     } else {
-      //无URL的不需要抓取
+      //无URL的不需要抓取,不在contextURL范围的不抓取
       childDeep = deep
     }
     if (menuInfo.children.length > 0) {
