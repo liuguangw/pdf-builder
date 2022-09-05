@@ -1,0 +1,56 @@
+.main-book-content {
+  font-family: Source Sans Pro, sans-serif;
+  color: #373a3c;
+  word-break: break-word;
+}
+.main-book-content h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 0.5rem;
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+.main-book-content .actix-content {
+  line-height: 1.75rem;
+}
+.main-book-content h1 {
+  margin-top: 2rem;
+  margin-bottom: 1.5rem;
+  font-size: 2.2rem;
+}
+.main-book-content p {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+.main-book-content a {
+  color: #306ebf;
+  text-decoration: none;
+}
+.main-book-content a:hover {
+  text-decoration: underline;
+}
+.main-book-content .actix-content h1:first-child,
+.main-book-content .actix-content h2:first-child {
+  margin-top: 0;
+}
+.main-book-content blockquote {
+  margin: 0 0 1rem;
+}
+.main-book-content .actix-next {
+  text-align: right;
+}

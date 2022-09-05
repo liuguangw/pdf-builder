@@ -44,8 +44,13 @@ export function processPageToc(contentEl: HTMLElement, pageDeep: number) {
     const hNodeList = contentEl.querySelectorAll(tagName + ':not(.pdf-no-toc)')
     if (hNodeList.length > 0) {
       //添加标题class属性
-      const hClassName = 'pdf-toc' + currentDeep
-      hNodeList.forEach((hNode) => {
+      let hClassName = 'pdf-toc' + currentDeep
+      hNodeList.forEach((hNode, itemIndex) => {
+        //顶级标题出现了多个
+        if (currentDeep == pageDeep && itemIndex == 1) {
+          currentDeep++
+          hClassName = 'pdf-toc' + currentDeep
+        }
         hNode.className = hClassName
       })
       currentDeep++

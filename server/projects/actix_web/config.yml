@@ -1,0 +1,6 @@
+title: actix-web 文档
+docURL: https://actix.rs/docs/
+styles:
+  - css/highlight.css
+  - css/code.css
+  - css/style.css

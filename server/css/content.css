@@ -9,7 +9,7 @@ body {
   font-size: 16px;
   max-width: 750px;
   background: #ffffff;
-  word-break: break-all;
+  word-break: break-word;
 }
 
 .main-book-content pre,

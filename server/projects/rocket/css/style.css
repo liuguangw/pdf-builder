@@ -16,7 +16,7 @@
   overflow: visible;
   border: 0;
   height: 1px;
-  background-color: rgba(255,255,255,.25);
+  background-color: rgba(255, 255, 255, 0.25);
 }
 .main-book-content a {
   background-color: transparent;
