@@ -1,54 +1,42 @@
 .main-book-content {
-  color: #636b6f;
-  font-family: Helvetica, Arial, PingFang SC, Noto Sans, Roboto, Microsoft Yahei, sans-serif;
-  font-size: 15px;
+  color: #2c3e50;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Oxygen,Ubuntu,Cantarell,Fira Sans,Droid Sans,Helvetica Neue,sans-serif;
+  font-size: 16px;
   min-height: 100vh;
 }
 
 .main-book-content p {
-  margin: 0 0 10px 0;
-  line-height: 30px;
+  line-height: 1.7;
 }
 
-.main-book-content img:not(.emoji) {
-  max-width: 100%;
-  margin: 10px 0;
-  border: 1px solid #ddd;
-  box-shadow: 0 0 30px #ccc;
-  box-sizing: border-box;
+.main-book-content .theme-default-content:not(.custom) img {
+    max-width: 100%;
 }
 
 .main-book-content h1,
 .main-book-content h2,
-.main-book-content h3 {
-  margin: 0 0 20px 0;
-  padding: 0 0 6px 0;
-  font-size: 20px;
-  line-height: 1.4;
-  font-weight: 700;
-  position: relative;
+.main-book-content h3,
+.main-book-content h4,
+.main-book-content h5,
+.main-book-content h6{
+    font-weight: 600;
+    line-height: 1.25;
 }
-
 .main-book-content h1 {
-  padding-top: 23px;
-  line-height: 1.2;
-  border-bottom: 1px solid #eee;
+    font-size: 2.2rem
 }
 
 .main-book-content h2 {
-  margin: 35px 0;
-  line-height: 1.225;
-  border-bottom: 1px solid #eee;
+    font-size: 1.65rem;
+    padding-bottom: .3rem;
+    border-bottom: 1px solid #eaecef
 }
 
 .main-book-content h3 {
-  margin: 22px 0 20px 0;
-  font-size: 18px;
-  line-height: 1.43;
+    font-size: 1.35rem
 }
 
 .main-book-content ul {
-  color: #7d8688;
   line-height: 30px;
   margin-bottom: 10px;
   margin-top: 0;
@@ -60,9 +48,20 @@
   text-decoration: none;
   position: relative;
 }
+.main-book-content a.header-anchor {
+    font-size: .85em;
+    float: left;
+    margin-left: -0.87em;
+    padding-right: 0.23em;
+    margin-top: 0.125em;
+    opacity: 0;
+}
 
 .main-book-content a:hover {
   text-decoration: underline;
+}
+h1:focus .header-anchor, h1:hover .header-anchor, h2:focus .header-anchor, h2:hover .header-anchor, h3:focus .header-anchor, h3:hover .header-anchor, h4:focus .header-anchor, h4:hover .header-anchor, h5:focus .header-anchor, h5:hover .header-anchor, h6:focus .header-anchor, h6:hover .header-anchor {
+    opacity: 1;
 }
 
 .main-book-content strong {
@@ -71,16 +70,13 @@
 }
 
 .main-book-content :not(pre) > code {
-  font-family: monaco, Consolas, Liberation Mono, Menlo, Courier, monospace;
-  background-color: #f9fafa;
-  border: 1px solid #e4e4e4;
-  border-radius: 4px;
-  color: #858080;
-  font-size: 14px;
-  margin: 5px;
-  max-width: 740px;
-  overflow-x: auto;
-  padding: 1px 2px;
+    color: #476582;
+    padding: 0.25rem 0.5rem;
+    margin: 0;
+    font-size: .85em;
+    background-color: rgba(27,31,35,.05);
+    border-radius: 3px;
+	font-family: source-code-pro,Menlo,Monaco,Consolas,Courier New,monospace;
 }
 
 .main-book-content table {
